@@ -1,0 +1,17 @@
+<%= render 'hero' %>
+<div class="flex justify-center flex-col items-center">
+  <h6 class="font-bold m-5 text-2xl">Upcoming Events / Rehearsals </h6>
+  <%= render 'calendar' %>
+</div>
+<div class="h-screen flex flex-col items-center justify-start bg-black">
+  <h6 class="font-bold m-5 text-2xl text-white">Programs coming soon! </h6>
+  <div>
+    <%= @programs.each do |program |%>
+      <div class="w-96 h-72 bg-blue-400">
+        <div class="p-3">
+          <h5 class="text-white text-xl"><%= program.description %></h5>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
