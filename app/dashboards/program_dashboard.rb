@@ -18,6 +18,8 @@ class ProgramDashboard < Administrate::BaseDashboard
     year_established: Field::Date,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
+    main_gallery_image_url: Field::String,
+    page_image_url: Field::String,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -42,6 +44,8 @@ class ProgramDashboard < Administrate::BaseDashboard
     year_established
     created_at
     updated_at
+    main_gallery_image_url
+    page_image_url
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -52,6 +56,8 @@ class ProgramDashboard < Administrate::BaseDashboard
     name
     school
     year_established
+    main_gallery_image_url
+    page_image_url
   ].freeze
 
   # COLLECTION_FILTERS
