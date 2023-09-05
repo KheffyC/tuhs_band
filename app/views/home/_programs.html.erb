@@ -1,0 +1,30 @@
+<div class="min-h-screen h-auto overflow-y-auto flex flex-col items-center justify-center bg-black">
+  <% if programs.present? %>
+    <div class="flex flex-wrap flex-row lg:flex-row justify-center my-6">
+      <%  programs.each do |program|%>
+        <%= link_to program_path(program.id) do %>
+          <div class="hover:cursor-pointer w-full md:max-w-sm md:max-w-[30vw] m-2 h-96 bg-black relative rounded-md hover:scale-{103} hover:pointer shadow-lg  shadow-red-500/40 hover:shadow-white/40 outline outline-gray-800">
+            <img class="object-scale-down w-fit h-full" src=<%= program.main_gallery_image_url.strip || "https://images.squarespace-cdn.com/content/v1/5aff887996d455ca53da1056/1531704118601-SCQNH52UMJ4IAE75CQ0E/Remo_Chino+Hills_FINAL.jpg?format=2500w" %> />
+            <div class=" inline-block outline outline-gray-300 text-left absolute bottom-0 text-sm left-0 h-auto z-10 max-w-prose p-[17px]" style="background: rgba(0,0,0,.65);">
+              <h5 class="uppercase text-white  text-l m-auto"><%= program.description %></h5>
+              <p class="text-white">Home of the mighty mighty Tribe</p>
+            </div>          
+          </div>
+        <% end %>
+      <% end %>
+      <% if programs.count < 8 %>
+        <% (8 - programs.count).times do %>
+        <div class="w-full md:max-w-sm md:max-w-[30vw] h-96 bg-black m-2 relative rounded-md hover:scale-102 hover:pointer shadow-lg  shadow-red-500/40 hover:shadow-white/40 outline outline-gray-800">
+          <img class="object-scale-down w-fit h-full" src="https://images.squarespace-cdn.com/content/v1/5aff887996d455ca53da1056/1531704118601-SCQNH52UMJ4IAE75CQ0E/Remo_Chino+Hills_FINAL.jpg?format=2500w" />
+          <div class=" inline-block outline outline-gray-300 text-left absolute bottom-0 text-sm left-0 h-auto z-10 max-w-prose p-[17px]" style="background: rgba(0,0,0,.65);">
+            <h5 class="uppercase text-white  text-l m-auto">Coming Soon! </h5>
+            <p class="text-white">Home of the mighty mighty Tribe</p>
+          </div>          
+        </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <h6 class="font-bold m-5 text-2xl text-white">Programs coming soon! </h6>
+  <% end %>
+</div>

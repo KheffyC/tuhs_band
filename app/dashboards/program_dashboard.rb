@@ -20,6 +20,9 @@ class ProgramDashboard < Administrate::BaseDashboard
     updated_at: Field::DateTime,
     main_gallery_image_url: Field::String,
     page_image_url: Field::String,
+    hero_title: Field::Text,
+    detailed_description: Field::Text,
+    short_name: Field::String,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -46,6 +49,9 @@ class ProgramDashboard < Administrate::BaseDashboard
     updated_at
     main_gallery_image_url
     page_image_url
+    hero_title
+    detailed_description
+    short_name
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -58,6 +64,9 @@ class ProgramDashboard < Administrate::BaseDashboard
     year_established
     main_gallery_image_url
     page_image_url
+    hero_title
+    detailed_description
+    short_name
   ].freeze
 
   # COLLECTION_FILTERS
@@ -74,7 +83,7 @@ class ProgramDashboard < Administrate::BaseDashboard
 
   # Overwrite this method to customize how programs are displayed
   # across all pages of the admin dashboard.
-  
+
   def display_resource(program)
     "#{program.description}"
   end

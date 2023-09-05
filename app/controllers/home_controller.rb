@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
   def index
-    @programs = School.find_by(name: 'Tulare Union').programs.all
+    @school = School.find_by(name: 'Tulare Union')
+    @programs = @school.programs.all
   end
 end

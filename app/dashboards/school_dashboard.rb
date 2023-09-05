@@ -18,6 +18,9 @@ class SchoolDashboard < Administrate::BaseDashboard
     state: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
+    hero_title: Field::Text,
+    call_to_action: Field::Text,
+    contact_us: Field::Text,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -45,6 +48,9 @@ class SchoolDashboard < Administrate::BaseDashboard
     state
     created_at
     updated_at
+    hero_title
+    call_to_action
+    contact_us
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -58,6 +64,9 @@ class SchoolDashboard < Administrate::BaseDashboard
     name
     programs
     state
+    hero_title
+    call_to_action
+    contact_us
   ].freeze
 
   # COLLECTION_FILTERS
