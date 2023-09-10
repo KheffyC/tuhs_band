@@ -1,17 +1,16 @@
+<%= render 'hero', school: @school, page_title: 'About Us' %>
 <div class="container mx-auto py-4 min-h-screen">
-    <h2 class=" text-3xl mx-auto py-4 text-center font-semibold" >About</h2>
-    <hr class="text-black bg-black" />
-    <div class="text-left text-xl py-4">
-      <%= @school.about %>  
-    </div>
+    <div class="text-xl font-light leading-relaxed mt-6 mb-4 text-gray-800"><%= @school.about %></div>
     <% @school.programs.each do |program| %>
         <div class="container border divide-lime-900 p-4 my-4 flex rounded bg-gray-100 shadow-xl">
             <figure><img class=" w-full md:max-w-sm md:max-w-[30vw] h-96 object-scale-down w-fit h-full" src="<%= program.main_gallery_image_url %>" alt="Album"/></figure>
-            <div class="card-body">
-                <h2 class="card-title"><%= program.description %></h2>
-                <p>Click the button to listen on Spotiwhy app.</p>
-                <div class="card-actions justify-end">
-                <button class="btn btn-primary">Listen</button>
+            <div class="container p-4 flex flex-col justify-around">
+                <h2 class="text-2xl font-bold"><%= program.description %></h2>
+                <div class="py-2">
+                    <p class="text-base font-light leading-relaxed mt-0 mb-4 text-gray-800"><%= program.detailed_description %></p>
+                </div>
+                <div class="flex items-end py-4">
+                    <%= link_to "View #{program.short_name} Page", program_path(program), class: "border p-2 px-6 rounded bg-black text-white"  %>
                 </div>
             </div>
         </div>

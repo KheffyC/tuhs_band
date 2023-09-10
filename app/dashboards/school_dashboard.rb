@@ -9,19 +9,20 @@ class SchoolDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::Number,
+    name: Field::String,
     city: Field::String,
-    description: Field::String,
-    about: Field::Text,
+    state: Field::String,
     district: Field::BelongsTo,
     established: Field::Date,
-    name: Field::String,
+    about: Field::Text,
+    description: Field::String,
     programs: Field::HasMany,
-    state: Field::String,
-    created_at: Field::DateTime,
-    updated_at: Field::DateTime,
     hero_title: Field::Text,
+    home_page_image_urls: Field::String,
     call_to_action: Field::Text,
     contact_us: Field::Text,
+    created_at: Field::DateTime,
+    updated_at: Field::DateTime,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -40,36 +41,37 @@ class SchoolDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
     id
+    name
     city
+    state
     district
-    established
     description
     about
-    name
-    programs
-    state
-    created_at
-    updated_at
     hero_title
+    home_page_image_urls
     call_to_action
     contact_us
+    programs
+    created_at
+    updated_at
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
+    name
     city
+    state
     district
     established
     description
     about
-    name
-    programs
-    state
     hero_title
+    home_page_image_urls
     call_to_action
     contact_us
+    programs
   ].freeze
 
   # COLLECTION_FILTERS

@@ -1,5 +1,88 @@
-<div class="bg-black h-screen lg:h-[94vh] flex items-center justify-start">
-    <div class="w-full h-50 bg-red-700 outline backdrop-blur-sm outline-red-700 md:outline-offset-4 bg-opacity-75  md:w-3/5 lg:w-[35vw] 2xl:w-[30vw] ml-11">
-        <h5 class="p-4 tracking-tight md:tracking-wide font-bold text-white text-5xl"><%= school.hero_title %></h5>
+<div class="bg-black min-h-[85vh] lg:h-[85vh] flex flex-col-reverse items-center justify-evenly">
+    <div class="w-full z-10 h-50 my-6 bg-red-700 outline backdrop-blur-sm outline-red-700 md:outline-offset-4 bg-opacity-75  md:w-3/5 lg:w-[35vw] ">
+        <h5 class="p-4 tracking-tight md:tracking-wide font-bold text-white text-5xl">
+            <%= local_assigns[:page_title] ? page_title : @school.hero_title %>
+        </h5>
     </div>
+    <div class="max-w-md border-white md:max-w-2xl lg:max-w-full">
+        <div class="polaroid m-auto flex flex-wrap lg:ml-[200px] lg:h-[17rem] xl:ml-[300px] 2xl:ml-[400px]">
+          <% if @school.images.count < 4 %>
+              <% (6 - @school.images.count).times do %>
+                <div class="polaroid-pic w-40 md:w-56 lg:w-80"><%= image_tag "https://via.placeholder.com/200", width: "auto" %><p>Coming Soon!</p></div>
+              <% end %>
+          <% end %>
+          <% @school.images.each do |image| %>
+              <div class="polaroid-pic w-40 md:w-56 lg:w-80"><%= image_tag image.strip, width: "auto"%><p>.</p></div>
+          <% end %>
+        </div>
+        <div class="polaroid-light"></div>
+    </div>
+    
 </div>
+
+
+<style>
+
+
+.polaroid{
+  margin:0;
+  padding:0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap !important; 
+}
+
+.polaroid-pic{
+  text-align:center;
+  display:inline-block;
+  list-style:none;
+  position:relative;
+  border:solid 10px #fff;
+  background:#fff;
+  box-shadow:0 0 15px 0px #555;
+  transition:all 1s ease-in-out;
+  -o-transition:all 1s ease;
+  -moz-transition:all 1s ease;
+  -webkit-transition:all 1s ease;
+  top:50px;
+}
+
+
+.polaroid-pic:hover{
+  top:0px;
+  opacity:0.5;
+}
+
+.polaroid-pic:nth-child(n){
+    transform:rotate(10deg);
+}
+
+.polaroid-pic:nth-child(2n-1){
+    transform:rotate(0deg);
+}
+
+.polaroid-pic:nth-child(3n-2){
+    transform:rotate(-5deg);
+}
+
+.polaroid-pic:nth-child(4n){
+    transform:rotate(8deg);
+}
+
+.polaroid-text{
+    margin:-5px 0 0 0;
+}
+
+.polaroid-light{
+    border-radius: 50%;
+    position: absolute;
+    left: auto;
+    top: 100px;
+    max-width: 800px;
+    min-height: 419px;
+    background: #fff;
+    filter: blur(100px);
+    opacity: .19;
+    pointer-events: none;
+}
+</style>

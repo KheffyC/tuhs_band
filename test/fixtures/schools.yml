@@ -2,20 +2,21 @@
 #
 # Table name: schools
 #
-#  id             :bigint           not null, primary key
-#  about          :string
-#  call_to_action :string
-#  city           :string
-#  contact_us     :string
-#  description    :string
-#  district       :string
-#  established    :date
-#  hero_title     :string(100)
-#  name           :string(100)      not null
-#  state          :string
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
-#  district_id    :bigint
+#  id                   :bigint           not null, primary key
+#  about                :string
+#  call_to_action       :string
+#  city                 :string
+#  contact_us           :string
+#  description          :string
+#  district             :string
+#  established          :date
+#  hero_title           :string(100)
+#  home_page_image_urls :string
+#  name                 :string(100)      not null
+#  state                :string
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  district_id          :bigint
 #
 # Indexes
 #
