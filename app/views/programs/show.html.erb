@@ -1,1 +1,13 @@
-<%= render 'hero_title', program: @program%>
+<%= render 'home/hero', program: @program, page_title: @program.short_name, page_hero_title: @program.hero_title %>
+<div class="flex flex-col md:flex-row justify-evenly items-center">
+  <div class="flex flex-col grow-1 min-w-[48vw] min-h-[50vh]">
+    <h5 class="text-3xl font-bold mx-auto" ><%= @program.short_name %> Information</h5>
+  </div>
+  <% if @program.calendar_url %>  
+    <%= render 'home/calendar', calendar: @program.calendar_url %>
+  <% end %>
+</div>
+
+<div class="min-h-[90vh] bg-black text-white">
+  Instagram Connect Here!
+</div>

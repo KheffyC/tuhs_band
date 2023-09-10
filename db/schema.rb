@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_10_064022) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_10_222528) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -59,6 +59,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_10_064022) do
     t.string "hero_title", limit: 100
     t.string "detailed_description"
     t.string "short_name"
+    t.string "image_gallery_urls"
+    t.string "calendar_url"
     t.index ["name"], name: "index_programs_on_name"
     t.index ["school_id"], name: "index_programs_on_school_id"
   end
@@ -78,6 +80,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_10_064022) do
     t.string "contact_us"
     t.string "about"
     t.string "home_page_image_urls"
+    t.string "calendar_url"
     t.index ["district_id"], name: "index_schools_on_district_id"
     t.index ["name"], name: "index_schools_on_name"
   end

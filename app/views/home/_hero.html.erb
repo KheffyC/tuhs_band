@@ -1,23 +1,14 @@
 <div class="bg-black min-h-[85vh] lg:h-[85vh] flex flex-col-reverse items-center justify-evenly">
-    <div class="w-full z-10 h-50 my-6 bg-red-700 outline backdrop-blur-sm outline-red-700 md:outline-offset-4 bg-opacity-75  md:w-3/5 lg:w-[35vw] ">
-        <h5 class="p-4 tracking-tight md:tracking-wide font-bold text-white text-5xl">
-            <%= local_assigns[:page_title] ? page_title : @school.hero_title %>
-        </h5>
-    </div>
-    <div class="max-w-md border-white md:max-w-2xl lg:max-w-full">
-        <div class="polaroid m-auto flex flex-wrap lg:ml-[200px] lg:h-[17rem] xl:ml-[300px] 2xl:ml-[400px]">
-          <% if @school.images.count < 4 %>
-              <% (6 - @school.images.count).times do %>
-                <div class="polaroid-pic w-40 md:w-56 lg:w-80"><%= image_tag "https://via.placeholder.com/200", width: "auto" %><p>Coming Soon!</p></div>
-              <% end %>
-          <% end %>
-          <% @school.images.each do |image| %>
-              <div class="polaroid-pic w-40 md:w-56 lg:w-80"><%= image_tag image.strip, width: "auto"%><p>.</p></div>
-          <% end %>
-        </div>
-        <div class="polaroid-light"></div>
-    </div>
-    
+  <div class="w-full z-10 h-50 my-6 bg-red-700 outline backdrop-blur-sm outline-red-700 md:outline-offset-4 bg-opacity-75  md:w-3/5 lg:w-[35vw] ">
+      <h5 class="p-4 tracking-tight md:tracking-wide font-bold text-white text-5xl">
+        <%= local_assigns[:page_title] ? page_title : @school.hero_title %>
+      </h5>
+      <p class="p-4 tracking-tight md:tracking-wide font-light text-white text-2xl">
+        <%= local_assigns[:page_hero_title] ? page_hero_title : '' %>
+      </p>
+  </div>
+  <% object = local_assigns[:program] ? @program : @school %>
+  <%= render 'home/polaroids', object: object %>
 </div>
 
 

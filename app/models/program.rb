@@ -3,9 +3,11 @@
 # Table name: programs
 #
 #  id                     :bigint           not null, primary key
+#  calendar_url           :string
 #  description            :string
 #  detailed_description   :string
 #  hero_title             :string(100)
+#  image_gallery_urls     :string
 #  main_gallery_image_url :string
 #  name                   :string(100)      not null
 #  page_image_url         :string
@@ -33,5 +35,11 @@ class Program < ApplicationRecord
 
     def slug
         name.downcase.gsub(" ", "-")
+    end
+
+    def images
+      return [] unless image_gallery_urls
+
+      image_gallery_urls.split(",")
     end
 end

@@ -4,6 +4,7 @@
 #
 #  id                   :bigint           not null, primary key
 #  about                :string
+#  calendar_url         :string
 #  call_to_action       :string
 #  city                 :string
 #  contact_us           :string

@@ -11,18 +11,20 @@ class ProgramDashboard < Administrate::BaseDashboard
     id: Field::Number,
     description: Field::String,
     name: Field::String,
+    short_name: Field::String,
     school: Field::BelongsTo.with_options(
       searchable: true,
       searchable_fields: ['name'],
     ),
+    calendar_url: Field::String,
     year_established: Field::Date,
-    created_at: Field::DateTime,
-    updated_at: Field::DateTime,
     main_gallery_image_url: Field::String,
+    image_gallery_urls: Field::String,
     page_image_url: Field::String,
     hero_title: Field::Text,
     detailed_description: Field::Text,
-    short_name: Field::String,
+    created_at: Field::DateTime,
+    updated_at: Field::DateTime,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -41,32 +43,33 @@ class ProgramDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
     id
-    description
-    name
     school
+    name
+    short_name
+    hero_title
+    description
+    detailed_description
     year_established
-    created_at
     updated_at
     main_gallery_image_url
-    page_image_url
-    hero_title
-    detailed_description
-    short_name
+    image_gallery_urls
+    calendar_url
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
+    school
     description
     name
-    school
+    short_name
     year_established
-    main_gallery_image_url
-    page_image_url
     hero_title
     detailed_description
-    short_name
+    main_gallery_image_url
+    image_gallery_urls
+    calendar_url
   ].freeze
 
   # COLLECTION_FILTERS

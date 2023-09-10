@@ -1,0 +1,13 @@
+<div class="max-w-md border-white md:max-w-2xl lg:max-w-full">
+    <div class="polaroid m-auto flex flex-wrap lg:ml-[200px] lg:h-[17rem] xl:ml-[300px] 2xl:ml-[400px]">
+      <% if object.images.count < 4 %>
+          <% (4 - object.images.count).times do %>
+            <div class="polaroid-pic w-40 md:w-56 lg:w-80"><%= image_tag "https://via.placeholder.com/200", width: "auto" %><p>Coming Soon!</p></div>
+          <% end %>
+      <% end %>
+      <% object.images.each do |image| %>
+          <div class="polaroid-pic w-40 md:w-56 lg:w-80"><%= image_tag image.strip, width: "auto"%><p>.</p></div>
+      <% end %>
+    </div>
+    <div class="polaroid-light"></div>
+</div>

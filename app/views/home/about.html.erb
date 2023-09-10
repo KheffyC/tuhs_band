@@ -1,8 +1,9 @@
 <%= render 'hero', school: @school, page_title: 'About Us' %>
 <div class="container mx-auto py-4 min-h-screen">
     <div class="text-xl font-light leading-relaxed mt-6 mb-4 text-gray-800"><%= @school.about %></div>
+    <hr class="text-black" />
     <% @school.programs.each do |program| %>
-        <div class="container border divide-lime-900 p-4 my-4 flex rounded bg-gray-100 shadow-xl">
+        <div class="container border divide-lime-900 p-4 my-4 flex flex-col md:flex-row rounded bg-gray-100 shadow-xl">
             <figure><img class=" w-full md:max-w-sm md:max-w-[30vw] h-96 object-scale-down w-fit h-full" src="<%= program.main_gallery_image_url %>" alt="Album"/></figure>
             <div class="container p-4 flex flex-col justify-around">
                 <h2 class="text-2xl font-bold"><%= program.description %></h2>

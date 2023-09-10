@@ -18,6 +18,7 @@ class SchoolDashboard < Administrate::BaseDashboard
     description: Field::String,
     programs: Field::HasMany,
     hero_title: Field::Text,
+    calendar_url: Field::String,
     home_page_image_urls: Field::String,
     call_to_action: Field::Text,
     contact_us: Field::Text,
@@ -52,6 +53,7 @@ class SchoolDashboard < Administrate::BaseDashboard
     call_to_action
     contact_us
     programs
+    calendar_url
     created_at
     updated_at
   ].freeze
@@ -72,6 +74,7 @@ class SchoolDashboard < Administrate::BaseDashboard
     call_to_action
     contact_us
     programs
+    calendar_url
   ].freeze
 
   # COLLECTION_FILTERS
