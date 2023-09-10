@@ -1,0 +1,20 @@
+<div class="container mx-auto py-4 min-h-screen">
+    <h2 class=" text-3xl mx-auto py-4 text-center font-semibold" >About</h2>
+    <hr class="text-black bg-black" />
+    <div class="text-left text-xl py-4">
+      <%= @school.about %>  
+    </div>
+    <% @school.programs.each do |program| %>
+        <div class="container border divide-lime-900 p-4 my-4 flex rounded bg-gray-100 shadow-xl">
+            <figure><img class=" w-full md:max-w-sm md:max-w-[30vw] h-96 object-scale-down w-fit h-full" src="<%= program.main_gallery_image_url %>" alt="Album"/></figure>
+            <div class="card-body">
+                <h2 class="card-title"><%= program.description %></h2>
+                <p>Click the button to listen on Spotiwhy app.</p>
+                <div class="card-actions justify-end">
+                <button class="btn btn-primary">Listen</button>
+                </div>
+            </div>
+        </div>
+    <% end %>
+    <div></div>
+</div>

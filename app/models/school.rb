@@ -3,6 +3,7 @@
 # Table name: schools
 #
 #  id             :bigint           not null, primary key
+#  about          :string
 #  call_to_action :string
 #  city           :string
 #  contact_us     :string
@@ -29,11 +30,11 @@ class School < ApplicationRecord
     belongs_to :district, optional: true
     has_many :programs, dependent: :destroy
 
-    def to_s 
-        name 
+    def to_s
+        name
     end
 
-    def location 
+    def location
         "#{city}, #{state}"
     end
 end

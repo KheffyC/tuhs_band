@@ -3,6 +3,7 @@
 # Table name: schools
 #
 #  id             :bigint           not null, primary key
+#  about          :string
 #  call_to_action :string
 #  city           :string
 #  contact_us     :string

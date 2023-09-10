@@ -11,6 +11,7 @@ class SchoolDashboard < Administrate::BaseDashboard
     id: Field::Number,
     city: Field::String,
     description: Field::String,
+    about: Field::Text,
     district: Field::BelongsTo,
     established: Field::Date,
     name: Field::String,
@@ -40,9 +41,10 @@ class SchoolDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = %i[
     id
     city
-    description
     district
     established
+    description
+    about
     name
     programs
     state
@@ -58,9 +60,10 @@ class SchoolDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
     city
-    description
     district
     established
+    description
+    about
     name
     programs
     state

@@ -3,4 +3,9 @@ class HomeController < ApplicationController
     @school = School.find_by(name: 'Tulare Union')
     @programs = @school.programs.all
   end
+
+  def about
+    @school = School.find_by(name: 'Tulare Union')
+    @programs = @school.programs.all
+  end
 end

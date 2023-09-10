@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_05_053328) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_10_012005) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -76,6 +76,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_05_053328) do
     t.string "hero_title", limit: 100
     t.string "call_to_action"
     t.string "contact_us"
+    t.string "about"
     t.index ["district_id"], name: "index_schools_on_district_id"
     t.index ["name"], name: "index_schools_on_name"
   end
