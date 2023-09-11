@@ -22,6 +22,7 @@ class SchoolDashboard < Administrate::BaseDashboard
     home_page_image_urls: Field::String,
     call_to_action: Field::Text,
     contact_us: Field::Text,
+    boosters: Field::HasMany,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -53,6 +54,7 @@ class SchoolDashboard < Administrate::BaseDashboard
     call_to_action
     contact_us
     programs
+    boosters
     calendar_url
     created_at
     updated_at

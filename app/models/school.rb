@@ -31,6 +31,7 @@
 class School < ApplicationRecord
   belongs_to :district, optional: true
   has_many :programs, dependent: :destroy
+  has_many :boosters, dependent: :destroy
 
   def to_s
     name

@@ -3,6 +3,7 @@
 # Table name: programs
 #
 #  id                     :bigint           not null, primary key
+#  about_image_url        :string
 #  calendar_url           :string
 #  description            :string
 #  detailed_description   :string
@@ -10,7 +11,6 @@
 #  image_gallery_urls     :string
 #  main_gallery_image_url :string
 #  name                   :string(100)      not null
-#  page_image_url         :string
 #  short_name             :string
 #  year_established       :date
 #  created_at             :datetime         not null

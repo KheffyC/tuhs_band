@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     resources :programs
     resources :schools
     resources :districts
+    resources :boosters
 
     root to: "schools#index"
   end
