@@ -3,8 +3,13 @@
     <% @amazon_pdfs.each do |w| %>
       <div class="bg-white shadow-lg rounded-lg overflow-hidden py-4 m-4">
         <div class="px-4 py-2">
-          <h2 class="font-bold text-2xl mb-2"><%= w.pdf.filename %></h2>
-          <p class="text-gray-600 text-sm"><%= w.pdf.byte_size %> bytes</p>
+          <div class="flex justify-between">
+            <h2 class="font-bold text-2xl mb-2"><%= w.name %></h2>
+            <h2 class="font-bold text-2xl mb-2"><%= w.created_at.strftime("%B %d, %Y") %></h2>
+          </div>
+          <p class="text-gray-600 text-sm">Posted for: <%= w.program ? w.program : 'Everyone' %></p>
+          <p class="text-gray-600 text-sm"><%= w.pdf.byte_size / 1000 %> MB</p>
+        
         </div>
         <div class="px-4 py-2">
           <a href="<%= w.url %>" target="_blank" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">

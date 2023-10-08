@@ -3,7 +3,7 @@ class AmazonPdfsController < ApplicationController
   before_action :set_amazon_pdf , only: [:show, :edit, :update, :destroy]
 
   def index
-    @amazon_pdfs = AmazonPdf.all
+    @amazon_pdfs = AmazonPdf.all.order(name: :desc)
   end
 
   def new
@@ -15,8 +15,10 @@ class AmazonPdfsController < ApplicationController
     @amazon_pdf = AmazonPdf.new.tap do |amazon_pdf|
       amazon_pdf.name = amazon_pdf_params[:name]
       amazon_pdf.pdf.attach(amazon_pdf_params[:pdf])
+      amazon_pdf.program = Program.find(amazon_pdf_params[:program_id]) if amazon_pdf_params[:program_id].present?
+      amazon_pdf.director = current_director
     end
-
+    debugger
     if @amazon_pdf.save
       redirect_to amazon_pdfs_path
     else

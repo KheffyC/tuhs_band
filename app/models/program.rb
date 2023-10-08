@@ -31,7 +31,7 @@ class Program < ApplicationRecord
     has_many :amazon_pdfs
 
     def to_s
-        name
+        short_name
     end
 
     def slug
