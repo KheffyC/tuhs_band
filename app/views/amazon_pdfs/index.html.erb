@@ -1,0 +1,17 @@
+<div class="container m-auto min-h-full py-2" >
+  <% if @amazon_pdfs.present? %>
+    <% @amazon_pdfs.each do |w| %>
+      <div class="bg-white shadow-lg rounded-lg overflow-hidden py-4 m-4">
+        <div class="px-4 py-2">
+          <h2 class="font-bold text-2xl mb-2"><%= w.pdf.filename %></h2>
+          <p class="text-gray-600 text-sm"><%= w.pdf.byte_size %> bytes</p>
+        </div>
+        <div class="px-4 py-2">
+          <a href="<%= w.url %>" target="_blank" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Preview
+          </a>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>

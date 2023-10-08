@@ -21,4 +21,15 @@ Rails.application.routes.draw do
 
   # Program Routes for each program at each school
   resources :programs
+
+  # School routes for each school
+  resources :schools
+
+  resources :amazon_pdfs, path: 'pdfs'
+
+  # Booster routes for each booster
+  # resources :boosters
+
+  # District routes for each district
+  # resources :districts
 end

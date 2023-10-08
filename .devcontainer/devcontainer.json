@@ -21,7 +21,15 @@
 	"postCreateCommand": "bundle install",
 	
 	// Configure tool-specific properties.
-	// "customizations": {},
+	"customizations": {
+    "vscode" : {
+      "extensions" : [
+        "github.copilot", 
+        "github.copilot-chat",
+        "jemmyw.rails-fast-nav"
+      ]
+    }
+  },
 
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	"remoteUser": "root"

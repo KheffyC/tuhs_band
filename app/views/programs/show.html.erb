@@ -37,8 +37,11 @@
       <div class="w-7/8 px-2 m-4"><%= link_to 'Fall Schedule', "#", class: 'block bg-red-900 border border-solid border-white rounded p-4 text-xl hover:bg-yellow-600 hover:text-white text-center' %></div>
     </div>
   </div>
-  <% if @program.calendar_url %>  
+  <% if @program.calendar_url %> 
+  <div class="flex flex-col min-w-[48vw] min-h-[50vh] my-6">
+    <h5 class="text-3xl font-bold mx-auto"  >Calendar</h5>
     <%= render 'home/calendar', calendar: @program.calendar_url %>
+  </div> 
   <% end %>
 </div>
 <div class="h-[30vh] container mx-auto flex flex-col flex-wrap">

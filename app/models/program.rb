@@ -28,6 +28,7 @@
 #
 class Program < ApplicationRecord
     belongs_to :school
+    has_many :amazon_pdfs
 
     def to_s
         name

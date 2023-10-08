@@ -33,6 +33,17 @@ class School < ApplicationRecord
   has_many :programs, dependent: :destroy
   has_many :boosters, dependent: :destroy
 
+  has_many_attached :pdf_uploads
+
+  validate :pdf_upload_type
+
+  def pdf_upload_type
+    return unless pdf_uploads.attached?
+    return unless pdf_uploads.last.id == nil  # only validate the last uploaded file
+
+    errors.add(:pdf_upload, 'Must be a PDF file') unless pdf_uploads.last.content_type.in?(%w(application/pdf))
+  end
+
   def to_s
     name
   end
