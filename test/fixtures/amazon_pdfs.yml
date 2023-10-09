@@ -2,12 +2,13 @@
 #
 # Table name: amazon_pdfs
 #
-#  id          :bigint           not null, primary key
-#  name        :string
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  director_id :bigint
-#  program_id  :bigint
+#  id                :bigint           not null, primary key
+#  name              :string
+#  type_of_pdf_group :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  director_id       :bigint
+#  program_id        :bigint
 #
 # Indexes
 #

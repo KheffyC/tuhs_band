@@ -2,12 +2,13 @@
 #
 # Table name: amazon_pdfs
 #
-#  id          :bigint           not null, primary key
-#  name        :string
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  director_id :bigint
-#  program_id  :bigint
+#  id                :bigint           not null, primary key
+#  name              :string
+#  type_of_pdf_group :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  director_id       :bigint
+#  program_id        :bigint
 #
 # Indexes
 #
@@ -27,12 +28,13 @@ class AmazonPdf < ApplicationRecord
 
   validates :name, presence: { message: 'Please enter a name for the PDF' }
   validates :pdf, presence: true
+  validates :type_of_pdf_group, presence: true
 
   def to_s
     name
   end
 
   def url
-    pdf.url if pdf.attached?
+    pdf&.url if pdf.attached?
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_08_003624) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_09_044948) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -48,6 +48,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_08_003624) do
     t.bigint "program_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "type_of_pdf_group"
     t.index ["director_id"], name: "index_amazon_pdfs_on_director_id"
     t.index ["program_id"], name: "index_amazon_pdfs_on_program_id"
   end
