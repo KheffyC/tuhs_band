@@ -30,6 +30,8 @@ Rails.application.routes.draw do
   # Booster routes for each booster
   # resources :boosters
 
-  # District routes for each district
-  # resources :districts
+  # Contact routes for each contact
+  resources :contacts
+
+
 end

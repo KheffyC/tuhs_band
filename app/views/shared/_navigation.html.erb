@@ -22,9 +22,9 @@
 			<li><%= link_to 'Fundraising', home_about_path, class: " text-white hover:text-gray-500 " %></li>	
 				<%= render 'shared/svg_dots' %>
 
-			<li><%= link_to 'Contact', home_about_path, class: " text-white hover:text-gray-500 " %></li>
+			<li><%= link_to 'Contact', contacts_path, class: " text-white hover:text-gray-500 " %></li>
 		</ul>
-		<%= link_to 'CHARMS LOGIN', "#", class: "hidden lg:inline-block lg:ml-auto py-2 px-6 outline text-sm outline-white hover:bg-white hover:text-black text-gray-300 font-bold  transition duration-200" %>
+		<%= link_to 'CHARMS LOGIN', "https://www.charmsoffice.com/public/parents.asp", target: '_blank', class: "hidden lg:inline-block lg:ml-auto py-2 px-6 outline text-sm outline-white hover:bg-white hover:text-black text-gray-300 font-bold  transition duration-200" %>
 		<%= link_to 'DONATE', "#", class: "hidden lg:inline-block py-2 px-6 mx-4 hover:bg-blue-600 outline text-sm outline-white text-white font-bold transition duration-200" %>
 	</nav>
 	<div id="navbar-menu" class="navbar-menu relative z-50 hidden">
@@ -41,10 +41,10 @@
 					<li class="mb-1"><%= link_to 'About', home_about_path, class: "block p-4 text-sm font-semibold text-gray-100 hover:bg-red-500 hover:text-black rounded" %></li>
 					<li class="mb-1"><%= link_to 'Documents', amazon_pdfs_path, class: "block p-4 text-sm font-semibold text-gray-100 hover:bg-red-500 hover:text-black rounded" %></li>
 					<li class="mb-1"><%= link_to 'Fundraising', "#", class: "block p-4 text-sm font-semibold text-gray-100 hover:bg-red-500 hover:text-black rounded" %></li>
-					<li class="mb-1"><%= link_to 'Contact', "#", class: "block p-4 text-sm font-semibold text-gray-100 hover:bg-red-500 hover:text-black rounded" %></li>
+					<li class="mb-1"><%= link_to 'Contact',  contacts_path, class: "block p-4 text-sm font-semibold text-gray-100 hover:bg-red-500 hover:text-black rounded" %></li>
 				</ul>
 				<div class="pt-6">
-					<%= link_to 'CHARMS LOGIN', "#", class: "block px-4 py-3 mb-3 leading-loose text-sm text-center font-semibold bg-gray-50 hover:bg-blue-600 outline outline-white rounded-xl"%>
+					<%= link_to 'CHARMS LOGIN', "https://www.charmsoffice.com/public/parents.asp", target: '_blank', class: "block px-4 py-3 mb-3 leading-loose text-sm text-center font-semibold bg-gray-50 hover:bg-blue-600 outline outline-white rounded-xl"%>
 					<%= link_to 'DONATE', "#", class: "block px-4 py-3 mb-3 leading-loose text-sm text-center font-semibold bg-gray-50 hover:bg-blue-600 outline outline-white rounded-xl"%>
 				</div>
 			</div>
@@ -68,46 +68,3 @@
 		}))
 	})
 </script>
-<%# <script>
-    // Burger menus
-        // open
-        let burger = null
-        if(burger == null) {
-          const burger = document.querySelectorAll('.navbar-burger');
-          const menu = document.querySelectorAll('.navbar-menu');
-        }
-
-        if (burger && menu) {
-            for (var i = 0; i < burger.length; i++) {
-                burger[i].addEventListener('click', function() {
-                    for (var j = 0; j < menu.length; j++) {
-                        menu[j].classList.toggle('hidden');
-                    }
-                });
-            }
-        }
-
-        // close
-        const close = document.querySelectorAll('.navbar-close');
-        const backdrop = document.querySelectorAll('.navbar-backdrop');
-
-        if (close) {
-            for (var i = 0; i < close.length; i++) {
-                close[i].addEventListener('click', function() {
-                    for (var j = 0; j < menu.length; j++) {
-                        menu[j].classList.toggle('hidden');
-                    }
-                });
-            }
-        }
-
-        if (backdrop.length) {
-            for (var i = 0; i < backdrop.length; i++) {
-                backdrop[i].addEventListener('click', function() {
-                    for (var j = 0; j < menu.length; j++) {
-                        menu[j].classList.toggle('hidden');
-                    }
-                });
-            }
-        }
-</script> %>

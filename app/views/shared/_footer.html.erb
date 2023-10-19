@@ -92,6 +92,11 @@
         <p>
           Home of the Tribe.
         </p>
+        <% if current_director.present? %>
+          <p class="my-4" >
+            <%= link_to "Sign out (#{current_director.email})", destroy_director_session_path, data: { turbo_method: :delete }, class: 'bg-black hover:bg-slate-700 text-white font-bold p-2 my-4 rounded w-[10vw]' %>
+          </p>
+        <% end %>
       </div>
       <!-- Products section -->
       <div class="">
@@ -100,52 +105,32 @@
           Home
         </h6>
         <p class="mb-4">
-          <a href="#!" class=""
+          <a href="/#main-calendar" class=""
             >Calendar</a
           >
         </p>
         <p class="mb-4">
-          <a href="#!" class=""
+          <a href="/#main-programs" class=""
             >Programs</a
           >
         </p>
         <p class="mb-4">
-          <a href="#!" class=""
-            >About</a
-          >
+          <%= link_to 'About', home_about_path, class: 'mb-4' %>
         </p>
-        <p>
-          <a href="#!" class=""
-            >Contact</a
-          >
+        <p class="mb-4">
+          <%= link_to 'Contact', home_about_path, class: 'mb-4' %>
+        </p>
+
         </p>
       </div>
       <!-- Useful links section -->
       <div class="">
-        <h6
-          class="mb-4 flex justify-center font-semibold uppercase md:justify-start">
-          Programs
-        </h6>
-        <p class="mb-4">
-          <a href="#!" class=""
-            >Marching Band</a
-          >
-        </p>
-        <p class="mb-4">
-          <a href="#!" class=""
-            >Drumline</a
-          >
-        </p>
-        <p class="mb-4">
-          <a href="#!" class=""
-            >Colorguard</a
-          >
-        </p>
-        <p>
-          <a href="#!" class=""
-            >Orchestra</a
-          >
-        </p>
+        <h6 class="mb-4 flex justify-center font-semibold uppercase md:justify-start">Programs</h6>
+        <% @school.programs.each do |program| %>
+          <p class="mb-4">
+            <%= link_to "#{program.short_name}", program_path(program), class: "" %>
+          </p>
+        <% end %>
       </div>
       <!-- Contact section -->
       <div>
@@ -173,9 +158,9 @@
             fill="currentColor"
             class="mr-3 h-5 w-5">
             <path
-              d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z" />
-            <path
-              d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z" />
+              fill-rule="evenodd"
+              d="M1.5 4.5a3 3 0 013-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 01-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 006.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 011.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 01-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5z"
+              clip-rule="evenodd" />
           </svg>
           Boosters
         </p>
@@ -186,9 +171,9 @@
             fill="currentColor"
             class="mr-3 h-5 w-5">
             <path
-              fill-rule="evenodd"
-              d="M1.5 4.5a3 3 0 013-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 01-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 006.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 011.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 01-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5z"
-              clip-rule="evenodd" />
+              d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z" />
+            <path
+              d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z" />
           </svg>
           Donate
         </p>
@@ -211,11 +196,7 @@
 
   <!--Copyright section-->
   <div class="bg-black p-6 text-center ">
-    <span>© 2023 Copyright: @k_dot</span>
-    <a
-      class="font-semibold text-white"
-      href="https://tailwind-elements.com/"
-      >Tulare Union Music</a
-    >
+    <span>© 2023 Copyright: @K_Dot /</span>
+    <%= link_to 'Tulare Union Music Department', new_director_session_path, class: 'font-bold'%>
   </div>
 </footer>

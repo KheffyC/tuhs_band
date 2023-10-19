@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>A contact form has been filled out.</h1>
+    <div class="my-2">
+      <p>From: <span class="font-bold text-xl"><%= @params[:name] %></span></p>
+      <p>Email: <%= @params[:email_address] %> </p>
+      <p>Subject: <%= @params[:subject] %></p>
+    </div>
+    <p>
+      Message: 
+    </p>
+    <p>--------------------------</p>
+    <div class="font-bold">
+      <%= @params[:message] %>
+    </div>
+    <p>--------------------------</p>
+
+    <p class="my-4">If you would like to reply, please respond directly to the email address posted above, this is an automated email system.</p>
+    <p>Thanks for your time and have a great day! <%= link_to 'Test Site', 'http://10.0.0.202:3000'%></p>
+  </body>
+</html>

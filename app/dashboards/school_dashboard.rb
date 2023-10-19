@@ -10,6 +10,12 @@ class SchoolDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     id: Field::Number,
     name: Field::String,
+    director_name: Field::String,
+    director_phone: Field::String,
+    director_email: Field::String,
+    percussion_director_name: Field::String,
+    percussion_director_phone: Field::String,
+    percussion_director_email: Field::String,
     city: Field::String,
     state: Field::String,
     district: Field::BelongsTo,
@@ -47,6 +53,12 @@ class SchoolDashboard < Administrate::BaseDashboard
     city
     state
     district
+    director_name
+    director_phone
+    director_email
+    percussion_director_name
+    percussion_director_phone
+    percussion_director_email
     description
     about
     hero_title
@@ -69,6 +81,12 @@ class SchoolDashboard < Administrate::BaseDashboard
     state
     district
     established
+    director_name
+    director_phone
+    director_email
+    percussion_director_name
+    percussion_director_phone
+    percussion_director_email
     description
     about
     hero_title
