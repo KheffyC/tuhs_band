@@ -1,29 +1,35 @@
-<h2>Sign up</h2>
+<div class="text-white text-center py-4 h-screen">
+  <h2 class="text-2xl font-bold mb-4 border-b w-1/2 m-auto border-white">Director Sign Up</h2>
+  <% if current_director.present? %>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+      <div class="field text-white">
+        <%= f.label :email %><br />
+        <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+      </div>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+      <div class="field text-white">
+        <%= f.label :password %>
+        <% if @minimum_password_length %>
+          <em>(<%= @minimum_password_length %> characters minimum)</em>
+        <% end %><br />
+        <%= f.password_field :password, autocomplete: "new-password" %>
+      </div>
 
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
+      <div class="field text-white">
+        <%= f.label :password_confirmation %><br />
+        <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+      </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
+      <div class="actions text-white">
+        <%= f.submit "Sign up", class: 'bg-green-500 hover:bg-green-700 text-white font-bold py-2 my-4 rounded w-[10vw]'  %>
+      </div>
+    <% end %>
 
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+    <%= render "devise/shared/links" %>
+  <% else %>
+    <div class="text-white font-bold mb-4">Unable to create account without access</div>
+    <%= link_to 'Log in as Director', new_director_session_path, class: 'bg-green-600 hover:bg-green-700 text-white font-bold p-2 my-6 rounded w-[15vw]' %>
+  <% end %>
+</div>
