@@ -27,6 +27,8 @@ Rails.application.routes.draw do
 
   resources :amazon_pdfs, path: 'pdfs'
 
+  resources :fundraisers
+
   # Booster routes for each booster
   # resources :boosters
 

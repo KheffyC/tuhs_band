@@ -3,7 +3,7 @@ class AmazonPdfsController < ApplicationController
   before_action :set_amazon_pdf , only: [:show, :edit, :update, :destroy]
 
   def index
-    @amazon_pdfs = AmazonPdf.all.order(name: :desc)
+    @amazon_pdfs = AmazonPdf.programless.order(name: :desc)
   end
 
   def new
@@ -31,6 +31,17 @@ class AmazonPdfsController < ApplicationController
   end
 
   def show; end
+
+  def destroy
+    if @amazon_pdf
+      @amazon_pdf.destroy
+      flash[:notice] = "PDF was successfully deleted."
+    else
+      flash[:alert] = "PDF could not be deleted."
+    end
+
+    redirect_to amazon_pdfs_path
+  end
 
   private
 
