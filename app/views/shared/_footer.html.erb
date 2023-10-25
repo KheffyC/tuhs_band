@@ -89,9 +89,7 @@
           </svg>
           Tulare Union Music Department
         </h6>
-        <p>
-          Home of the Tribe.
-        </p>
+        <p>Home of the Tribe.</p>
         <% if current_director.present? %>
           <p class="my-4" >
             <%= link_to "Sign out (#{current_director.email})", destroy_director_session_path, data: { turbo_method: :delete }, class: 'bg-black hover:bg-slate-700 text-white font-bold p-2 my-4 rounded w-[10vw]' %>
@@ -100,42 +98,26 @@
       </div>
       <!-- Products section -->
       <div class="">
-        <h6
-          class="mb-4 flex justify-center font-semibold uppercase md:justify-start">
+        <h6 class="mb-4 flex justify-center font-semibold uppercase md:justify-start">
           Home
         </h6>
-        <p class="mb-4">
-          <a href="/#main-calendar" class=""
-            >Calendar</a
-          >
-        </p>
-        <p class="mb-4">
-          <a href="/#main-programs" class=""
-            >Programs</a
-          >
-        </p>
-        <p class="mb-4">
-          <%= link_to 'About', home_about_path, class: 'mb-4' %>
-        </p>
-        <p class="mb-4">
-          <%= link_to 'Contact', home_about_path, class: 'mb-4' %>
-        </p>
-
-        </p>
+        <p class="mb-4"><%= link_to 'Calendar', '/#main-calendar'%></p>
+        <p class="mb-4"><%= link_to 'Programs', '/#main-programs'%></p>
+        <p class="mb-4"><%= link_to 'About', home_about_path, class: 'mb-4' %></p>
+        <p class="mb-4"><%= link_to 'Contact', contacts_path, class: 'mb-4' %></p>
       </div>
       <!-- Useful links section -->
       <div class="">
         <h6 class="mb-4 flex justify-center font-semibold uppercase md:justify-start">Programs</h6>
         <% @school.programs.each do |program| %>
           <p class="mb-4">
-            <%= link_to "#{program.short_name}", program_path(program), class: "" %>
+            <%= link_to "#{program.short_name}", program_path(program) %>
           </p>
         <% end %>
       </div>
       <!-- Contact section -->
       <div>
-        <h6
-          class="mb-4 flex justify-center font-semibold uppercase md:justify-start">
+        <h6 class="mb-4 flex justify-center font-semibold uppercase md:justify-start">
           Support 
         </h6>
         <p class="mb-4 flex items-center justify-center md:justify-start">
