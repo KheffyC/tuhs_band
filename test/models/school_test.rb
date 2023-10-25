@@ -8,6 +8,7 @@
 #  call_to_action            :string
 #  city                      :string
 #  contact_us                :string
+#  default_image             :string
 #  description               :string
 #  director_email            :string(255)
 #  director_name             :string(255)

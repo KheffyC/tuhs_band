@@ -15,7 +15,7 @@
       <% if programs.count < 8 %>
         <% (8 - programs.count).times do %>
         <div class="w-full md:max-w-sm md:max-w-[30vw] h-96 bg-black m-2 relative rounded-md hover:scale-102 hover:pointer shadow-lg  shadow-red-500/40 hover:shadow-white/40 outline outline-gray-800">
-          <%= image_tag 'old_band.jpeg', class: 'object-scale-down w-fit h-full'%>
+          <%= image_tag @school.default_image, class: 'object-scale-down w-fit h-full' %>
           <div class=" inline-block outline outline-gray-300 text-left absolute bottom-0 text-sm left-0 h-auto z-10 max-w-prose p-[17px]" style="background: rgba(0,0,0,.65);">
             <h5 class="uppercase text-white  text-l m-auto">Coming Soon </h5>
             <p class="text-white">Home of the Tribe</p>

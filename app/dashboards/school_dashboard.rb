@@ -16,6 +16,7 @@ class SchoolDashboard < Administrate::BaseDashboard
     percussion_director_name: Field::String,
     percussion_director_phone: Field::String,
     percussion_director_email: Field::String,
+    default_image: Field::String,
     city: Field::String,
     state: Field::String,
     district: Field::BelongsTo,
@@ -63,6 +64,7 @@ class SchoolDashboard < Administrate::BaseDashboard
     about
     hero_title
     home_page_image_urls
+    default_image
     call_to_action
     contact_us
     programs
@@ -90,6 +92,7 @@ class SchoolDashboard < Administrate::BaseDashboard
     description
     about
     hero_title
+    default_image
     home_page_image_urls
     call_to_action
     contact_us
