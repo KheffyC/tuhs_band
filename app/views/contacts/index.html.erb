@@ -6,7 +6,7 @@
       <div class="block rounded-lg px-6 py-12 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] bg-gray-800 shadow-black/20 md:py-16 md:px-12 my-4 backdrop-blur-[30px] border border-red-700 text-white">
         <div class="flex flex-wrap">
           <div class="mb-12 w-full shrink-0 grow-0 basis-auto md:px-3 lg:mb-0 lg:w-5/12 lg:px-6">
-            <%= simple_form_for :contact, url: contacts_path, method: :post do |form| %>
+            <%= simple_form_for :contact, url: contacts_url, method: :post do |form| %>
               <div class="relative mb-6">
                 <%= form.input :name, input_html:{ class: "block min-h-[auto] w-full rounded border border-white bg-transparent py-[0.32rem] px-3 leading-[1.6] outline-none transition-all duration-200 ease-linear "}%>
               </div>
@@ -27,7 +27,7 @@
                   Send me a copy of this message
                 </label>
               </div> %>
-              <%= form.button :submit, 'Send', class: "mb-6 inline-block w-full rounded  border border-white px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] lg:mb-0"%>
+              <%= form.button :submit, 'Send', class: "hover:cursor-pointer mb-6 inline-block w-full rounded  border border-white px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] lg:mb-0"%>
             <% end %>
           </div>
           <div class="w-full shrink-0 grow-0 basis-auto lg:w-7/12 m-auto">
@@ -101,10 +101,10 @@
                       Ray Rivera
                     </p>
                     <p class="text-neutral-500 text-neutral-200">
-                      rayrayrivera19@gmail.com
+                      (559) 799-5023
                     </p>
                     <p class="text-neutral-500 text-neutral-200">
-                      (559) 799-5023
+                      rayrayrivera19@gmail.com
                     </p>
                   </div>
                 </div>

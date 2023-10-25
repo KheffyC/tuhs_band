@@ -14,7 +14,7 @@ class ContactsController < ApplicationController
     else
       ContactFormMailer.message_email(director_email: @school.director_email, params: contact_params).deliver_later
       flash[:notice] = 'Message sent'
-      redirect_to contacts_path
+      redirect_to home_index_path
     end
   end
 

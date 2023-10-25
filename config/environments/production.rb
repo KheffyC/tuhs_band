@@ -73,7 +73,7 @@ Rails.application.configure do
   }
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.default_options = { from: 'kheffy.cervantez@gmail.com' }
+  config.action_mailer.default_options = { from: 'tulareunionhelpdesk@gmail.com' }
   config.action_mailer.default_url_options = { host: 'https://6e9wv.hatchboxapp.com' }
   config.action_mailer.perform_caching = false
 
