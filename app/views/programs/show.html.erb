@@ -5,36 +5,32 @@
     <div>
         <%= image_tag("#{@program.about_image_url}", width: 700)%>
     </div>
-    <div class=" lg:w-1/2 my-6 flex flex-col content-between justify-between text-white">
+    <div class=" lg:w-1/2 my-6 w-2/3 flex flex-col content-between justify-between text-white">
       <div>
         <%= @program.detailed_description %>
       </div>
-      <div class="flex flex-col justify between">
-        <p class="text-xl font-bold my-4">Interested in Joining?</p>
-        <hr />
+      <div class="flex flex-col justify-between ">
+        <p class="border-b w-2/3 border-white/50 text-xl font-bold my-4">Interested in Joining?</p>
         <%= link_to 'Apply Here', "#", class: 'border w-2/3 border-solid border-blue-800 shadow-md rounded p-4 text-xl text-white shadow-blue-700 hover:bg-blue-700 hover:text-white my-4' %>
       </div>
-      <div class="flex flex-col justify between">
-        <p class="text-xl font-bold my-4">Support our <%= @program.short_name %>!</p>
-        <hr />
+      <div class="flex flex-col justify-between">
+        <p class="border-b w-2/3 border-white/50 text-xl font-bold my-4">Support our <%= @program.short_name %>!</p>
         <%= link_to 'Donate', "#", class: 'border w-2/3 border-solid border-green-800 shadow-md  rounded p-4 text-xl text-white shadow-green-700 hover:bg-green-700  hover:text-white my-4' %>
       </div>
     </div>
   </div>
 </div>
-<div class="flex flex-col-reverse lg:flex-row justify-center bg-black text-white">
-  <div class="flex flex-col min-w-[40vw] min-h-[50vh] my-6">
-    <h5 class="text-3xl font-bold mx-auto" ><%= @program.short_name %> Information</h5>
-    <div class="py-4 my-4 h-full flex flex-col w-full flex-wrap">
-      <div class="w-7/8 px-2 m-4"><%= link_to 'Syllabus', "#", class: 'block bg-red-900 border border-solid border-white rounded p-4 text-xl hover:bg-yellow-600 hover:text-white text-center' %></div>
-      <div class="w-7/8 px-2 m-4"><%= link_to 'Bass', "#", class: 'block bg-red-900 border border-solid border-white rounded p-4 text-xl hover:bg-yellow-600 hover:text-white text-center' %></div>
-      <div class="w-7/8 px-2 m-4"><%= link_to 'Snare', "#", class: 'block bg-red-900 border border-solid border-white rounded p-4 text-xl hover:bg-yellow-600 hover:text-white text-center' %></div>
-      <div class="w-7/8 px-2 m-4"><%= link_to 'Quads', "#", class: 'block bg-red-900 border border-solid border-white rounded p-4 text-xl hover:bg-yellow-600 hover:text-white text-center' %></div>
-      <div class="w-7/8 px-2 m-4"><%= link_to 'Audition Material', "#", class: 'block bg-red-900 border border-solid border-white rounded p-4 text-xl hover:bg-yellow-600 hover:text-white text-center' %></div>
-      <div class="w-7/8 px-2 m-4"><%= link_to 'Fair Itinerary', "#", class: 'block bg-red-900 border border-solid border-white rounded p-4 text-xl hover:bg-yellow-600 hover:text-white text-center' %></div>
-      <div class="w-7/8 px-2 m-4"><%= link_to 'Fall Schedule', "#", class: 'block bg-red-900 border border-solid border-white rounded p-4 text-xl hover:bg-yellow-600 hover:text-white text-center' %></div>
+<div class="flex flex-col-reverse lg:flex-row justify-center bg-black text-white border-b border-white">
+  <% if @program.amazon_pdfs.present? %>
+    <div class="flex flex-col min-w-[40vw] min-h-[50vh] my-6">
+      <h5 class="text-3xl font-bold mx-auto" ><%= @program.short_name %> Information</h5>
+        <% @program.amazon_pdfs.each do |pdf| %>
+          <div class="py-4 my-4 h-full flex flex-col w-full flex-wrap">
+            <div class="w-7/8 px-2 m-4"><%= link_to pdf.name, pdf&.url, target: '_blank', class: 'block bg-red-900 border border-solid border-white rounded p-4 text-xl hover:bg-yellow-600 hover:text-white text-center' %></div>
+          </div>
+        <% end %>
     </div>
-  </div>
+  <% end %>
   <% if @program.calendar_url %> 
   <div class="flex flex-col min-w-[40vw] min-h-[50vh] my-6">
     <h5 class="text-3xl font-bold mx-auto"  >Calendar</h5>
