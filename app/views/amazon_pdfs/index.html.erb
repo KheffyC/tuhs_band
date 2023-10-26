@@ -1,21 +1,20 @@
-<div class="container m-auto min-h-full py-2" >
-  <% if current_director.present? %>
-    <%= link_to 'Upload New PDF', new_amazon_pdf_path, class: 'block border-slate-600 border border-solid text-white rounded p-4 my-4 text-xl hover:border-yellow-600 hover:text-white text-center' %>
-  <% end %>
+<div class="container m-auto min-h-[90vh] py-2" >
+
+  <%= link_to 'View Student Forms', student_forms_amazon_pdfs_path, class: 'block border-yellow-600 border border-solid text-white rounded p-4 my-4 text-xl hover:border-yellow-800 hover:bg-yellow-700 hover:text-black text-center'%>
   <% if @amazon_pdfs.present? %>
     <div class="flex flex-wrap flex-col xl:flex-row xl:justify-center ">
       <% @amazon_pdfs.group_by{|g| g.type_of_pdf_group }.each do |group, pdfs| %>
-        <div class="p-4 rounded my-4 mx-2 w-full xl:w-[30vw]">
-          <div class="text-2xl text-white text-center  "><%= group.upcase %></div>
+        <div class="p-4 rounded my-4  w-full xl:w-[30vw]">
+          <div class="text-4xl text-yellow-300 text-center  "><%= group.upcase %></div>
           <div class="flex flex-wrap flex-row items-center text-center justify-around">
             <% pdfs.each do |pdf| %>
               <div class=" items-center border text-white border-2 relative rounded-md hover:scale-{103} hover:pointer shadow-lg  shadow-yellow-500/40 hover:shadow-white/40 border-red-900 min-w-[30vw]  shadow-lg rounded-lg overflow-hidden py-4 m-4">
                 <div class="px-4 py-2">
                   <div class="flex flex-col justify-between">
-                    <h2 class="font-bold text-2xl mb-2 "><%= pdf.name %></h2>
-                    <h2 class="font-semibold text-sm mb-2 "><%= pdf.created_at.strftime("%B %d, %Y") %></h2>
+                    <h2 class="font-bold text-3xl mb-2 "><%= pdf.name %></h2>
+                    <h2 class="font-semibold mb-2 "><%= pdf.created_at.strftime("%B %d, %Y") %></h2>
                   </div>
-                  <p class="text-gray-600 text-sm"><%= pdf.program ? pdf.program : 'Everyone' %></p>
+                  <p class="text-gray-400"><%= pdf.program ? pdf.program : 'Everyone' %></p>
                 </div>
                 <div class="flex justify-center">
                   <div class="px-4 py-2">
@@ -33,6 +32,9 @@
         </div>
       <% end %>
     </div>
+        <% if current_director.present? %>
+    <%= link_to 'Upload New PDF', new_amazon_pdf_path, class: 'block border-yellow-600 border border-solid text-white rounded p-4 my-4 text-xl hover:border-yellow-700 hover:text-black hover:bg-yellow-700 text-center' %>
+  <% end %>
   <% else %>
     <div class="flex flex-col items-center justify-center h-[80vh] ">
       <h1 class="text-4xl font-bold mb-8 text-white">No Documents Posted</h1>

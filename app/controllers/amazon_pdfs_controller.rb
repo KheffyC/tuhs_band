@@ -6,6 +6,10 @@ class AmazonPdfsController < ApplicationController
     @amazon_pdfs = AmazonPdf.programless.order(name: :desc)
   end
 
+  def student_forms
+    @amazon_pdfs = AmazonPdf.student_forms.order(name: :desc)
+  end
+
   def new
     @amazon_pdfs = AmazonPdf.all
     @amazon_pdf = AmazonPdf.new

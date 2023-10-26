@@ -5,9 +5,11 @@
 #  id                     :bigint           not null, primary key
 #  about_image_url        :string
 #  calendar_url           :string
+#  circuit                :string(50)
 #  description            :string
 #  detailed_description   :string
 #  hero_title             :string(100)
+#  ig_handle              :string(50)
 #  image_gallery_urls     :string
 #  main_gallery_image_url :string
 #  name                   :string(100)      not null

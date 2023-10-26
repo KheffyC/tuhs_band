@@ -30,7 +30,8 @@ class AmazonPdf < ApplicationRecord
   validates :pdf, presence: true
   validates :type_of_pdf_group, presence: true
 
-  scope :programless , -> { where(program_id: nil) }
+  scope :programless , -> { where(program_id: nil).where.not(type_of_pdf_group: 'Student Forms') }
+  scope :student_forms, -> { where(type_of_pdf_group: 'Student Forms') }
 
   def to_s
     name

@@ -15,12 +15,15 @@
 #  director_phone            :string(255)
 #  district                  :string
 #  established               :date
+#  handbook_contract_form    :string
 #  hero_title                :string(100)
 #  home_page_image_urls      :string
 #  name                      :string(100)      not null
 #  percussion_director_email :string(255)
 #  percussion_director_name  :string(255)
 #  percussion_director_phone :string(255)
+#  performance_absence_form  :string
+#  rehearsal_absence_form    :string
 #  state                     :string
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null

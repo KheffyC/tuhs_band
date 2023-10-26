@@ -1,0 +1,114 @@
+<div class="container m-auto min-h-[90vh] py-2" >
+  <% if current_director.present? %>
+    <%= link_to 'Upload New PDF', new_amazon_pdf_path, class: 'block border-yellow-600 border border-solid text-white rounded p-4 my-4 text-xl hover:border-yellow-700 hover:text-black hover:bg-yellow-700 text-center' %>
+  <% end %>
+  <div class="flex flex-wrap flex-col xl:flex-row xl:justify-center ">
+      <div class="p-2 rounded my-4 w-full xl:w-[30vw]">
+        <div class="text-4xl text-yellow-300 text-center">Absence Request Forms</div>
+        <div class="flex flex-wrap flex-row items-center text-center justify-around">
+            <div class=" items-center border text-white  relative rounded-md hover:scale-{103} hover:pointer shadow-lg  shadow-yellow-500/40 hover:shadow-white/40 border-red-900 min-w-[30vw]  shadow-lg rounded-lg overflow-hidden py-4 my-2 ">
+              <div class="px-2 py-2">
+                <div class="flex flex-col justify-between">
+                  <h2 class="font-bold text-3xl mb-2 ">Night Rehearsal</h2>
+                  <h2 class="font-semibold text-sm mb-2 ">**Not all requests may be excused**</h2>
+                </div>
+                <p class="text-gray-200 text-lg">
+                  Please refer to our attendance policy for additional clarification.
+
+                  Requests must be submitted 1 hour prior to the scheduled rehearsal. 
+
+                  Student's with jobs need to communicate their school schedule with their employer.  
+
+                  Academics and school events come first. 
+                </p>
+              </div>
+              <div class="flex justify-center">
+                <div class=" py-2">
+                  <%= link_to 'Click here for request form', @school.rehearsal_absence_form, target: '_blank', class:"bg-blue-500 hover:bg-blue-700 text-white font-bold py-2  rounded" %>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="flex flex-wrap flex-row items-center text-center justify-around">
+            <div class=" items-center border text-white border-2 relative rounded-md hover:scale-{103} hover:pointer shadow-lg  shadow-yellow-500/40 hover:shadow-white/40 border-red-900 min-w-[30vw]  shadow-lg rounded-lg overflow-hidden py-4 m-4">
+              <div class="px-2 py-2">
+                <div class="flex flex-col justify-between">
+                  <h2 class="font-bold text-3xl mb-2 ">Performances</h2>
+                  <h2 class="font-semibold text-sm mb-2 ">**Not all requests may be excused**</h2>
+                </div>
+                <p class="text-gray-200 text-lg">
+                  Please refer to our attendance policy for additional clarification.
+
+                  Requests must be submitted 2 weeks prior to the scheduled performance. 
+
+                  Student's with jobs need to communicate their school schedule with their employer.  
+
+                  Academics and school events come first.  
+                </p>
+              </div>
+              <div class="flex justify-center">
+                <div class="px-2 py-2">
+                  <%= link_to 'Click here for Request Form', @school.performance_absence_form, target: '_blank', class:"bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+  </div>
+  
+  <div class="flex flex-wrap flex-col xl:flex-row xl:justify-center ">
+      <div class="p-4 rounded my-4 mx-2 w-full xl:w-[30vw]">
+        <div class="text-4xl text-yellow-300  text-center">Handbook Contract </div>
+        <div class="flex flex-wrap flex-row items-center text-center justify-around">
+            <div class=" items-center border text-white border-2 relative rounded-md hover:scale-{103} hover:pointer shadow-lg  shadow-yellow-500/40 hover:shadow-white/40 border-red-900 min-w-[30vw]  shadow-lg rounded-lg overflow-hidden py-4 m-4">
+              <div class="px-4 py-2">
+                <div class="flex flex-col justify-between">
+                  <h2 class="font-bold text-3xl mb-2 ">Form</h2>
+                </div>
+                <p class="text-gray-200 text-lg">
+                  This electronic signature serves as your signature stating that you (student) have read, understand and agree to abide by the Instrumental Music Handbook  
+                </p>
+              </div>
+              <div class="flex justify-center">
+                <div class="px-4 py-2">
+                  <%= link_to 'Click here for Request Form', @school.handbook_contract_form, target: '_blank', class:"bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+  </div>
+  <% if @amazon_pdfs.present? %>
+    <div class="flex flex-wrap flex-col xl:flex-row xl:justify-center ">
+      <% @amazon_pdfs.group_by{|g| g.type_of_pdf_group }.each do |group, pdfs| %>
+        <div class="p-4 rounded my-4 w-full xl:w-[30vw]">
+          <div class="text-4xl text-yellow-300 text-center  "><%= group.upcase %></div>
+          <div class="flex flex-wrap flex-row items-center text-center justify-around">
+            <% pdfs.each do |pdf| %>
+              <div class=" items-center border text-white border-2 relative rounded-md hover:scale-{103} hover:pointer shadow-lg  shadow-yellow-500/40 hover:shadow-white/40 border-red-900 min-w-[30vw]  shadow-lg rounded-lg overflow-hidden py-4 m-4">
+                <div class="px-4 py-2">
+                  <div class="flex flex-col justify-between">
+                    <h2 class="font-bold text-2xl mb-2 "><%= pdf.name %></h2>
+                  </div>
+                <p class="text-gray-200 text-lg">
+                    Read through the following document and choose the assignment to complete.  Assignment should be turned in one week after the date of the performance. 
+                  </p>
+                </div>
+                <div class="flex justify-center">
+                  <div class="px-4 py-2">
+                    <%= link_to 'Preview', pdf.url, target: '_blank', class:"bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+                  </div>
+                  <% if current_director.present? %>
+                    <div class="px-4 py-2">
+                      <%= link_to 'Delete', amazon_pdf_path(pdf.id), data: {turbo_method: :delete, turbo_confirm: 'Are you sure you want to remove this PDF?'}, class:"bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

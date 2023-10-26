@@ -6,7 +6,7 @@
           <% end %>
       <% end %>
       <% object.images.each do |image| %>
-          <div class="polaroid-pic w-40 md:w-56 lg:w-80"><%= image_tag image.strip, width: "auto"%><p>.</p></div>
+          <div class="polaroid-pic w-40 md:w-56 lg:w-75 lg:h-56"><%= image_tag image.strip,  width: 'auto'%><p>.</p></div>
       <% end %>
     </div>
     <div class="polaroid-light"></div>

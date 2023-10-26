@@ -17,6 +17,8 @@ class ProgramDashboard < Administrate::BaseDashboard
       searchable_fields: ['name'],
     ),
     calendar_url: Field::String,
+    circuit: Field::String,
+    ig_handle: Field::String,
     year_established: Field::Date,
     main_gallery_image_url: Field::String,
     image_gallery_urls: Field::String,
@@ -45,7 +47,9 @@ class ProgramDashboard < Administrate::BaseDashboard
     id
     school
     name
+    ig_handle
     short_name
+    circuit
     hero_title
     description
     detailed_description
@@ -64,7 +68,9 @@ class ProgramDashboard < Administrate::BaseDashboard
     school
     description
     name
+    ig_handle
     short_name
+    circuit
     year_established
     hero_title
     detailed_description

@@ -25,7 +25,9 @@ Rails.application.routes.draw do
   # School routes for each school
   resources :schools
 
-  resources :amazon_pdfs, path: 'pdfs'
+  resources :amazon_pdfs, path: 'pdfs' do
+    get :student_forms, on: :collection
+  end
 
   resources :fundraisers
 

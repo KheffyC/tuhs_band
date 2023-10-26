@@ -17,6 +17,9 @@ class SchoolDashboard < Administrate::BaseDashboard
     percussion_director_phone: Field::String,
     percussion_director_email: Field::String,
     default_image: Field::String,
+    performance_absence_form: Field::String,
+    rehearsal_absence_form: Field::String,
+    handbook_contract_form: Field::String,
     city: Field::String,
     state: Field::String,
     district: Field::BelongsTo,
@@ -70,6 +73,9 @@ class SchoolDashboard < Administrate::BaseDashboard
     programs
     boosters
     calendar_url
+    performance_absence_form
+    rehearsal_absence_form
+    handbook_contract_form
     created_at
     updated_at
   ].freeze
@@ -96,6 +102,9 @@ class SchoolDashboard < Administrate::BaseDashboard
     home_page_image_urls
     call_to_action
     contact_us
+    performance_absence_form
+    rehearsal_absence_form
+    handbook_contract_form
     programs
     calendar_url
   ].freeze

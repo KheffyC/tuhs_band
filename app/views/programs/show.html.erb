@@ -27,6 +27,7 @@
         <% @program.amazon_pdfs.each do |pdf| %>
           <div class="py-4 my-4 h-full flex flex-col w-full flex-wrap">
             <div class="w-7/8 px-2 m-4"><%= link_to pdf.name, pdf&.url, target: '_blank', class: 'block bg-red-900 border border-solid border-white rounded p-4 text-xl hover:bg-yellow-600 hover:text-white text-center' %></div>
+            <%= link_to "Delete #{pdf.name}", amazon_pdf_path(pdf.id), data:{turbo_method: :delete, turbo_confirm: 'are you sure?'}, class: 'border border-solid border-white mx-auto text-center block p-2 rounded hover:bg-blue-800'%>
           </div>
         <% end %>
     </div>
@@ -39,8 +40,8 @@
   <% end %>
 </div>
 <div class="min-h-[30vh] container mx-auto flex flex-col text-white">
-  <div class="mx-auto font-bold text-md lg:text-xl my-6 ">Follow the <%= @program.short_name %> - @tuhsinstrumentalmusic  </div>
+  <div class="mx-auto font-bold text-md lg:text-xl my-6 ">Follow the <%= @program.short_name %> - <%= @program.ig_handle || '@tuhsinstrumentalmusic' %>  </div>
   <div class="mx-auto font-bold text-md lg:text-xl my-6 ">or</div>
-  <div class="mx-auto font-bold text-md lg:text-xl my-6 ">Follow us around the Central Valley as we compete in @SVWAA</div>
+  <div class="mx-auto font-bold text-md lg:text-xl my-6 ">Follow us around the Central Valley as we compete in <%= @program.circuit %></div>
 </div>
 
