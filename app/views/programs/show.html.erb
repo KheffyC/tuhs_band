@@ -27,7 +27,9 @@
         <% @program.amazon_pdfs.each do |pdf| %>
           <div class="py-4 my-4 h-full flex flex-col w-full flex-wrap">
             <div class="w-7/8 px-2 m-4"><%= link_to pdf.name, pdf&.url, target: '_blank', class: 'block bg-red-900 border border-solid border-white rounded p-4 text-xl hover:bg-yellow-600 hover:text-white text-center' %></div>
-            <%= link_to "Delete #{pdf.name}", amazon_pdf_path(pdf.id), data:{turbo_method: :delete, turbo_confirm: 'are you sure?'}, class: 'border border-solid border-white mx-auto text-center block p-2 rounded hover:bg-blue-800'%>
+            <%= if current_director.present? %>
+              <%= link_to "Delete #{pdf.name}", amazon_pdf_path(pdf.id), data:{turbo_method: :delete, turbo_confirm: 'are you sure?'}, class: 'border border-solid border-white mx-auto text-center block p-2 rounded hover:bg-blue-800'%>
+            <% end %>
           </div>
         <% end %>
     </div>
