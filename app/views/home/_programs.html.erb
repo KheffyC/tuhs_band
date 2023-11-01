@@ -3,8 +3,8 @@
     <div class="flex flex-wrap flex-row lg:flex-row justify-center my-6">
       <%  programs.each do |program|%>
         <%= link_to program_path(program.id) do %>
-          <div class="hover:cursor-pointer w-full md:max-w-sm md:max-w-[30vw] m-1 h-96 bg-black relative rounded-md hover:scale-{103} hover:pointer shadow-lg shadow-red-500/40 hover:shadow-white/40 outline outline-gray-800">
-            <%= image_tag program.main_gallery_image_url.strip, class: 'object-scale-down w-fit h-full'%>
+          <div class="hover:cursor-pointer w-full md:max-w-sm md:max-w-[30vw] m-2 h-96 bg-black relative rounded-md hover:scale-{103} hover:pointer shadow-lg shadow-red-500/40 hover:shadow-white/40 outline outline-gray-800">
+            <%= image_tag (program.main_gallery_image_url&.strip || @school.default_image), class: 'object-scale-down w-fit h-full' %>
             <div class=" inline-block outline outline-gray-300 text-left m-1 absolute bottom-0 text-sm left-0 h-auto z-10 max-w-prose p-[17px]" style="background: rgba(0,0,0,.65);">
               <h5 class="uppercase text-white  text-l m-auto"><%= program.description %></h5>
               <p class="text-white"><%= program.hero_title %></p>
@@ -12,17 +12,7 @@
           </div>
         <% end %>
       <% end %>
-      <% if programs.count < 8 %>
-        <% (8 - programs.count).times do %>
-        <div class="w-full md:max-w-sm md:max-w-[30vw] h-96 bg-black m-2 relative rounded-md hover:scale-102 hover:pointer shadow-lg  shadow-red-500/40 hover:shadow-white/40 outline outline-gray-800">
-          <%= image_tag @school.default_image, class: 'object-scale-down w-fit h-full' %>
-          <div class=" inline-block outline outline-gray-300 text-left absolute bottom-0 text-sm left-0 h-auto z-10 max-w-prose p-[17px]" style="background: rgba(0,0,0,.65);">
-            <h5 class="uppercase text-white  text-l m-auto">Coming Soon </h5>
-            <p class="text-white">Home of the Tribe</p>
-          </div>          
-        </div>
-        <% end %>
-      <% end %>
+      
     </div>
   <% else %>
     <h6 class="font-bold m-5 text-2xl text-white">Programs coming soon! </h6>

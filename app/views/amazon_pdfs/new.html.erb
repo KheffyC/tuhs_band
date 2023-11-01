@@ -1,23 +1,36 @@
-<div class="min-h-screen">
-  <h3 class="text-3xl  text-white container m-auto mt-6">Upload PDF</h3>
-  <%= simple_form_for @amazon_pdf, url: amazon_pdfs_path, method: :post, html: { class: "mt-6 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 container mx-auto", autocomplete: 'off' } do |form| %>
+<div class="min-h-screen " x-data="{
+                                      show_date: false,
+                                    }">
+  <h3 class="text-3xl font-bold text-white container mx-auto mt-6">Upload PDF</h3>
+  <%= simple_form_for @amazon_pdf, url: amazon_pdfs_path, method: :post, html: { class: "mt-6 border-white border shadow-md rounded px-8 pt-6 pb-8 mb-4 container mx-auto text-white", autocomplete: 'off' } do |form| %>
     <div class="mb-4 flex">
-      <%= form.file_field :pdf, input_html: {class: "shadow appearance-none border rounded w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"} %>
+      <%= form.file_field :pdf, input_html: {class: "shadow appearance-none border rounded w-1/3 py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"} %>
     </div>
     <div class="mb-4 flex flex-wrap">
       <div class="mr-2">
-        <%= form.label :name, 'PDF Name', class: "block text-gray-700 font-bold mb-2" %>
-        <%= form.input :name, label: false, error: false, input_html:{class: "shadow appearance-none border w-full rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"} %>
+        <%= form.label :name, 'PDF Name', class: "block text-white font-bold mb-2" %>
+        <%= form.input :name, label: false, error: false, input_html:{class: "shadow appearance-none border w-full rounded py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"} %>
         <%= form.error :name, class: 'text-red-800 duration-1000' %>
       </div>
-      <div class="mb-4">
-        <%= form.label :programs, 'Who is this PDF for?', class: "block text-gray-700 font-bold mb-2" %>
-        <%= form.collection_select :program_id, @school.programs.all.order(:name), :id, :short_name, include_blank: '--All Programs--', label: false, style: 'border: 1px solid' %>
+      <div class="mb-4 text-black">
+        <%= form.label :programs, 'Who is this PDF for?', class: "block text-white font-bold mb-2" %>
+        <%= form.collection_select :program_id, @school.programs.all.order(:name), :id, :short_name, include_blank: '--All Programs--', label: false, class: 'text-black', style: 'border: 1px solid; color: black' %>
       </div>
     </div>
-    <div class="mb-4">
-      <%= form.label :programs, 'What type of PDF?', class: "block text-gray-700 font-bold mb-2" %>
-      <%= form.input :type_of_pdf_group, collection: ['Itinerary', 'Syllabus', 'Student Forms', 'Department Handbook', '3rd Party Transportation', 'Other'], include_blank: '---- None Selected ---', label: false, input_html: {class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"} %>
+    <div class="mb-4 text-black">
+      <%= form.label :programs, 'What type of PDF?', class: "block text-white font-bold mb-2" %>
+      <%= form.input :type_of_pdf_group, collection: ['Itinerary', 'Syllabus', 'Student Forms', 'Department Handbook', '3rd Party Transportation', 'Other'], include_blank: '---- None Selected ---', label: false, input_html: {class: "shadow appearance-none border rounded w-full lg:w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"} %>
+    </div>
+    <div class="flex flex-wrap mr-2">
+      <div class="my-2" >
+        <button @click.prevent="show_date = !show_date" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 mb-4 rounded focus:outline-none focus:shadow-outline mr-2">Add Event Date</button>
+      </div>
+    </div>
+    <div class="flex flex-wrap mb-4">
+      <div class="mr-4 text-black" x-show="show_date" x-cloak >
+        <%= form.label :event_date, 'Event Date', class: "block text-white font-bold mb-2" %>
+        <%= form.date_field :event_date, label: false, wrapper_html: { id: 'amazon_pdf_event_date' }, input_html: {class: "shadow border rounded py-2 px-3 min-w-[8rem] text-gray-700 leading-tight focus:outline-none focus:shadow-outline"} %>
+      </div>
     </div>
     
     <div class="flex items-center justify-between">
@@ -29,6 +42,10 @@
 <style>
   #amazon_pdf_program_id{
     border-radius: 0.25rem !important;
+  },
 
+  #amazon_pdf_event_date{
+    display: flex !important;
+    width: 100%;
   }
 </style>

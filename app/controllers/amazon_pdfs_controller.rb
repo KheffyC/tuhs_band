@@ -3,7 +3,7 @@ class AmazonPdfsController < ApplicationController
   before_action :set_amazon_pdf , only: [:show, :edit, :update, :destroy]
 
   def index
-    @amazon_pdfs = AmazonPdf.programless.order(name: :desc)
+    @amazon_pdfs = AmazonPdf.programless.order(type_of_pdf_group: :desc)
   end
 
   def student_forms
@@ -15,13 +15,28 @@ class AmazonPdfsController < ApplicationController
     @amazon_pdf = AmazonPdf.new
   end
 
+  def edit; end
+
+  def update
+    if @amazon_pdf
+      @amazon_pdf.update(amazon_pdf_params)
+      flash[:notice] = "PDF was successfully updated."
+    else
+      flash[:alert] = "PDF could not be updated."
+    end
+
+    redirect_to action: :index
+  end
+
   def create
+    ap amazon_pdf_params
     @amazon_pdf = AmazonPdf.new.tap do |amazon_pdf|
       amazon_pdf.name = amazon_pdf_params[:name]
       amazon_pdf.type_of_pdf_group = amazon_pdf_params[:type_of_pdf_group]
       amazon_pdf.pdf.attach(amazon_pdf_params[:pdf])
       amazon_pdf.program = Program.find(amazon_pdf_params[:program_id]) if amazon_pdf_params[:program_id].present?
       amazon_pdf.director = current_director
+      amazon_pdf.event_date = amazon_pdf_params[:event_date] if amazon_pdf_params[:event_date].present?
     end
 
     if @amazon_pdf.save
@@ -48,6 +63,10 @@ class AmazonPdfsController < ApplicationController
   end
 
   private
+
+  def parse_datetime(date)
+    DateTime.strptime(date, '%m/%d/%Y %I:%M %p')
+  end
 
   def set_amazon_pdf
     @amazon_pdf = AmazonPdf.find(params[:id])

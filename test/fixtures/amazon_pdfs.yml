@@ -3,6 +3,7 @@
 # Table name: amazon_pdfs
 #
 #  id                :bigint           not null, primary key
+#  event_date        :date
 #  name              :string
 #  type_of_pdf_group :string
 #  created_at        :datetime         not null

@@ -55,6 +55,8 @@ gem 'devise', '~> 4.9', '>= 4.9.2'
 
 gem 'dotenv-rails' 
 
+gem 'awesome_print'
+
 # Use Sass to process CSS
 # gem "sassc-rails"
 

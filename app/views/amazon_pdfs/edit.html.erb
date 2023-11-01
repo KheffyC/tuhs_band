@@ -1,0 +1,16 @@
+<div class="container x py-2 my-6 min-h-screen text-center mx-auto px-4">
+  <h1 class="text-3xl font-bold mb-4 text-white">Edit - <span class="text-cyan-500"><%= @amazon_pdf.name %></span> PDF</h1>
+
+  <%= simple_form_for @amazon_pdf do |f| %>
+    <div class="flex flex-col mb-4 text-white">
+        <%= f.input :name, label: false, error: false, input_html:{ autocomplete: 'off', class: "shadow appearance-none border w-full lg:w-1/3 rounded py-2 px-3my-2  text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-center"} %>
+        <%= f.input :type_of_pdf_group, collection: ['Itinerary', 'Syllabus', 'Student Forms', 'Department Handbook', '3rd Party Transportation', 'Other'], include_blank: '---- None Selected ---', label: false, input_html: {class: " text-center my-2 shadow appearance-none border rounded w-full lg:w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"} %>
+        <%= f.date_field :event_date, label: false, class: ' text-black lg:w-1/3 w-full text-center mx-auto' %>
+    </div>
+
+    <div class="flex justify-center text-white">
+      <%= link_to 'Back', amazon_pdfs_path, class: "bg-gray-500 mr-2 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" %>
+      <%= f.button :submit, "Update PDF", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+    </div>
+  <% end %>
+</div>
