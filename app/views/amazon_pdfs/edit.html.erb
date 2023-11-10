@@ -4,7 +4,7 @@
   <%= simple_form_for @amazon_pdf do |f| %>
     <div class="flex flex-col mb-4 text-white">
         <%= f.input :name, label: false, error: false, input_html:{ autocomplete: 'off', class: "shadow appearance-none border w-full lg:w-1/3 rounded py-2 px-3my-2  text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-center"} %>
-        <%= f.input :type_of_pdf_group, collection: ['Itinerary', 'Syllabus', 'Student Forms', 'Department Handbook', '3rd Party Transportation', 'Other'], include_blank: '---- None Selected ---', label: false, input_html: {class: " text-center my-2 shadow appearance-none border rounded w-full lg:w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"} %>
+        <%= f.input :type_of_pdf_group, collection: ['Itinerary', 'Syllabus', 'Student Forms', 'Department Handbook', '3rd Party Transportation', 'Schedules', 'Other'], include_blank: '---- None Selected ---', label: false, input_html: {class: " text-center my-2 shadow appearance-none border rounded w-full lg:w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"} %>
         <%= f.date_field :event_date, label: false, class: ' text-black lg:w-1/3 w-full text-center mx-auto' %>
     </div>
 
