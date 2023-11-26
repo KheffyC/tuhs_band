@@ -1,5 +1,6 @@
 class ContactsController < ApplicationController
   before_action :set_boosters
+  invisible_captcha only: [:create]
 
   def index; end
 
