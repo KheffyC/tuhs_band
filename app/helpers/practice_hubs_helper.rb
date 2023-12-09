@@ -1,0 +1,2 @@
+module PracticeHubsHelper
+end
