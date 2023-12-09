@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'practice_hubs/index'
   devise_for :directors
 
   #  Home Page Route
@@ -30,6 +31,8 @@ Rails.application.routes.draw do
   end
 
   resources :fundraisers
+
+  resources :practice_hubs
 
   # Booster routes for each booster
   # resources :boosters
