@@ -1,0 +1,33 @@
+<div class="bg-black min-h-[52vh] lg:h-[40vh] flex flex-col-reverse items-center justify-evenly" style="margin: 3vh 0 0 0 ">
+  <div class="w-full z-10 h-50 my-6 bg-red-700 outline backdrop-blur-sm outline-red-700 md:outline-offset-4 bg-opacity-75  md:w-3/5 lg:w-[35vw] text-center ">
+      <h5 class="p-4 tracking-tight md:tracking-wide font-bold text-white text-5xl">
+        Sponsor our band!
+      </h5>
+      <p class="p-4 tracking-tight md:tracking-wide font-light text-white text-2xl">
+        Your donation helps in every way
+      </p>
+  </div>
+</div>
+<div class="text-center mb-6 mt-[-10vh] text-white items-center container mx-auto min-h-screen">
+  <div>
+    <p class="text-xl mb-8 text-white">
+      In order to keep our commitment to excellence, the Tulare Union Band works to raise funds to cover all necessary expenses including transportation to sporting events and competitions, uniform purchase and upkeep, instruments, repairs, and instructional programs for the students, and more.
+      We are looking for partners to support our Band Program. Will you consider making a donation to support this vital endeavor?
+    </p>
+  </div>
+  <hr/>
+  <div class="my-4 rounded-2xl">
+    <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
+    <stripe-pricing-table pricing-table-id="<%= ENV['STRIPE_PID'] %>" publishable-key="<%= ENV['STRIPE_PK'] %>"></stripe-pricing-table>
+  </div>
+  <hr/>
+  <div>
+    <p class="text-xl my-8 text-white">
+      If you would like to make a donation of a different amount, please use the button below.
+    </p>
+    <div class="mt-4">
+      <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+      <stripe-buy-button buy-button-id="<%= ENV['STRIPE_BID'] %>" publishable-key="<%= ENV['STRIPE_PK'] %>"></stripe-buy-button>
+    </div>
+  </div>
+</div>

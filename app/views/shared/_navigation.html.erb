@@ -2,7 +2,7 @@
 	<nav class="lg:relative h-18 top-0 lg:z-0 w-full p-4 flex justify-between items-center" style="background: radial-gradient(circle at 50% 50%, rgba(128, 0, 0, 1) 43%, rgba(167, 0, 0, 1) 72%)">
 		<%= link_to 'Tulare Union Music', root_path, class: "text-2xl font-bold text-white leading-none flex items-center" %>
 		<div class="2x-lg:hidden x-lg:hidden lg:hidden">
-			<button @click="toggle()" class="navbar-burger flex items-center text-blue-600 p-3">
+			<button @click="toggle()" @touchend="toggle()" class="navbar-burger flex items-center text-blue-600 p-3">
 				<svg class="block h-6 w-4 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
 					<title>Mobile menu</title>
 					<path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
@@ -25,14 +25,14 @@
 			<li><%= link_to 'Contact', contacts_path, class: " text-white hover:text-gray-500 " %></li>
 		</ul>
 		<%= link_to 'CHARMS LOGIN', "https://www.charmsoffice.com/public/parents.asp", target: '_blank', class: "hidden lg:inline-block lg:ml-auto py-2 px-6 outline text-sm outline-white hover:bg-white hover:text-black text-gray-300 font-bold  transition duration-200" %>
-		<%= link_to 'DONATE', fundraisers_path, class: "hidden lg:inline-block py-2 px-6 mx-4 hover:bg-blue-600 outline text-sm outline-white text-white font-bold transition duration-200" %>
+		<%= link_to 'DONATE', donations_path, class: "hidden lg:inline-block py-2 px-6 mx-4 hover:bg-blue-600 outline text-sm outline-white text-white font-bold transition duration-200" %>
 	</nav>
 	<div id="navbar-menu" class="navbar-menu relative z-50 hidden">
-		<div @click="toggle()" class="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"></div>
+		<div @click="toggle()" @touchend="toggle()" class="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"></div>
 		<nav class="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white border-r overflow-y-auto" style="background: linear-gradient(0deg, rgba(30, 4, 4, 1) 21%, rgba(167, 0, 0, 1) 89%);">
 			<div class="flex justify-between items-center mb-4" >
 				<%= link_to 'Tulare Union Music', root_path, class: 'text-2xl text-white font-bold leading-none flex items-center'%>
-				<button @click="toggle()" class="navbar-close">X</button>
+				<button @click="toggle()" @touchend="toggle()" class="navbar-close">X</button>
 			</div>
 			<hr class="text-black" />
 			<div>
@@ -45,7 +45,7 @@
 				</ul>
 				<div class="pt-6">
 					<%= link_to 'CHARMS LOGIN', "https://www.charmsoffice.com/public/parents.asp", target: '_blank', class: "block px-4 py-3 mb-3 leading-loose text-sm text-center font-semibold bg-gray-50 hover:bg-blue-600 outline outline-white rounded-xl"%>
-					<%= link_to 'DONATE', fundraisers_path, class: "block px-4 py-3 mb-3 leading-loose text-sm text-center font-semibold bg-gray-50 hover:bg-blue-600 outline outline-white rounded-xl"%>
+					<%= link_to 'DONATE', donations_path, class: "block px-4 py-3 mb-3 leading-loose text-sm text-center font-semibold bg-gray-50 hover:bg-blue-600 outline outline-white rounded-xl"%>
 				</div>
 			</div>
 			<div class="mt-auto">

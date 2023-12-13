@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'donations/index'
+  get 'donations/payment_confirmation'
   get 'practice_hubs/index'
   devise_for :directors
 
@@ -31,6 +33,9 @@ Rails.application.routes.draw do
   end
 
   resources :fundraisers
+  resources :donations do
+    get :payment_confirmation, on: :collection, path: '/payment_confirmation/:id'
+  end
 
   resources :practice_hubs
 
@@ -39,6 +44,4 @@ Rails.application.routes.draw do
 
   # Contact routes for each contact
   resources :contacts
-
-
 end
