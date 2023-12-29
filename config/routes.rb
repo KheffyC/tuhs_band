@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-  get 'donations/index'
-  get 'donations/payment_confirmation'
-  get 'practice_hubs/index'
   devise_for :directors
 
   #  Home Page Route
@@ -21,6 +18,17 @@ Rails.application.routes.draw do
     root to: "schools#index"
   end
 
+  namespace :practice_hub do
+    resources :programs do
+      resources :sections do
+        get :new_collection, on: :member
+        post :create_collection, on: :member
+
+        resources :collections, only: [:show, :edit, :update, :destroy]
+      end
+    end
+  end
+
 
   # Program Routes for each program at each school
   resources :programs
@@ -36,8 +44,6 @@ Rails.application.routes.draw do
   resources :donations do
     get :payment_confirmation, on: :collection, path: '/payment_confirmation/:id'
   end
-
-  resources :practice_hubs
 
   # Booster routes for each booster
   # resources :boosters

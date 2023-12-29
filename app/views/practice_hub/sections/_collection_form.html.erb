@@ -1,0 +1,10 @@
+<div class="mb-12 w-full mx-auto shrink-0 grow-0 basis-auto md:px-3 lg:mb-0 lg:w-5/12 lg:px-6">
+  <%= simple_form_for collection, url: create_collection_practice_hub_program_section_path, data:{ turbo: 'false' }, method: :post do |form| %>
+    <%= invisible_captcha %>
+  
+    <div class="relative mb-6">
+      <%= form.input :title, label: 'Collection Name', placeholder: 'Collection Name', input_html:{ autocomplete: 'off', class: "block min-h-[auto] w-full rounded border border-white bg-transparent py-[0.32rem] px-3 leading-[1.6] outline-none transition-all duration-200 ease-linear "}%>
+    </div>
+    <%= form.button :submit, '+ Add Collection Now', class: "hover:cursor-pointer mb-6 inline-block w-full rounded  border border-white px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] lg:mb-0"%>
+  <% end %>
+</div>
