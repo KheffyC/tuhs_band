@@ -24,9 +24,15 @@ Rails.application.routes.draw do
         get :new_collection, on: :member
         post :create_collection, on: :member
 
-        resources :collections, only: [:show, :edit, :update, :destroy]
+        resources :collections, except: [:index, :create] do
+          get :new_music, on: :member
+          post :create_music, on: :member
+          get :view_music, on: :member, path: '/view_music/:sheet_id'
+        end
       end
     end
+
+
   end
 
 

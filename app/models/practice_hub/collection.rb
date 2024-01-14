@@ -16,8 +16,11 @@
 #
 #  fk_rails_...  (section_id => practice_hub_sections.id)
 #
-class PracticeHub::Collection < ApplicationRecord
-  belongs_to :section, class_name: 'PracticeHub::Section', inverse_of: :collections
+module PracticeHub
+  class Collection < ApplicationRecord
+    belongs_to :section, class_name: 'PracticeHub::Section', inverse_of: :collections
+    has_many :music_sheets, class_name: 'PracticeHub::MusicSheet', inverse_of: :collection, dependent: :destroy
 
-  validates :title, presence: true
+    validates :title, presence: true
+  end
 end

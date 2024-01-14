@@ -16,7 +16,6 @@
 #
 #  fk_rails_...  (section_id => practice_hub_sections.id)
 #
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
   title: MyString

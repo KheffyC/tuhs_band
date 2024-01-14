@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_29_030453) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_14_015337) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -123,6 +123,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_29_030453) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["section_id"], name: "index_practice_hub_collections_on_section_id"
+  end
+
+  create_table "practice_hub_music_sheets", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.string "flat_file_id"
+    t.string "flat_file_link"
+    t.string "s3_link"
+    t.bigint "collection_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["collection_id"], name: "index_practice_hub_music_sheets_on_collection_id"
   end
 
   create_table "practice_hub_sections", force: :cascade do |t|
