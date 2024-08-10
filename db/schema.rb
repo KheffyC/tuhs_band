@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_14_015337) do
+ActiveRecord::Schema[7.0].define(version: 2024_08_10_020149) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -162,6 +162,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_14_015337) do
     t.string "calendar_url"
     t.string "circuit", limit: 50
     t.string "ig_handle", limit: 50
+    t.integer "period", default: 0
     t.index ["name"], name: "index_programs_on_name"
     t.index ["school_id"], name: "index_programs_on_school_id"
   end

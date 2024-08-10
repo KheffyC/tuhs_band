@@ -1,4 +1,17 @@
-<h2 class="my-6 text-2xl text-white text-center"><%= @sheet.title %></h2>
-<div class="container mx-auto min-h-[80vh]">
-  <iframe src=<%= @sheet.flat_file_link %> height="450" width="100%" frameBorder="0" allowfullscreen allow="autoplay; midi"></iframe>
+<div class="min-h-[80vh]">
+  <div class="mt-6">
+    <%= link_to "Back to Music Collection" , practice_hub_program_section_collection_path(@collection.id), class: "mx-4 shadow-lg shadow-yellow-500/40 hover:shadow-white/40 border-yellow-900 border-[.9px] text-white px-6 py-2 my-8 rounded-md" %>
+    <h2 class="mt-6 mb-4 text-2xl text-white text-center"><%= @sheet.title %></h2>
+  </div>
+  <h2 class="my-2 text-lg text-gray-500 text-center"><%= @sheet.description %></h2>
+  <div class="text-white w-[70vw] text-center mx-auto my-6 p-4" style="display: flex; height: 100vh; flex-direction: column">
+    <%= link_to 'PDF Download', create_music_practice_hub_program_section_collection_path, class: 'mx-4 shadow-lg shadow-yellow-500/40 hover:shadow-white/40 border-yellow-900 border-[.9px] text-white px-6 py-2 my-8 rounded-md'%>
+    <hr/>
+    <div class="container my-6 mx-auto min-h-[80vh]">
+      
+      <h2 class="my-6 text-xl text-white text-center">Play along to the music!</h2>
+      <iframe src=<%= @sheet.flat_file_link %> height="600" width="100%" frameBorder="0" allowfullscreen allow="autoplay; midi"></iframe>
+    </div>
+    <%= link_to "X Delete #{@sheet.title}", destroy_music_practice_hub_program_section_collection_path(sheet_id: @sheet.id), data: { turbo_method: :delete }, class: "mx-4 shadow-lg shadow-yellow-500/40 hover:shadow-white/40 border-yellow-900 border-[.9px] text-white px-6 py-2 my-8 rounded-md "%>
+  </div>
 </div>

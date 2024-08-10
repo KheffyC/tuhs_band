@@ -20,7 +20,7 @@ module PracticeHub
   class MusicSheet < ApplicationRecord
     belongs_to :collection, class_name: 'PracticeHub::Collection', inverse_of: :music_sheets
     has_one :section, through: :collection
-    has_one :amazon_pdf, as: :pdf, dependent: :destroy
+
 
     validates :title, presence: true
   end

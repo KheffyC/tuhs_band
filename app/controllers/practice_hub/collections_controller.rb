@@ -1,7 +1,7 @@
 module PracticeHub
   class CollectionsController < PracticeHub::ApplicationController
     before_action :set_program
-    before_action :set_collection, only: [:show, :new_music, :create_music, :view_music]
+    before_action :set_collection, only: [:show, :new_music, :create_music, :view_music, :destroy_music]
 
     def show
     end
@@ -13,6 +13,13 @@ module PracticeHub
 
     def create_music
       @music = @collection.music_sheets.new(music_params)
+      flat_file_link = music_params[:flat_file_link]
+
+      if flat_file_link.present?
+        flat_file_link.gsub!('https://flat.io/score/', 'https://flat.io/embed/')
+        flat_file_link.gsub!('?', "?appId=#{ENV['FLAT_APP_ID']}&")
+        @music.flat_file_link = flat_file_link
+      end
 
       if @music.save
         redirect_to action: :show
@@ -23,6 +30,14 @@ module PracticeHub
 
     def view_music
       @sheet = @collection.music_sheets.find(params[:sheet_id])
+    end
+
+    def destroy_music
+      @sheet = @collection.music_sheets.find(params[:sheet_id])
+      @sheet.destroy if @sheet.present?
+
+      flash[:notice] = 'Music Sheet Deleted' if @sheet.destroyed?
+      redirect_to action: :show
     end
 
 

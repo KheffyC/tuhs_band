@@ -13,6 +13,7 @@
 #  image_gallery_urls     :string
 #  main_gallery_image_url :string
 #  name                   :string(100)      not null
+#  period                 :integer          default(0)
 #  short_name             :string
 #  year_established       :date
 #  created_at             :datetime         not null

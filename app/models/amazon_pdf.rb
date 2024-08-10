@@ -22,10 +22,11 @@
 #  fk_rails_...  (program_id => programs.id)
 #
 class AmazonPdf < ApplicationRecord
-  has_one_attached :pdf
+  has_one_attached :pdf, dependent: :destroy
 
   belongs_to :director, optional: true
   belongs_to :program, optional: true
+  belongs_to :music_sheet, optional: true
 
   validates :name, presence: { message: 'Please enter a name for the PDF' }
   validates :pdf, presence: true

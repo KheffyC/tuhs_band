@@ -28,6 +28,7 @@ Rails.application.routes.draw do
           get :new_music, on: :member
           post :create_music, on: :member
           get :view_music, on: :member, path: '/view_music/:sheet_id'
+          delete :destroy_music, on: :member, path: '/destroy_music/:sheet_id'
         end
       end
     end

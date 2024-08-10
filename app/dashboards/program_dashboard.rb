@@ -17,6 +17,7 @@ class ProgramDashboard < Administrate::BaseDashboard
       searchable_fields: ['name'],
     ),
     calendar_url: Field::String,
+    period: Field::Number,
     circuit: Field::String,
     ig_handle: Field::String,
     year_established: Field::Date,
@@ -39,6 +40,7 @@ class ProgramDashboard < Administrate::BaseDashboard
     description
     name
     school
+    period
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -49,6 +51,7 @@ class ProgramDashboard < Administrate::BaseDashboard
     name
     ig_handle
     short_name
+    period
     circuit
     hero_title
     description
@@ -70,6 +73,7 @@ class ProgramDashboard < Administrate::BaseDashboard
     name
     ig_handle
     short_name
+    period
     circuit
     year_established
     hero_title
