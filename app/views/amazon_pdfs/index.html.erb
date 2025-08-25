@@ -3,7 +3,7 @@
   <%= link_to 'View Student Forms', student_forms_amazon_pdfs_path, class: 'block border-yellow-600 border border-solid text-white rounded p-4 my-4 text-xl hover:border-yellow-800 hover:bg-yellow-700 hover:text-black text-center'%>
   <% if @amazon_pdfs.present? %>
     <div class="flex flex-wrap flex-col xl:flex-row xl:justify-center ">
-      <% @amazon_pdfs.order(:event_date).group_by{|g| g.type_of_pdf_group }.each do |group, pdfs| %>
+      <% @ordered_pdfs.each do |group, pdfs| %>
         <div class="p-4 rounded my-4 mx-2 w-full xl:w-[30vw]">
           <div class="text-4xl text-yellow-300 text-center  "><%= group.upcase %></div>
           <div class="flex flex-wrap flex-row items-center text-center justify-around">
