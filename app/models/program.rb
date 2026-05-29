@@ -14,6 +14,7 @@
 #  main_gallery_image_url :string
 #  name                   :string(100)      not null
 #  period                 :integer          default(0)
+#  program_support_text   :text
 #  short_name             :string
 #  year_established       :date
 #  created_at             :datetime         not null

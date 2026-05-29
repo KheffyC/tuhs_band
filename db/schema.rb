@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_05_29_120000) do
+ActiveRecord::Schema[7.0].define(version: 2026_05_29_120001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -134,6 +134,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_05_29_120000) do
     t.string "circuit", limit: 50
     t.string "ig_handle", limit: 50
     t.integer "period", default: 0
+    t.text "program_support_text"
     t.index ["name"], name: "index_programs_on_name"
     t.index ["school_id"], name: "index_programs_on_school_id"
   end

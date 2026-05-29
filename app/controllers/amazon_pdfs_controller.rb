@@ -16,6 +16,8 @@ class AmazonPdfsController < ApplicationController
   def new
     @amazon_pdfs = AmazonPdf.all
     @amazon_pdf = AmazonPdf.new
+    # When a program page links here, keep that program preselected for faster uploads.
+    @amazon_pdf.program_id = params[:program_id] if params[:program_id].present?
   end
 
   def edit; end
@@ -43,7 +45,10 @@ class AmazonPdfsController < ApplicationController
     end
 
     if @amazon_pdf.save
-      redirect_to amazon_pdfs_path
+      # Program-page inline uploads send a return_to path; the regular PDFs page falls back here.
+      redirect_path = amazon_pdf_params[:return_to].presence
+      target_path = redirect_path&.start_with?('/') ? redirect_path : amazon_pdfs_path
+      redirect_to(target_path, notice: "PDF uploaded successfully.")
     else
       @amazon_pdf.errors.full_messages.each do |message|
         flash[:alert] = message
