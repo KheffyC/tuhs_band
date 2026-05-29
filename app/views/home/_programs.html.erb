@@ -1,4 +1,4 @@
-<section class="w-full bg-neutral-950 px-4 py-10 sm:px-6 sm:py-12 lg:px-8 lg:py-16">
+<section class="w-full bg-neutral-950 px-4 pt-16 pb-0 sm:px-6 sm:pt-20 sm:pb-0 lg:px-8 lg:pt-24 lg:pb-0">
   <% if programs.present? %>
     <div class="mx-auto mb-6 w-[94%] text-center sm:mb-8 sm:w-[90%] lg:w-[80%]">
       <h2 class="section-title text-white">Explore Our Programs</h2>
@@ -9,7 +9,7 @@
       <% programs.each do |program| %>
         <%= link_to program_path(program.id), class: 'group block' do %>
           <article class="relative overflow-hidden rounded-2xl bg-black shadow-[0_14px_30px_rgba(0,0,0,0.35)] transition duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_22px_45px_rgba(185,28,28,0.35)]">
-            <div class="h-[320px] w-full overflow-hidden sm:h-[380px] lg:h-[460px]">
+            <div class="h-[420px] w-full overflow-hidden sm:h-[380px] lg:h-[520px]">
               <%= image_tag(
                 (program.main_gallery_image_url&.strip.presence || @school.default_image),
                 class: 'h-full w-full object-cover transition duration-500 group-hover:scale-105'
