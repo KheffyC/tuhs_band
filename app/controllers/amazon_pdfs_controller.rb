@@ -5,6 +5,12 @@ class AmazonPdfsController < ApplicationController
   def index
     @amazon_pdfs = AmazonPdf.programless.order(type_of_pdf_group: :desc)
     group_order = ['Itinerary','Schedules', 'Syllabus']
+    @selected_group = params[:group].presence
+
+    if @selected_group.present?
+      @amazon_pdfs = @amazon_pdfs.where(type_of_pdf_group: @selected_group)
+    end
+
     @grouped_amazon_pdfs = @amazon_pdfs.order(:event_date).group_by { |pdf| pdf.type_of_pdf_group }
     @ordered_pdfs = @grouped_amazon_pdfs.sort_by { |group_name, pdfs| group_order.index(group_name) || 999 }
   end
