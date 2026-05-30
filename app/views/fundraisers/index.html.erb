@@ -1,10 +1,104 @@
-<!-- FILEPATH: /workspaces/tulare_union_music_dept/app/views/fundraisers/index.html.erb -->
+<div class="min-h-screen px-4 py-8 md:py-12">
+  <div class="mx-auto w-full max-w-6xl space-y-10">
 
-<div class="flex flex-col items-center justify-center h-screen ">
-  <h1 class="text-4xl font-bold mb-8 text-white">Coming Soon!</h1>
-  <p class="text-lg mb-8 text-white">We're working hard to bring you something amazing. Stay tuned!</p>
-  <div class="flex space-x-4">
-    <%= link_to "Home Page", home_index_path, class:"bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" %>
-    <%= link_to "Documents", amazon_pdfs_path, class:"bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" %>
+    <div class="space-y-3 text-center">
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-yellow-200">Fundraisers</h1>
+      <p class="mx-auto max-w-2xl text-sm md:text-base text-slate-200/90">
+        Support our programs — check out our current fundraisers below and share them with your community.
+      </p>
+      <% if current_director.present? %>
+        <div class="flex justify-center pt-1">
+          <%= link_to 'Add New Fundraiser', new_fundraiser_path, class: 'inline-flex items-center justify-center rounded-lg border border-yellow-400 bg-yellow-500/20 px-5 py-2.5 text-sm font-semibold text-yellow-100 shadow-lg shadow-yellow-500/20 transition hover:bg-yellow-400 hover:text-slate-900' %>
+        </div>
+      <% end %>
+    </div>
+
+    <% if @active_fundraisers.any? %>
+      <section class="space-y-5">
+        <h2 class="text-xl md:text-2xl font-bold tracking-tight text-yellow-300">Active Now</h2>
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <% @active_fundraisers.each do |fundraiser| %>
+            <article class="group flex flex-col overflow-hidden rounded-2xl border border-amber-300/35 bg-gradient-to-br from-amber-500/15 via-slate-900/80 to-slate-950/90 shadow-xl shadow-amber-500/20 ring-1 ring-amber-200/20 backdrop-blur-sm transition hover:ring-amber-300/50">
+              <% if fundraiser.flyer.attached? || fundraiser.main_image.present? %>
+                <div class="aspect-video w-full overflow-hidden bg-slate-800">
+                  <% if fundraiser.flyer.attached? %>
+                    <%= image_tag fundraiser.flyer, class: "h-full w-full object-cover transition group-hover:scale-105" %>
+                  <% else %>
+                    <img src="<%= fundraiser.main_image %>" alt="<%= fundraiser.title %>" class="h-full w-full object-cover transition group-hover:scale-105">
+                  <% end %>
+                </div>
+              <% end %>
+              <div class="flex flex-1 flex-col space-y-3 p-5">
+                <div class="flex items-start justify-between gap-2">
+                  <h3 class="text-lg font-bold text-white leading-tight"><%= fundraiser.title %></h3>
+                  <span class="shrink-0 rounded-full bg-emerald-500/20 px-2.5 py-0.5 text-xs font-semibold text-emerald-300 border border-emerald-400/30">Active</span>
+                </div>
+                <p class="text-xs text-amber-200/80 font-medium"><%= fundraiser.program.short_name.presence || fundraiser.program.name %></p>
+                <% if fundraiser.goal.present? %>
+                  <p class="text-sm text-slate-200/90">Goal: <span class="font-semibold text-yellow-200"><%= fundraiser.goal %></span></p>
+                <% end %>
+                <% if fundraiser.description.present? %>
+                  <p class="text-sm text-slate-300 line-clamp-3 flex-1"><%= fundraiser.description %></p>
+                <% end %>
+                <div class="flex flex-wrap items-center gap-3 pt-2">
+                  <%= link_to 'View Details', fundraiser_path(fundraiser), class: 'inline-flex items-center justify-center rounded-lg bg-amber-400 px-4 py-2 text-xs font-bold text-slate-900 transition hover:bg-amber-300' %>
+                  <% if current_director.present? %>
+                    <%= link_to 'Edit', edit_fundraiser_path(fundraiser), class: 'inline-flex items-center justify-center rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold text-white transition hover:bg-white/20' %>
+                    <%= link_to 'Delete', fundraiser_path(fundraiser), data: { turbo_method: :delete, turbo_confirm: "Remove #{fundraiser.title}?" }, class: 'inline-flex items-center justify-center rounded-lg bg-rose-600/70 px-4 py-2 text-xs font-bold text-white transition hover:bg-rose-500' %>
+                  <% end %>
+                </div>
+              </div>
+            </article>
+          <% end %>
+        </div>
+      </section>
+    <% end %>
+
+    <% if @past_fundraisers.any? %>
+      <section class="space-y-5">
+        <h2 class="text-xl md:text-2xl font-bold tracking-tight text-slate-300">Past Fundraisers</h2>
+        <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <% @past_fundraisers.each do |fundraiser| %>
+            <article class="group flex flex-col overflow-hidden rounded-2xl border border-white/15 bg-gradient-to-br from-slate-700/30 via-slate-900/80 to-slate-950/90 shadow-lg ring-1 ring-white/10 backdrop-blur-sm transition hover:ring-white/25 opacity-80">
+              <% if fundraiser.flyer.attached? || fundraiser.main_image.present? %>
+                <div class="aspect-video w-full overflow-hidden bg-slate-800 grayscale">
+                  <% if fundraiser.flyer.attached? %>
+                    <%= image_tag fundraiser.flyer, class: "h-full w-full object-cover" %>
+                  <% else %>
+                    <img src="<%= fundraiser.main_image %>" alt="<%= fundraiser.title %>" class="h-full w-full object-cover">
+                  <% end %>
+                </div>
+              <% end %>
+              <div class="flex flex-1 flex-col space-y-2 p-5">
+                <div class="flex items-start justify-between gap-2">
+                  <h3 class="text-base font-bold text-slate-200 leading-tight"><%= fundraiser.title %></h3>
+                  <span class="shrink-0 rounded-full bg-slate-500/20 px-2.5 py-0.5 text-xs font-semibold text-slate-400 border border-slate-500/30">Ended</span>
+                </div>
+                <p class="text-xs text-slate-400 font-medium"><%= fundraiser.program.short_name.presence || fundraiser.program.name %></p>
+                <div class="pt-1">
+                  <%= link_to 'View Details', fundraiser_path(fundraiser), class: 'inline-flex items-center justify-center rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold text-white transition hover:bg-white/20' %>
+                  <% if current_director.present? %>
+                    <%= link_to 'Delete', fundraiser_path(fundraiser), data: { turbo_method: :delete, turbo_confirm: "Remove #{fundraiser.title}?" }, class: 'ml-2 inline-flex items-center justify-center rounded-lg bg-rose-600/70 px-4 py-2 text-xs font-bold text-white transition hover:bg-rose-500' %>
+                  <% end %>
+                </div>
+              </div>
+            </article>
+          <% end %>
+        </div>
+      </section>
+    <% end %>
+
+    <% if @active_fundraisers.empty? && @past_fundraisers.empty? %>
+      <div class="rounded-2xl border border-white/15 bg-slate-900/50 py-16 text-center backdrop-blur-sm">
+        <p class="text-lg font-semibold text-slate-300">No fundraisers yet.</p>
+        <p class="mt-1 text-sm text-slate-400">Check back soon — something exciting is coming!</p>
+        <% if current_director.present? %>
+          <div class="mt-6">
+            <%= link_to 'Create the First Fundraiser', new_fundraiser_path, class: 'inline-flex items-center justify-center rounded-lg bg-amber-400 px-5 py-2.5 text-sm font-bold text-slate-900 transition hover:bg-amber-300' %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
   </div>
 </div>

@@ -1,0 +1,32 @@
+<div
+  class="min-h-screen px-4 py-8 md:py-12"
+  x-data="{
+    isDragging: false,
+    selectedFileName: '',
+    setFiles(files) {
+      if (!files || !files.length) return;
+      this.$refs.flyerInput.files = files;
+      this.selectedFileName = files[0].name;
+    },
+    handleDrop(event) {
+      this.isDragging = false;
+      this.setFiles(event.dataTransfer.files);
+    }
+  }"
+>
+  <div class="mx-auto w-full max-w-3xl space-y-6">
+    <div class="space-y-1">
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-white">New Fundraiser</h1>
+      <p class="text-sm text-slate-200/80">Fill in the details below to publish a new fundraiser for your program.</p>
+    </div>
+
+    <%= simple_form_for @fundraiser, url: fundraisers_path, method: :post, html: { class: "rounded-2xl border border-white/25 bg-slate-900/55 shadow-2xl backdrop-blur-sm p-5 md:p-8 text-white space-y-6", autocomplete: 'off', multipart: true } do |form| %>
+
+      <%= render 'form', form: form %>
+
+      <div class="pt-2">
+        <%= form.submit "Publish Fundraiser", class: "inline-flex items-center justify-center rounded-lg bg-amber-400 px-6 py-2.5 text-sm font-bold text-slate-900 shadow-lg shadow-amber-500/30 transition hover:bg-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-200/80" %>
+      </div>
+    <% end %>
+  </div>
+</div>

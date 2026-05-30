@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     resources :schools
     resources :districts
     resources :boosters
+    resources :fundraisers
 
     root to: "schools#index"
   end
