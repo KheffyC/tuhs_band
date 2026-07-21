@@ -7,6 +7,7 @@
 module Admin
   class ApplicationController < Administrate::ApplicationController
     before_action :authenticate_director!
+    helper_method :donations_enabled?
     
     # Use custom admin layout with modern design
     layout "admin"
@@ -16,5 +17,11 @@ module Admin
     # def records_per_page
     #   params[:per_page] || 20
     # end
+
+    private
+
+    def donations_enabled?
+      STRIPE_PUBLISHABLE_KEY.present? && [STRIPE_PRICING_TABLE_ID, STRIPE_BUY_BUTTON_ID].any?(&:present?)
+    end
   end
 end
