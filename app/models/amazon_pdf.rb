@@ -32,7 +32,7 @@ class AmazonPdf < ApplicationRecord
   validates :pdf, presence: true
   validates :type_of_pdf_group, presence: true
 
-  scope :programless , -> { where(program_id: nil).where.not(type_of_pdf_group: 'Student Forms') }
+  scope :library_documents, -> { where.not(type_of_pdf_group: 'Student Forms') }
   scope :student_forms, -> { where(type_of_pdf_group: 'Student Forms') }
 
   def to_s
@@ -40,6 +40,6 @@ class AmazonPdf < ApplicationRecord
   end
 
   def url
-    pdf&.url if pdf.attached?
+    Rails.application.routes.url_helpers.rails_blob_url(pdf, only_path: true) if pdf.attached?
   end
 end

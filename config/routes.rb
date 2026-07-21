@@ -14,28 +14,13 @@ Rails.application.routes.draw do
     resources :schools
     resources :districts
     resources :boosters
+    resources :fundraisers
+    resources :galleries do
+      post :upload_image, on: :member
+    end
 
     root to: "schools#index"
   end
-
-  namespace :practice_hub do
-    resources :programs do
-      resources :sections do
-        get :new_collection, on: :member
-        post :create_collection, on: :member
-
-        resources :collections, except: [:index, :create] do
-          get :new_music, on: :member
-          post :create_music, on: :member
-          get :view_music, on: :member, path: '/view_music/:sheet_id'
-          delete :destroy_music, on: :member, path: '/destroy_music/:sheet_id'
-        end
-      end
-    end
-
-
-  end
-
 
   # Program Routes for each program at each school
   resources :programs
@@ -46,6 +31,8 @@ Rails.application.routes.draw do
   resources :amazon_pdfs, path: 'pdfs' do
     get :student_forms, on: :collection
   end
+
+  resources :galleries
 
   resources :fundraisers
   resources :donations do

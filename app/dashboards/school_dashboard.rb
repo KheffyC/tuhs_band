@@ -105,7 +105,6 @@ class SchoolDashboard < Administrate::BaseDashboard
     performance_absence_form
     rehearsal_absence_form
     handbook_contract_form
-    programs
     calendar_url
   ].freeze
 

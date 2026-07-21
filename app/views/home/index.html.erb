@@ -1,8 +1,6 @@
 <%= render 'hero', school: @school %>
 
-<div class="flex justify-center flex-col items-center text-white ">
-  <%= render 'home/calendar', calendar: @school.calendar_url %>
-</div>
+<%= render 'home/calendar', calendar: @school.calendar_url %>
 
 <%= render 'programs', programs: @programs %>
 

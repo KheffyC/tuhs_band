@@ -3,8 +3,21 @@ class AmazonPdfsController < ApplicationController
   before_action :set_amazon_pdf , only: [:show, :edit, :update, :destroy]
 
   def index
-    @amazon_pdfs = AmazonPdf.programless.order(type_of_pdf_group: :desc)
+    @programs = @school.programs.order(:short_name, :name)
+    @selected_program_id = params[:program_id].presence
+    @selected_program = @programs.find_by(id: @selected_program_id)
+    @amazon_pdfs = AmazonPdf.library_documents.includes(:program).order(type_of_pdf_group: :desc)
     group_order = ['Itinerary','Schedules', 'Syllabus']
+    @selected_group = params[:group].presence
+
+    if @selected_group.present?
+      @amazon_pdfs = @amazon_pdfs.where(type_of_pdf_group: @selected_group)
+    end
+
+    if @selected_program.present?
+      @amazon_pdfs = @amazon_pdfs.where(program_id: @selected_program.id)
+    end
+
     @grouped_amazon_pdfs = @amazon_pdfs.order(:event_date).group_by { |pdf| pdf.type_of_pdf_group }
     @ordered_pdfs = @grouped_amazon_pdfs.sort_by { |group_name, pdfs| group_order.index(group_name) || 999 }
   end
@@ -16,6 +29,8 @@ class AmazonPdfsController < ApplicationController
   def new
     @amazon_pdfs = AmazonPdf.all
     @amazon_pdf = AmazonPdf.new
+    # When a program page links here, keep that program preselected for faster uploads.
+    @amazon_pdf.program_id = params[:program_id] if params[:program_id].present?
   end
 
   def edit; end
@@ -43,7 +58,10 @@ class AmazonPdfsController < ApplicationController
     end
 
     if @amazon_pdf.save
-      redirect_to amazon_pdfs_path
+      # Program-page inline uploads send a return_to path; the regular PDFs page falls back here.
+      redirect_path = amazon_pdf_params[:return_to].presence
+      target_path = redirect_path&.start_with?('/') ? redirect_path : amazon_pdfs_path
+      redirect_to(target_path, notice: "PDF uploaded successfully.")
     else
       @amazon_pdf.errors.full_messages.each do |message|
         flash[:alert] = message

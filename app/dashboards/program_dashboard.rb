@@ -26,6 +26,7 @@ class ProgramDashboard < Administrate::BaseDashboard
     about_image_url: Field::String,
     hero_title: Field::Text,
     detailed_description: Field::Text,
+    program_support_text: Field::Text,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -56,6 +57,7 @@ class ProgramDashboard < Administrate::BaseDashboard
     hero_title
     description
     detailed_description
+    program_support_text
     year_established
     updated_at
     main_gallery_image_url
@@ -78,6 +80,7 @@ class ProgramDashboard < Administrate::BaseDashboard
     year_established
     hero_title
     detailed_description
+    program_support_text
     main_gallery_image_url
     image_gallery_urls
     about_image_url

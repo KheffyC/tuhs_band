@@ -1,0 +1,32 @@
+<% resource = page.resource rescue nil %>
+<% dashboard ||= resource ? "#{resource.class}Dashboard".constantize.new : nil rescue nil %>
+<% page_title = "Create #{resource&.class&.model_name&.singular || 'Resource'}"
+show_new_button = false
+show_back_button = true
+show_breadcrumb = true %>
+
+<%= render "admin/application/header", page_title: page_title, dashboard: dashboard, resource: resource, show_new_button: show_new_button, show_back_button: show_back_button, show_breadcrumb: show_breadcrumb %>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+  <!-- Form -->
+  <div class="lg:col-span-2">
+    <div class="bg-white rounded-lg shadow-md p-8">
+      <%= render "admin/application/form", resource: resource, dashboard: dashboard %>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="lg:col-span-1">
+    <div class="bg-white rounded-lg shadow-md p-6 sticky top-8">
+      <h3 class="font-display text-lg font-bold text-gray-900 mb-4">Information</h3>
+      <p class="text-sm text-gray-600">
+        Fill out the form to create a new <%= dashboard&.class&.name&.gsub(/Dashboard$/, '')&.downcase || resource.class.model_name.singular.downcase %>.
+      </p>
+      <hr class="my-4" />
+      <% resource_label = dashboard&.class&.name&.gsub(/Dashboard$/, '')&.pluralize || resource.class.model_name.plural %>
+      <% back_path = dashboard ? send("admin_#{dashboard.class.name.gsub(/Dashboard$/, '').underscore.pluralize}_path") : admin_root_path %>
+      <%= link_to "← Back to #{resource_label}", back_path, 
+          class: "block w-full px-4 py-3 text-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded-lg transition" %>
+    </div>
+  </div>
+</div>

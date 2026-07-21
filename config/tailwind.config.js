@@ -10,7 +10,10 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Proxima Nova', ...defaultTheme.fontFamily.sans],
+        // Creates the 'font-display' class for Syne
+        display: ['Syne', ...defaultTheme.fontFamily.sans],
+        // Overrides default body font to DM Sans (or keep Proxima Nova if loaded locally)
+        sans: ['"DM Sans"', ...defaultTheme.fontFamily.sans],
       },
     },
   },

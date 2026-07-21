@@ -14,6 +14,7 @@
 #  main_gallery_image_url :string
 #  name                   :string(100)      not null
 #  period                 :integer          default(0)
+#  program_support_text   :text
 #  short_name             :string
 #  year_established       :date
 #  created_at             :datetime         not null
@@ -32,8 +33,6 @@
 class Program < ApplicationRecord
     belongs_to :school
     has_many :amazon_pdfs
-    has_many :sections, dependent: :destroy, class_name: 'PracticeHub::Section'
-    has_many :collections, through: :sections, class_name: 'PracticeHub::Collection'
 
     def to_s
         short_name

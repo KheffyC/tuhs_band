@@ -1,0 +1,36 @@
+<div
+  class="min-h-screen px-4 py-8 md:py-12"
+  x-data="{
+    isDragging: false,
+    selectedFileName: '',
+    setFiles(files) {
+      if (!files || !files.length) return;
+      this.$refs.flyerInput.files = files;
+      this.selectedFileName = files[0].name;
+    },
+    handleDrop(event) {
+      this.isDragging = false;
+      this.setFiles(event.dataTransfer.files);
+    }
+  }"
+>
+  <div class="mx-auto w-full max-w-3xl space-y-6">
+    <div class="flex items-center gap-3">
+      <%= link_to '← Back to Fundraiser', fundraiser_path(@fundraiser), class: 'text-sm font-semibold text-amber-300 hover:text-amber-200 transition' %>
+    </div>
+    <div class="space-y-1">
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-white">Edit Fundraiser</h1>
+      <p class="text-sm text-slate-200/80">Update the details for <span class="font-semibold text-amber-200"><%= @fundraiser.title %></span>.</p>
+    </div>
+
+    <%= simple_form_for @fundraiser, url: fundraiser_path(@fundraiser), method: :patch, html: { class: "rounded-2xl border border-white/25 bg-slate-900/55 shadow-2xl backdrop-blur-sm p-5 md:p-8 text-white space-y-6", autocomplete: 'off', multipart: true } do |form| %>
+
+      <%= render 'form', form: form %>
+
+      <div class="pt-2 flex flex-wrap gap-3">
+        <%= form.submit "Save Changes", class: "inline-flex items-center justify-center rounded-lg bg-amber-400 px-6 py-2.5 text-sm font-bold text-slate-900 shadow-lg shadow-amber-500/30 transition hover:bg-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-200/80" %>
+        <%= link_to "Cancel", fundraiser_path(@fundraiser), class: "inline-flex items-center justify-center rounded-lg border border-white/25 bg-white/10 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-white/20" %>
+      </div>
+    <% end %>
+  </div>
+</div>

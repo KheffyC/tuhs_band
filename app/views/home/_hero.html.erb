@@ -1,78 +1,31 @@
-<div class="bg-black min-h-[88vh] lg:h-[85vh] flex flex-col-reverse items-center justify-evenly">
-  <div class="w-full z-10 h-50 my-6 bg-red-700 outline backdrop-blur-sm outline-red-700 md:outline-offset-4 bg-opacity-75  md:w-3/5 lg:w-[35vw] text-center ">
-      <h5 class="p-4 tracking-tight md:tracking-wide font-bold text-white text-5xl">
+<%
+  hero_image = if local_assigns[:program]
+    @program.main_gallery_image_url.presence || @program.about_image_url.presence || @school.default_image
+  else
+    @school.default_image.presence || @school.home_page_image_urls.to_s.split(',').first
+  end
+%>
+
+<% hero_image = "/assets/default-hero.jpg" %>
+
+
+<section
+  class="relative h-[calc(100vh-88px)] overflow-hidden bg-black bg-cover bg-center bg-no-repeat sm:h-[calc(100vh-88px)] lg:h-[calc(100vh-104px)]"
+  style="background-image: url('<%= hero_image %>');">
+  <div class="absolute inset-0 bg-gradient-to-r from-black/85 via-black/65 to-black/55"></div>
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0.65)_72%)]"></div>
+
+  <div class="relative z-10 mx-auto flex h-full w-full max-w-full items-center justify-center px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl px-2 py-8 text-center sm:px-4 sm:py-10 lg:py-14">
+      <h1 class="font-display text-4xl font-bold tracking-tight text-white [text-shadow:0_4px_22px_rgba(0,0,0,0.98)] sm:text-6xl lg:text-8xl">
         <%= local_assigns[:page_title] ? page_title : @school.hero_title %>
-      </h5>
-      <p class="p-4 tracking-tight md:tracking-wide font-light text-white text-2xl">
-        <%= local_assigns[:page_hero_title] ? page_hero_title : '' %>
-      </p>
+      </h1>
+
+      <% if local_assigns[:page_hero_title] && page_hero_title.present? %>
+        <p class="mt-4 text-base font-light leading-relaxed text-white/95 [text-shadow:0_2px_14px_rgba(0,0,0,0.95)] sm:mt-5 sm:text-xl lg:mt-6 lg:text-2xl">
+          <%= page_hero_title %>
+        </p>
+      <% end %>
+    </div>
   </div>
-  <% object = local_assigns[:program] ? @program : @school %>
-  <%= render 'home/polaroids', object: object %>
-</div>
-
-
-<style>
-
-
-.polaroid{
-  margin:0;
-  padding:0;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap !important; 
-}
-
-.polaroid-pic{
-  text-align:center;
-  display:inline-block;
-  list-style:none;
-  position:relative;
-  border:solid 10px #fff;
-  background:#fff;
-  box-shadow:0 0 15px 0px #555;
-  transition:all .5s ease-in-out;
-  -o-transition:all .5s ease;
-  -moz-transition:all .5s ease;
-  -webkit-transition:all .5s ease;
-  top:50px;
-}
-
-
-.polaroid-pic:hover{
-  top:0px;
-  opacity:0.5;
-}
-
-.polaroid-pic:nth-child(1){
-    transform:rotate(-3deg);
-}
-.polaroid-pic:nth-child(2){
-    transform:rotate(-1deg);
-}
-
-.polaroid-pic:nth-child(3n-2){
-    transform:rotate(-2deg);
-}
-
-.polaroid-pic:nth-child(4n){
-    transform:rotate(4deg);
-}
-
-.polaroid-text{
-    margin:-5px 0 0 0;
-}
-
-.polaroid-light{
-    border-radius: 50%;
-    position: absolute;
-    left: auto;
-    top: 100px;
-    max-width: 800px;
-    min-height: 419px;
-    background: #fff;
-    filter: blur(100px);
-    opacity: .19;
-    pointer-events: none;
-}
-</style>
+</section>

@@ -7,6 +7,9 @@
 module Admin
   class ApplicationController < Administrate::ApplicationController
     before_action :authenticate_director!
+    
+    # Use custom admin layout with modern design
+    layout "admin"
 
     # Override this value to specify the number of elements to display at a time
     # on index pages. Defaults to 20.

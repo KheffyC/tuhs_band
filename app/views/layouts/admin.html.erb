@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tulare Music - Admin</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="bg-gray-100">
+    <!-- Admin Header -->
+    <header class="fixed top-0 left-0 right-0 z-40" style="background: radial-gradient(circle at 50% 50%, rgba(128, 0, 0, 1) 43%, rgba(167, 0, 0, 1) 72%);">
+      <div class="flex items-center justify-between px-6 py-4 h-20">
+        <!-- Logo and Title -->
+        <div class="flex items-center space-x-4">
+          <%= link_to image_tag('logo.png', class: 'h-12 w-auto'), admin_root_path, class: "flex items-center" %>
+          <h1 class="font-display text-2xl font-bold text-white">Admin Panel</h1>
+        </div>
+
+        <!-- Right side: Logout -->
+        <div class="flex items-center space-x-6">
+          <span class="text-white text-sm font-medium"><%= current_director.email %></span>
+          <%= button_to "Sign Out", destroy_director_session_path, method: :delete, class: "px-4 py-2 bg-white/20 hover:bg-white/30 text-white font-semibold rounded-lg transition" %>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="flex h-screen pt-20">
+      <!-- Sidebar - Fixed on desktop, hidden on mobile -->
+      <aside class="hidden lg:flex lg:w-64 lg:flex-col bg-white border-r border-gray-200 overflow-y-auto">
+        <%= render "admin/application/sidebar" %>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="flex-1 overflow-auto">
+        <div class="p-8">
+          <%= render 'layouts/flash_notifications' %>
+          <% unless donations_enabled? %>
+            <div class="mb-6 rounded-2xl border border-amber-300/40 bg-amber-50 px-5 py-4 text-amber-950 shadow-sm">
+              <p class="text-sm font-semibold uppercase tracking-[0.16em] text-amber-700">Stripe setup needed</p>
+              <p class="mt-2 text-sm leading-relaxed">
+                Donations are currently hidden on the public website because Stripe is not configured.
+                Add a publishable key and at least one donation component ID to re-enable the donations page and links.
+              </p>
+            </div>
+          <% end %>
+          <%= yield %>
+        </div>
+      </main>
+    </div>
+
+    <!-- Mobile Menu Toggle (hidden on lg+) -->
+    <script>
+      document.addEventListener('alpine:init', () => {
+        Alpine.data('adminMenu', () => ({
+          open: false,
+          toggle() {
+            this.open = !this.open
+          }
+        }))
+      })
+    </script>
+  </body>
+</html>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_08_10_020149) do
+ActiveRecord::Schema[7.0].define(version: 2026_05_29_120001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -117,33 +117,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_10_020149) do
     t.index ["program_id"], name: "index_fundraisers_on_program_id"
   end
 
-  create_table "practice_hub_collections", force: :cascade do |t|
-    t.string "title"
-    t.bigint "section_id", null: false
+  create_table "galleries", force: :cascade do |t|
+    t.bigint "school_id", null: false
+    t.jsonb "images", default: [], null: false
+    t.string "title", default: "Gallery", null: false
+    t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["section_id"], name: "index_practice_hub_collections_on_section_id"
-  end
-
-  create_table "practice_hub_music_sheets", force: :cascade do |t|
-    t.string "title"
-    t.string "description"
-    t.string "flat_file_id"
-    t.string "flat_file_link"
-    t.string "s3_link"
-    t.bigint "collection_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["collection_id"], name: "index_practice_hub_music_sheets_on_collection_id"
-  end
-
-  create_table "practice_hub_sections", force: :cascade do |t|
-    t.string "name"
-    t.string "instrument"
-    t.bigint "program_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["program_id"], name: "index_practice_hub_sections_on_program_id"
+    t.index ["school_id"], name: "index_galleries_on_school_id"
   end
 
   create_table "programs", force: :cascade do |t|
@@ -163,6 +144,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_10_020149) do
     t.string "circuit", limit: 50
     t.string "ig_handle", limit: 50
     t.integer "period", default: 0
+    t.text "program_support_text"
     t.index ["name"], name: "index_programs_on_name"
     t.index ["school_id"], name: "index_programs_on_school_id"
   end
@@ -203,8 +185,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_10_020149) do
   add_foreign_key "amazon_pdfs", "programs"
   add_foreign_key "boosters", "schools"
   add_foreign_key "fundraisers", "programs"
-  add_foreign_key "practice_hub_collections", "practice_hub_sections", column: "section_id"
-  add_foreign_key "practice_hub_sections", "programs"
+  add_foreign_key "galleries", "schools"
   add_foreign_key "programs", "schools"
   add_foreign_key "schools", "districts"
 end

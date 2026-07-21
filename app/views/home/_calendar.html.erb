@@ -1,4 +1,50 @@
-<div id="main-calendar" class="py-2 my-6  mx-auto w-[90vw] lg:w-[75vw] 2xl:w-[55vw] border-y border-white/50 text-center">
-    <h6 class="font-bold m-5 text-2xl">Upcoming Events / Rehearsals </h6>
-    <iframe class="w-full aspect-video" src=<%= calendar || @school.calendar_url %> style="border: 10px; " width="1200" height="600" frameborder="0" scrolling="no" ></iframe>
-</div>
+<section
+    id="main-calendar"
+    class="relative w-full overflow-hidden bg-gray-100 py-8 sm:mx-auto sm:w-[92%] sm:py-10 lg:w-[100%] lg:py-12"
+>
+    <div class="relative z-10 w-full sm:mx-auto sm:w-[92%] sm:px-6 sm:py-6 lg:px-8 lg:py-8">
+        <div class="mb-6 text-center flex flex-col gap-2 sm:mb-8">
+            <span class="inline-flex w-fit items-center gap-2 rounded-full bg-white/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-gray-700">
+                Live Schedule
+                <span class="relative flex h-2 w-2">
+                    <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-500 opacity-75"></span>
+                    <span class="relative inline-flex h-2 w-2 rounded-full bg-red-600"></span>
+                </span>
+            </span>
+            <h2 class="section-title text-gray-900">Upcoming Events and Rehearsals</h2>
+            <p class="section-subtitle mx-auto text-center max-w-3xl text-gray-700">
+                Keep up with concerts, rehearsals, travel, and important deadlines. This calendar updates in real time so students and families can plan ahead.
+            </p>
+        </div>
+
+        <div class="flex flex-col gap-4 sm:gap-6 lg:flex-row lg:items-start lg:gap-6 border-gray-300 border-2 p-2 bg-white">
+            <div class="h-[48vh] overflow-x-auto overflow-y-hidden bg-gray-100 sm:h-[75vh] lg:h-[80vh] lg:flex-[1.35]">
+                <iframe
+                    class="h-full w-[860px] min-w-[860px] sm:min-w-0 sm:w-full"
+                    src="<%= calendar || @school.calendar_url %>"
+                    style="border:0;"
+                    frameborder="0"
+                    scrolling="no"
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                ></iframe>
+            </div>
+
+            <aside class="bg-white p-4 text-gray-700 sm:p-5 lg:w-[220px] lg:flex-none xl:w-[240px]">
+                <h3 class="text-base font-semibold text-gray-900">Quick Access</h3>
+                <p class="mt-1.5 text-xs text-gray-600">Need forms or help?</p>
+
+                <div class="mt-4 space-y-2.5 sm:space-y-3">
+                    <%= link_to 'View Documents', amazon_pdfs_path, class: 'block bg-gray-900 px-3.5 py-2 text-xs font-medium text-white transition hover:bg-black sm:py-2.5 lg:px-4 lg:py-3 lg:text-sm lg:font-semibold' %>
+                    <%= link_to 'Contact Directors', contacts_path, class: 'block bg-gray-900 px-3.5 py-2 text-xs font-medium text-white transition hover:bg-black sm:py-2.5 lg:px-4 lg:py-3 lg:text-sm lg:font-semibold' %>
+                    <%= link_to 'Support Fundraising', fundraisers_path, class: 'block bg-gray-900 px-3.5 py-2 text-xs font-medium text-white transition hover:bg-black sm:py-2.5 lg:px-4 lg:py-3 lg:text-sm lg:font-semibold' %>
+                </div>
+
+                <div class="mt-4 bg-gray-100 p-3.5 sm:p-4">
+                    <p class="text-xs uppercase tracking-[0.2em] text-gray-500">Tip</p>
+                    <p class="mt-1.5 text-xs text-gray-700">Add this calendar to your phone for automatic updates on rehearsal changes and performance times.</p>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>

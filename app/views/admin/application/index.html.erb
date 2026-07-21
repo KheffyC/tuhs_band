@@ -1,0 +1,99 @@
+<%
+resource_class = resources.first&.class || controller_name.classify.safe_constantize
+dashboard ||= resource_class ? "#{resource_class}Dashboard".constantize.new : nil rescue nil
+page_title = resource_class&.model_name&.plural ||
+             dashboard&.class&.name&.gsub(/Dashboard$/, "")&.pluralize ||
+             controller_name.humanize
+show_new_button = true
+show_back_button = false
+show_breadcrumb = true %>
+
+<%= render "admin/application/header", page_title: page_title, dashboard: dashboard, resource: nil, show_new_button: show_new_button, show_back_button: show_back_button, show_breadcrumb: show_breadcrumb %>
+
+<!-- Search Bar -->
+<div class="mb-6">
+  <%= form_with url: request.path, method: :get, local: true, class: "flex gap-4" do |f| %>
+    <%= f.text_field :search, placeholder: "Search...", value: params[:search], 
+        class: "flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600" %>
+    <%= f.submit "Search", class: "px-6 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition" %>
+  <% end %>
+</div>
+
+<!-- Resources Table -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+  <% if resources.any? %>
+    <table class="w-full">
+      <thead class="bg-gray-50 border-b border-gray-200">
+        <tr>
+          <% collection_attrs = dashboard&.collection_attributes rescue [:id, :name, :created_at] %>
+          <% collection_attrs.each do |attr| %>
+            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+              <% attr_label = dashboard&.attributes&.dig(attr)&.label rescue nil %>
+              <%= attr_label || attr.to_s.humanize %>
+            </th>
+          <% end %>
+          <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200">
+        <% resources.each do |resource| %>
+          <tr class="hover:bg-red-50 transition cursor-pointer" data-href="<%= polymorphic_path([:admin, resource]) %>" onclick="window.location.href=this.dataset.href">
+            <% collection_attrs.each do |attr| %>
+              <td class="px-6 py-4 text-sm text-gray-900">
+                <% attribute = dashboard&.attributes&.dig(attr) rescue nil %>
+                <% value = resource.public_send(attr) rescue nil %>
+                <% if attribute&.is_a?(Administrate::Field::BelongsTo) %>
+                  <% if value %>
+                    <span class="text-red-600 font-semibold"><%= value %></span>
+                  <% else %>
+                    <span class="text-gray-400">Not set</span>
+                  <% end %>
+                <% elsif attribute&.is_a?(Administrate::Field::DateTime) || attribute&.is_a?(Administrate::Field::Date) %>
+                  <%= value&.strftime("%b %d, %Y") %>
+                <% elsif value.is_a?(String) && value.length > 50 %>
+                  <%= truncate(value, length: 50) %>
+                <% else %>
+                  <%= value %>
+                <% end %>
+              </td>
+            <% end %>
+            <td class="px-6 py-4 text-sm text-gray-500">
+              Click to edit →
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <% if resources.respond_to?(:total_count) %>
+      <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex items-center justify-between text-sm text-gray-600">
+        <span>Showing <%= resources.length %> of <%= resources.total_count %> items</span>
+      </div>
+    <% elsif resources.respond_to?(:total_pages) %>
+      <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex items-center justify-between text-sm text-gray-600">
+        <span>Showing <%= resources.length %> items</span>
+        <div class="flex gap-2">
+          <% if resources.current_page > 1 %>
+            <%= link_to "← Previous", url_for(page: resources.current_page - 1), class: "px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded transition" %>
+          <% end %>
+          <% if resources.current_page < resources.total_pages %>
+            <%= link_to "Next →", url_for(page: resources.current_page + 1), class: "px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded transition" %>
+          <% end %>
+        </div>
+      </div>
+    <% else %>
+      <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 text-sm text-gray-600">
+        Showing <%= resources.length %> <%= resources.length == 1 ? 'item' : 'items' %>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="px-6 py-12 text-center">
+      <% resource_label = dashboard&.class&.name&.gsub(/Dashboard$/, '') || controller_name.classify %>
+      <p class="text-gray-500 text-lg mb-4">No <%= resource_label.pluralize.downcase %> found.</p>
+      <% new_path = dashboard ? send("new_admin_#{dashboard.class.name.gsub(/Dashboard$/, '').underscore}_path") : admin_root_path rescue admin_root_path %>
+      <%= link_to "+ Create the first #{resource_label.downcase}", new_path, 
+          class: "inline-block px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold rounded-lg transition" %>
+    </div>
+  <% end %>
+</div>

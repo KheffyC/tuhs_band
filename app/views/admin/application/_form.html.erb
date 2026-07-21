@@ -1,0 +1,402 @@
+<% dashboard ||= "#{resource.class}Dashboard".constantize.new rescue nil %>
+
+<%= form_with model: [:admin, resource], local: true, class: "space-y-8" do |f| %>
+  <% if resource.errors.any? %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+  <% end %>
+
+  <!-- Top Form Actions -->
+  <div class="flex gap-4 pb-8 border-b border-gray-200">
+    <% label = resource.new_record? ? "✓ Create" : "✓ Update" %>
+    <% resource_label = dashboard&.class&.name&.gsub(/Dashboard$/, '') || resource.class.model_name.singular %>
+    <%= f.button "#{label} #{resource_label}", 
+        class: "px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold rounded-lg transition shadow-md" %>
+    
+    <% cancel_path = dashboard ? send("admin_#{dashboard.class.name.gsub(/Dashboard$/, '').underscore.pluralize}_path") : admin_root_path %>
+    <%= link_to "Cancel", cancel_path, 
+        class: "px-6 py-3 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded-lg transition" %>
+  </div>
+
+  <% form_attributes = dashboard&.form_attributes rescue resource.class.column_names.reject { |col| %w(id created_at updated_at).include?(col) } %>
+  
+  <% form_attributes.each do |attr| %>
+    <% attribute = dashboard&.attributes&.dig(attr) rescue nil %>
+    <% field_value = resource.public_send(attr) rescue nil %>
+    <% attr_name = attr.to_s %>
+    <% association_name = attr_name.sub(/_id$/, "") %>
+    <% association_reflection = resource.class.reflect_on_association(association_name.to_sym) rescue nil %>
+    <% belongs_to_association = association_reflection&.macro == :belongs_to %>
+    <% belongs_to_field = attribute&.is_a?(Administrate::Field::BelongsTo) || belongs_to_association %>
+    <% has_many_association = association_reflection&.macro == :has_many %>
+    <% has_many_field = attribute&.is_a?(Administrate::Field::HasMany) || has_many_association %>
+    
+    <fieldset class="border-b border-gray-200 pb-8 last:border-0">
+      <!-- Label -->
+      <% if resource.is_a?(Gallery) && %w[school school_id].include?(attr.to_s) %>
+        <label class="block text-sm font-semibold text-gray-700 mb-2">
+          School
+          <span class="text-red-600">*</span>
+        </label>
+        <% selected_school_id = resource.school_id.presence || params[:school_id].presence || params.dig(resource.class.model_name.param_key, :school_id).presence || School.where(id: 1).pick(:id) %>
+        <%= f.collection_select :school_id,
+            School.order(:name),
+            :id,
+            :name,
+            { prompt: "Select a school", selected: selected_school_id },
+            class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 transition" %>
+      <% elsif attribute&.is_a?(Administrate::Field::Boolean) %>
+        <!-- Checkbox -->
+        <div class="flex items-center">
+          <%= f.check_box attr, { class: "h-5 w-5 text-red-600 rounded focus:ring-2 focus:ring-red-600" } %>
+          <label for="<%= resource.class.model_name.param_key %>_<%= attr %>" class="ml-3 text-sm font-semibold text-gray-700">
+            <%= attribute&.label || attr.to_s.humanize %>
+          </label>
+        </div>
+      <% elsif belongs_to_field %>
+        <!-- BelongsTo Select -->
+        <label class="block text-sm font-semibold text-gray-700 mb-2">
+          <%= attribute&.label || association_name.humanize %>
+          <% if attribute&.options&.dig(:required) %>
+            <span class="text-red-600">*</span>
+          <% end %>
+        </label>
+        <% association_records = if attribute && attribute.respond_to?(:associated_resource_options)
+              attribute.associated_resource_options
+            elsif belongs_to_association
+              association_reflection.klass.order(:name) rescue association_reflection.klass.all
+            else
+              []
+            end %>
+        <% if association_records.present? %>
+          <% selected_association = nil %>
+          <% if resource.is_a?(Gallery) && association_name == "school" && resource.new_record? %>
+            <% selected_association = params[:school_id].presence || params.dig(resource.class.model_name.param_key, :school_id).presence || School.where(id: 1).pick(:id) %>
+          <% end %>
+          <% selected_association ||= field_value&.id || (field_value if field_value.is_a?(Integer)) %>
+          <% option_pairs = association_records.map { |obj|
+              label = if obj.respond_to?(:name) && obj.name.present?
+                        obj.name
+                      elsif obj.respond_to?(:title) && obj.title.present?
+                        obj.title
+                      else
+                        obj.to_s
+                      end
+              [label, obj.id]
+            } %>
+          <% select_field = (attr_name.end_with?("_id") ? attr_name : "#{association_name}_id").to_sym %>
+          <%= f.select select_field,
+              options_for_select(option_pairs, selected_association),
+              { prompt: "Select a #{association_name.humanize.downcase}", include_blank: !attribute&.options&.dig(:required) },
+              class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 transition" %>
+        <% end %>
+      <% elsif has_many_field %>
+        <!-- HasMany Summary -->
+        <label class="block text-sm font-semibold text-gray-700 mb-2">
+          <%= attribute&.label || association_name.humanize.pluralize %>
+        </label>
+        <% related_items = field_value.respond_to?(:to_a) ? field_value.to_a : [] %>
+        <div class="rounded-lg border border-gray-200 bg-gray-50 p-4">
+          <p class="text-sm text-gray-700">
+            <span class="font-semibold"><%= related_items.size %></span>
+            <%= association_name.humanize.pluralize(related_items.size).downcase %> linked.
+          </p>
+          <% if related_items.any? %>
+            <p class="mt-2 text-xs text-gray-600">
+              <%= related_items.first(5).map { |item| item.respond_to?(:name) && item.name.present? ? item.name : item.to_s }.join(", ") %>
+              <%= related_items.size > 5 ? "..." : "" %>
+            </p>
+          <% end %>
+          <p class="mt-2 text-xs text-gray-500">Manage these records from their own admin section.</p>
+        </div>
+      <% elsif attribute&.is_a?(Administrate::Field::Select) %>
+        <!-- Select -->
+        <label class="block text-sm font-semibold text-gray-700 mb-2">
+          <%= attribute&.label || attr.to_s.humanize %>
+          <% if attribute&.options&.dig(:required) %>
+            <span class="text-red-600">*</span>
+          <% end %>
+        </label>
+        <%= f.select attr,
+            attribute&.options&.dig(:collection) || [],
+            { prompt: "Select an option", include_blank: !attribute&.options&.dig(:required) },
+            class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 transition" %>
+      <% elsif attribute&.is_a?(Administrate::Field::Text) || attribute&.is_a?(Administrate::Field::Textarea) %>
+        <!-- Text Area -->
+        <label for="<%= resource.class.model_name.param_key %>_<%= attr %>" class="block text-sm font-semibold text-gray-700 mb-2">
+          <%= attribute&.label || attr.to_s.humanize %>
+          <% if attribute&.options&.dig(:required) %>
+            <span class="text-red-600">*</span>
+          <% end %>
+        </label>
+        <%= f.text_area attr,
+            rows: 5,
+            placeholder: "Enter #{attr.to_s.humanize.downcase}...",
+            class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 transition resize-none" %>
+      <% elsif attribute&.is_a?(Administrate::Field::Date) %>
+        <!-- Date Input -->
+        <label for="<%= resource.class.model_name.param_key %>_<%= attr %>" class="block text-sm font-semibold text-gray-700 mb-2">
+          <%= attribute&.label || attr.to_s.humanize %>
+          <% if attribute&.options&.dig(:required) %>
+            <span class="text-red-600">*</span>
+          <% end %>
+        </label>
+        <%= f.date_field attr,
+            class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 transition" %>
+      <% elsif attribute&.is_a?(Administrate::Field::DateTime) %>
+        <!-- DateTime Input -->
+        <label for="<%= resource.class.model_name.param_key %>_<%= attr %>" class="block text-sm font-semibold text-gray-700 mb-2">
+          <%= attribute&.label || attr.to_s.humanize %>
+          <% if attribute&.options&.dig(:required) %>
+            <span class="text-red-600">*</span>
+          <% end %>
+        </label>
+        <%= f.datetime_select attr,
+            class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 transition" %>
+      <% elsif attribute&.is_a?(Administrate::Field::Number) %>
+        <!-- Number Input -->
+        <label for="<%= resource.class.model_name.param_key %>_<%= attr %>" class="block text-sm font-semibold text-gray-700 mb-2">
+          <%= attribute&.label || attr.to_s.humanize %>
+          <% if attribute&.options&.dig(:required) %>
+            <span class="text-red-600">*</span>
+          <% end %>
+        </label>
+        <%= f.number_field attr,
+            placeholder: "Enter a number",
+            class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 transition" %>
+      <% else %>
+        <!-- Default: String/Text Input -->
+        <label for="<%= resource.class.model_name.param_key %>_<%= attr %>" class="block text-sm font-semibold text-gray-700 mb-2">
+          <%= attribute&.label || attr.to_s.humanize %>
+          <% if attribute&.options&.dig(:required) %>
+            <span class="text-red-600">*</span>
+          <% end %>
+        </label>
+        
+        <% if resource.is_a?(Gallery) && attr.to_s == "images" %>
+          <% upload_url = resource.persisted? ? upload_image_admin_gallery_path(resource) : nil %>
+          <% initial_images = field_value.is_a?(Array) ? field_value : [] %>
+
+          <%= f.hidden_field attr, id: "gallery_images_json", value: initial_images.to_json %>
+
+          <div class="space-y-4">
+            <div id="gallery-dropzone"
+                 class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center transition hover:border-red-500 hover:bg-red-50 cursor-pointer"
+                 data-upload-url="<%= upload_url %>">
+              <p class="text-sm font-semibold text-gray-800">Drag and drop images here, or click to upload</p>
+              <p class="text-xs text-gray-500 mt-1">Max 10MB per image. Images upload to S3 immediately.</p>
+              <% unless resource.persisted? %>
+                <p class="text-xs text-red-600 mt-2">Save this gallery first, then upload images.</p>
+              <% end %>
+              <input id="gallery-file-input" type="file" accept="image/*" multiple class="hidden" <%= resource.persisted? ? "" : "disabled" %> />
+            </div>
+
+            <div id="gallery-upload-status" class="hidden text-sm text-gray-700"></div>
+
+            <div id="gallery-images-list" class="space-y-3">
+              <% initial_images.each do |img| %>
+                <% next unless img.is_a?(Hash) && img["url"].present? %>
+                <div class="gallery-image-row flex gap-3 items-start p-3 bg-gray-50 rounded-lg" data-url="<%= img["url"] %>" data-blob-signed-id="<%= img["blob_signed_id"] %>">
+                  <img src="<%= img["url"] %>" alt="Gallery image" class="h-20 w-20 object-cover rounded shadow" onerror="this.style.display='none'" />
+                  <div class="flex-1">
+                    <p class="text-xs text-gray-600 break-all mb-2"><%= img["url"] %></p>
+                    <select class="gallery-period-select w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 text-sm">
+                      <% selected_period = img["class_period"].presence || "general" %>
+                      <option value="general" <%= selected_period == "general" ? "selected" : "" %>>General</option>
+                      <option value="concert" <%= selected_period == "concert" ? "selected" : "" %>>Concert</option>
+                      <option value="rehearsal" <%= selected_period == "rehearsal" ? "selected" : "" %>>Rehearsal</option>
+                      <option value="competition" <%= selected_period == "competition" ? "selected" : "" %>>Competition</option>
+                    </select>
+                  </div>
+                  <button type="button" class="gallery-remove-btn px-3 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition">✕</button>
+                </div>
+              <% end %>
+            </div>
+          </div>
+
+          <script type="text/javascript">
+            (function() {
+              function initGalleryUploader() {
+                const dropzone = document.getElementById("gallery-dropzone");
+                const fileInput = document.getElementById("gallery-file-input");
+                const imagesList = document.getElementById("gallery-images-list");
+                const hiddenField = document.getElementById("gallery_images_json");
+                const statusEl = document.getElementById("gallery-upload-status");
+                if (!dropzone || !fileInput || !imagesList || !hiddenField) return;
+                if (dropzone.dataset.initialized === "true") return;
+                dropzone.dataset.initialized = "true";
+
+                const uploadUrl = dropzone.dataset.uploadUrl;
+
+                function updateHiddenField() {
+                  const rows = imagesList.querySelectorAll(".gallery-image-row");
+                  const payload = Array.from(rows).map((row) => {
+                    const url = row.dataset.url;
+                    const blobSignedId = row.dataset.blobSignedId;
+                    const periodSelect = row.querySelector(".gallery-period-select");
+                    const item = { url: url, class_period: periodSelect ? periodSelect.value : "general" };
+                    if (blobSignedId && blobSignedId.length > 0) item.blob_signed_id = blobSignedId;
+                    return item;
+                  }).filter((item) => item.url && item.url.length > 0);
+                  hiddenField.value = JSON.stringify(payload);
+                }
+
+                function wireRow(row) {
+                  const removeBtn = row.querySelector(".gallery-remove-btn");
+                  const periodSelect = row.querySelector(".gallery-period-select");
+                  if (removeBtn) {
+                    removeBtn.addEventListener("click", function() {
+                      row.remove();
+                      updateHiddenField();
+                    });
+                  }
+                  if (periodSelect) {
+                    periodSelect.addEventListener("change", updateHiddenField);
+                  }
+                }
+
+                function appendRow(url, blobSignedId) {
+                  const row = document.createElement("div");
+                  row.className = "gallery-image-row flex gap-3 items-start p-3 bg-gray-50 rounded-lg";
+                  row.dataset.url = url;
+                  if (blobSignedId) row.dataset.blobSignedId = blobSignedId;
+                  row.innerHTML =
+                    '<img src="' + url + '" alt="Gallery image" class="h-20 w-20 object-cover rounded shadow" onerror="this.style.display=\'none\'" />' +
+                    '<div class="flex-1">' +
+                      '<p class="text-xs text-gray-600 break-all mb-2">' + url + '</p>' +
+                      '<select class="gallery-period-select w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 text-sm">' +
+                        '<option value="general" selected>General</option>' +
+                        '<option value="concert">Concert</option>' +
+                        '<option value="rehearsal">Rehearsal</option>' +
+                        '<option value="competition">Competition</option>' +
+                      '</select>' +
+                    '</div>' +
+                    '<button type="button" class="gallery-remove-btn px-3 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition">✕</button>';
+                  imagesList.appendChild(row);
+                  wireRow(row);
+                  updateHiddenField();
+                }
+
+                async function uploadFile(file) {
+                  if (!uploadUrl) return;
+                  if (file.size > 10 * 1024 * 1024) {
+                    statusEl.classList.remove("hidden");
+                    statusEl.textContent = file.name + " is too large (max 10MB).";
+                    return;
+                  }
+                  if (!file.type || !file.type.startsWith("image/")) {
+                    statusEl.classList.remove("hidden");
+                    statusEl.textContent = file.name + " is not an image.";
+                    return;
+                  }
+
+                  const formData = new FormData();
+                  formData.append("image", file);
+                  statusEl.classList.remove("hidden");
+                  statusEl.textContent = "Uploading " + file.name + "...";
+
+                  const response = await fetch(uploadUrl, {
+                    method: "POST",
+                    headers: {
+                      "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: formData
+                  });
+                  const data = await response.json();
+                  if (response.ok && data.url) {
+                    appendRow(data.url, data.blob_signed_id);
+                    statusEl.textContent = "Uploaded " + file.name + ".";
+                  } else {
+                    statusEl.textContent = data.error || ("Upload failed for " + file.name + ".");
+                  }
+                }
+
+                async function processFiles(fileList) {
+                  if (!uploadUrl) return;
+                  const files = Array.from(fileList || []);
+                  for (const file of files) {
+                    await uploadFile(file);
+                  }
+                }
+
+                dropzone.addEventListener("click", function() {
+                  if (uploadUrl) fileInput.click();
+                });
+                fileInput.addEventListener("change", function(event) {
+                  processFiles(event.target.files);
+                  fileInput.value = "";
+                });
+                dropzone.addEventListener("dragover", function(event) {
+                  event.preventDefault();
+                  dropzone.classList.add("border-red-500", "bg-red-50");
+                });
+                dropzone.addEventListener("dragleave", function() {
+                  dropzone.classList.remove("border-red-500", "bg-red-50");
+                });
+                dropzone.addEventListener("drop", function(event) {
+                  event.preventDefault();
+                  dropzone.classList.remove("border-red-500", "bg-red-50");
+                  processFiles(event.dataTransfer.files);
+                });
+
+                imagesList.querySelectorAll(".gallery-image-row").forEach(wireRow);
+                const form = dropzone.closest("form");
+                if (form) {
+                  form.addEventListener("submit", updateHiddenField);
+                }
+                updateHiddenField();
+              }
+
+              document.addEventListener("turbo:load", initGalleryUploader);
+              document.addEventListener("DOMContentLoaded", initGalleryUploader);
+            })();
+          </script>
+        <% elsif attr.to_s.include?("url") || attr.to_s.include?("image") || attr.to_s.include?("gallery") || attr.to_s.include?("calendar") %>
+          <!-- URL/Image fields -->
+          <%= f.text_field attr,
+              placeholder: "https://example.com/image.jpg",
+              class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 transition" %>
+          
+          <% if field_value.present? && (field_value.to_s.include?("http") || field_value.to_s.start_with?("/")) %>
+            <% is_calendar_url = field_value.to_s.include?("calendar.google.com") || attr.to_s.include?("calendar") %>
+            
+            <% if is_calendar_url %>
+              <!-- Google Calendar Preview -->
+              <div class="mt-4 p-4 bg-gray-100 rounded-lg">
+                <p class="text-xs text-gray-600 mb-2">Calendar preview:</p>
+                <% if field_value.to_s.include?("embed") %>
+                  <iframe src="<%= field_value %>" style="border: 0" width="100%" height="300" frameborder="0" scrolling="no" class="rounded"></iframe>
+                <% else %>
+                  <a href="<%= field_value %>" target="_blank" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition">
+                    Open Calendar ↗
+                  </a>
+                <% end %>
+              </div>
+            <% else %>
+              <!-- Single image preview only (no duplicate input) -->
+              <div class="mt-4 p-4 bg-gray-100 rounded-lg">
+                <p class="text-xs text-gray-600 mb-2">Current image preview:</p>
+                <img src="<%= field_value %>" alt="<%= attr %>" class="h-40 w-auto rounded shadow-md" onerror="this.parentElement.style.display='none'" />
+              </div>
+            <% end %>
+          <% end %>
+        <% else %>
+          <%= f.text_field attr,
+              placeholder: "Enter #{attr.to_s.humanize.downcase}...",
+              class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 transition" %>
+        <% end %>
+      <% end %>
+    </fieldset>
+  <% end %>
+
+  <!-- Form Actions -->
+  <div class="flex gap-4 pt-8 border-t border-gray-200">
+    <% label = resource.new_record? ? "✓ Create" : "✓ Update" %>
+    <% resource_label = dashboard&.class&.name&.gsub(/Dashboard$/, '') || resource.class.model_name.singular %>
+    <%= f.button "#{label} #{resource_label}", 
+        class: "px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold rounded-lg transition shadow-md" %>
+    
+    <% cancel_path = dashboard ? send("admin_#{dashboard.class.name.gsub(/Dashboard$/, '').underscore.pluralize}_path") : admin_root_path %>
+    <%= link_to "Cancel", cancel_path, 
+        class: "px-6 py-3 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded-lg transition" %>
+  </div>
+<% end %>
