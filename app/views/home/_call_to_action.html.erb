@@ -1,7 +1,7 @@
 <section class="w-full bg-neutral-950 px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
   <div class="mx-auto mb-8 w-[94%] text-center sm:mb-10 sm:w-[90%] lg:w-[80%]">
     <h2 class="section-title text-white">Support the Program</h2>
-    <p class="section-subtitle text-white/70">Two ways to help keep Tulare Union Music thriving.</p>
+    <p class="section-subtitle text-white/70">Two ways to help keep <%= school.name %> Music thriving.</p>
   </div>
 
   <div class="mx-auto grid w-[94%] grid-cols-1 gap-5 sm:w-[90%] lg:w-[80%] lg:grid-cols-2 lg:gap-6">
@@ -18,9 +18,11 @@
         <p class="mt-2 text-base text-white/90"><strong><em>We Are Better Together</em></strong></p>
         <p class="mt-1 text-sm leading-relaxed text-white sm:text-base"><%= school.call_to_action %></p>
 
-        <div class="mt-4">
-          <%= link_to 'Donate Today', donations_path, class: 'inline-block border border-emerald-300 bg-emerald-400/10 px-4 py-2 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-emerald-500/25' %>
-        </div>
+        <% if donations_enabled? %>
+          <div class="mt-4">
+            <%= link_to 'Donate Today', donations_path, class: 'inline-block border border-emerald-300 bg-emerald-400/10 px-4 py-2 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-emerald-500/25' %>
+          </div>
+        <% end %>
       </div>
     </article>
 

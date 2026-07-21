@@ -1,0 +1,31 @@
+<nav class="flex flex-col h-full">
+  <!-- Navigation Links -->
+  <div class="flex-1 px-4 py-6 space-y-2">
+    <%= link_to "← Back to App", root_path, 
+        class: "block px-4 py-3 rounded-lg font-semibold transition bg-gray-200 hover:bg-gray-300 text-gray-800 mb-4" %>
+    
+    <%= link_to "Schools", admin_schools_path, 
+        class: "block px-4 py-3 rounded-lg font-semibold transition #{request.path.start_with?(admin_schools_path) ? 'bg-gradient-to-r from-red-600 to-red-700 text-white' : 'text-gray-700 hover:bg-gray-100'}" %>
+    
+    <%= link_to "Programs", admin_programs_path, 
+        class: "block px-4 py-3 rounded-lg font-semibold transition #{request.path.start_with?(admin_programs_path) ? 'bg-gradient-to-r from-red-600 to-red-700 text-white' : 'text-gray-700 hover:bg-gray-100'}" %>
+    
+    <%= link_to "Districts", admin_districts_path, 
+        class: "block px-4 py-3 rounded-lg font-semibold transition #{request.path.start_with?(admin_districts_path) ? 'bg-gradient-to-r from-red-600 to-red-700 text-white' : 'text-gray-700 hover:bg-gray-100'}" %>
+    
+    <%= link_to "Boosters", admin_boosters_path, 
+        class: "block px-4 py-3 rounded-lg font-semibold transition #{request.path.start_with?(admin_boosters_path) ? 'bg-gradient-to-r from-red-600 to-red-700 text-white' : 'text-gray-700 hover:bg-gray-100'}" %>
+    
+    <%= link_to "Fundraisers", admin_fundraisers_path, 
+        class: "block px-4 py-3 rounded-lg font-semibold transition #{request.path.start_with?(admin_fundraisers_path) ? 'bg-gradient-to-r from-red-600 to-red-700 text-white' : 'text-gray-700 hover:bg-gray-100'}" %>
+    
+    <%= link_to "Galleries", admin_galleries_path, 
+        class: "block px-4 py-3 rounded-lg font-semibold transition #{request.path.start_with?(admin_galleries_path) ? 'bg-gradient-to-r from-red-600 to-red-700 text-white' : 'text-gray-700 hover:bg-gray-100'}" %>
+  </div>
+
+  <!-- Bottom section with logout -->
+  <div class="px-4 py-6 border-t border-gray-200">
+    <%= button_to "Sign Out", destroy_director_session_path, method: :delete, 
+        class: "w-full px-4 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold rounded-lg transition text-center" %>
+  </div>
+</nav>

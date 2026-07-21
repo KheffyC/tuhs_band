@@ -18,11 +18,24 @@
         </div>
       </div>
 
-      <div class="mt-6 flex flex-wrap gap-3 text-xs font-semibold uppercase tracking-[0.18em] text-white/70">
-        <%= link_to 'Event Info', amazon_pdfs_path, class: "rounded-full border px-3 py-1 transition #{'border-amber-300 bg-amber-300 text-neutral-950' if @selected_group.blank?} #{'border-white/10 bg-white/5 hover:bg-white/10' if @selected_group.present?}" %>
-        <%= link_to 'Itineraries', amazon_pdfs_path(group: 'Itinerary'), class: "rounded-full border px-3 py-1 transition #{'border-amber-300 bg-amber-300 text-neutral-950' if @selected_group == 'Itinerary'} #{'border-white/10 bg-white/5 hover:bg-white/10' if @selected_group != 'Itinerary'}" %>
-        <%= link_to 'Schedules', amazon_pdfs_path(group: 'Schedules'), class: "rounded-full border px-3 py-1 transition #{'border-amber-300 bg-amber-300 text-neutral-950' if @selected_group == 'Schedules'} #{'border-white/10 bg-white/5 hover:bg-white/10' if @selected_group != 'Schedules'}" %>
-        <%= link_to 'Syllabuses', amazon_pdfs_path(group: 'Syllabus'), class: "rounded-full border px-3 py-1 transition #{'border-amber-300 bg-amber-300 text-neutral-950' if @selected_group == 'Syllabus'} #{'border-white/10 bg-white/5 hover:bg-white/10' if @selected_group != 'Syllabus'}" %>
+      <div class="mt-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div class="flex flex-wrap gap-3 text-xs font-semibold uppercase tracking-[0.18em] text-white/70">
+          <%= link_to 'Event Info', amazon_pdfs_path(program_id: @selected_program_id), class: "rounded-full border px-3 py-1 transition #{'border-amber-300 bg-amber-300 text-neutral-950' if @selected_group.blank?} #{'border-white/10 bg-white/5 hover:bg-white/10' if @selected_group.present?}" %>
+          <%= link_to 'Itineraries', amazon_pdfs_path(group: 'Itinerary', program_id: @selected_program_id), class: "rounded-full border px-3 py-1 transition #{'border-amber-300 bg-amber-300 text-neutral-950' if @selected_group == 'Itinerary'} #{'border-white/10 bg-white/5 hover:bg-white/10' if @selected_group != 'Itinerary'}" %>
+          <%= link_to 'Schedules', amazon_pdfs_path(group: 'Schedules', program_id: @selected_program_id), class: "rounded-full border px-3 py-1 transition #{'border-amber-300 bg-amber-300 text-neutral-950' if @selected_group == 'Schedules'} #{'border-white/10 bg-white/5 hover:bg-white/10' if @selected_group != 'Schedules'}" %>
+          <%= link_to 'Syllabuses', amazon_pdfs_path(group: 'Syllabus', program_id: @selected_program_id), class: "rounded-full border px-3 py-1 transition #{'border-amber-300 bg-amber-300 text-neutral-950' if @selected_group == 'Syllabus'} #{'border-white/10 bg-white/5 hover:bg-white/10' if @selected_group != 'Syllabus'}" %>
+        </div>
+
+        <%= form_with url: amazon_pdfs_path, method: :get, class: 'flex w-full max-w-sm flex-col gap-2 lg:w-auto', local: true do |form| %>
+          <%= form.hidden_field :group, value: @selected_group if @selected_group.present? %>
+          <%= form.label :program_id, 'Program name', class: 'text-xs font-semibold uppercase tracking-[0.18em] text-white/70' %>
+          <div class="flex gap-2">
+            <%= form.select :program_id, options_from_collection_for_select(@programs, :id, :short_name, @selected_program_id), { include_blank: 'All Programs' }, { class: 'w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-white transition focus:border-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-300/30', onchange: 'this.form.requestSubmit()' } %>
+            <% if @selected_program_id.present? || @selected_group.present? %>
+              <%= link_to 'Clear', amazon_pdfs_path, class: 'inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-white transition hover:bg-white/10' %>
+            <% end %>
+          </div>
+        <% end %>
       </div>
     </div>
 
@@ -52,6 +65,11 @@
                         <p class="mt-1 text-xs font-semibold uppercase tracking-[0.18em] text-white/70">
                           <%= pdf.event_date ? pdf.event_date.strftime('%B %d, %Y') : 'No event date' %>
                         </p>
+                        <% if pdf.program.present? %>
+                          <p class="mt-2 inline-flex rounded-full border border-white/15 bg-white/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-amber-100">
+                            <%= pdf.program.short_name.presence || pdf.program.name %>
+                          </p>
+                        <% end %>
                       </div>
                     </div>
                   </div>
@@ -81,10 +99,20 @@
       </div>
     <% else %>
       <div class="mt-8 flex min-h-[50vh] flex-col items-center justify-center rounded-3xl border border-white/10 bg-white/5 px-6 text-center shadow-[0_18px_45px_rgba(0,0,0,0.3)]">
-        <h2 class="text-4xl font-bold text-white"><%= @selected_group.present? ? "No #{@selected_group} Documents Posted" : 'No Documents Posted' %></h2>
+        <h2 class="text-4xl font-bold text-white">
+          <%= if @selected_group.present? && @selected_program.present?
+                "No #{@selected_group} Documents Posted for #{@selected_program.short_name.presence || @selected_program.name}"
+              elsif @selected_group.present?
+                "No #{@selected_group} Documents Posted"
+              elsif @selected_program.present?
+                "No Documents Posted for #{@selected_program.short_name.presence || @selected_program.name}"
+              else
+                'No Documents Posted'
+              end %>
+        </h2>
         <p class="mt-3 max-w-2xl text-base leading-relaxed text-white/70">
-          <% if @selected_group.present? %>
-            There are no documents in this category yet. Try another filter or upload a new file if you are a director.
+          <% if @selected_group.present? || @selected_program.present? %>
+            There are no documents for this filter yet. Try another category, switch programs, or upload a new file if you are a director.
           <% else %>
             This is where families and students will find the latest schedules, itineraries, and syllabuses.
           <% end %>

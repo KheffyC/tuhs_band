@@ -6,18 +6,18 @@
   end
 %>
 
-<% hero_image = "https://images.unsplash.com/photo-1511192336575-5a79af67a629?auto=format&fit=crop&crop=entropy&w=3000&h=1350&q=80" %>
+<% hero_image = "/assets/default-hero.jpg" %>
 
 
 <section
-  class="relative h-[72vh] overflow-hidden bg-black bg-cover bg-center bg-no-repeat sm:h-[82vh] lg:h-[100vh]"
+  class="relative h-[calc(100vh-88px)] overflow-hidden bg-black bg-cover bg-center bg-no-repeat sm:h-[calc(100vh-88px)] lg:h-[calc(100vh-104px)]"
   style="background-image: url('<%= hero_image %>');">
   <div class="absolute inset-0 bg-gradient-to-r from-black/85 via-black/65 to-black/55"></div>
   <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0.65)_72%)]"></div>
 
-  <div class="relative z-10 mx-auto flex h-full w-full max-w-5xl items-center justify-center px-4 sm:px-6 lg:px-8">
-    <div class="max-w-4xl px-2 py-8 text-center sm:px-4 sm:py-10 lg:py-14">
-      <h1 class="text-4xl font-bold tracking-tight text-white [text-shadow:0_4px_22px_rgba(0,0,0,0.98)] sm:text-6xl lg:text-8xl">
+  <div class="relative z-10 mx-auto flex h-full w-full max-w-full items-center justify-center px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl px-2 py-8 text-center sm:px-4 sm:py-10 lg:py-14">
+      <h1 class="font-display text-4xl font-bold tracking-tight text-white [text-shadow:0_4px_22px_rgba(0,0,0,0.98)] sm:text-6xl lg:text-8xl">
         <%= local_assigns[:page_title] ? page_title : @school.hero_title %>
       </h1>
 

@@ -1,0 +1,106 @@
+<section class="relative w-full bg-black py-12 sm:py-16 lg:py-20">
+  <div class="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="mb-8 text-center">
+      <h1 class="text-3xl sm:text-4xl font-display font-bold text-gray-900 mb-2">
+        <%= @gallery.title %>
+      </h1>
+      <% if @gallery.description.present? %>
+        <p class="text-gray-700 max-w-2xl mx-auto">
+          <%= @gallery.description %>
+        </p>
+      <% end %>
+    </div>
+
+    <!-- Filter by Class Period -->
+    <% if @class_periods.any? %>
+      <div class="mb-8 flex justify-center">
+        <div class="inline-flex items-center gap-3">
+          <span class="text-sm font-semibold text-gray-700">Filter:</span>
+          <select id="period-filter" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 text-sm">
+            <option value="">All Periods</option>
+            <% @class_periods.each do |period| %>
+              <option value="<%= period %>" <% if @selected_period == period %>selected<% end %>>
+                <%= period.titleize %>
+              </option>
+            <% end %>
+          </select>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Gallery Grid -->
+    <% if @images.any? %>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <% @images.each do |image| %>
+          <div class="group relative overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer bg-gray-100"
+               data-period="<%= image['class_period'] %>">
+            <img 
+              src="<%= image['url'] %>" 
+              alt="Gallery image" 
+              class="h-64 w-full object-cover group-hover:scale-105 transition-transform duration-300"
+              loading="lazy"
+              onerror="this.style.display='none'; this.parentElement.classList.add('bg-gray-200')" />
+            
+            <!-- Hover Overlay -->
+            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <button class="px-6 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition"
+                      onclick="openLightbox('<%= image['url'] %>')">
+                View
+              </button>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="text-center py-12">
+        <p class="text-gray-500 text-lg">No images to display.</p>
+      </div>
+    <% end %>
+  </div>
+</section>
+
+<!-- Lightbox Modal -->
+<div id="lightbox" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
+  <div class="relative max-w-4xl w-full">
+    <button onclick="closeLightbox()" 
+            class="absolute -top-10 right-0 text-white hover:text-gray-300 text-3xl">
+      ✕
+    </button>
+    <img id="lightbox-image" src="" alt="Full size" class="w-full h-auto rounded-lg" />
+  </div>
+</div>
+
+<script>
+  function openLightbox(url) {
+    document.getElementById("lightbox").classList.remove("hidden");
+    document.getElementById("lightbox-image").src = url;
+    document.body.style.overflow = "hidden";
+  }
+  
+  function closeLightbox() {
+    document.getElementById("lightbox").classList.add("hidden");
+    document.body.style.overflow = "auto";
+  }
+  
+  // Period filter
+  document.getElementById("period-filter").addEventListener("change", function(e) {
+    const selectedPeriod = e.target.value;
+    const images = document.querySelectorAll("[data-period]");
+    
+    images.forEach(img => {
+      if (!selectedPeriod || img.getAttribute("data-period") === selectedPeriod) {
+        img.style.display = "";
+      } else {
+        img.style.display = "none";
+      }
+    });
+  });
+  
+  // Close lightbox on Escape key
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") {
+      closeLightbox();
+    }
+  });
+</script>

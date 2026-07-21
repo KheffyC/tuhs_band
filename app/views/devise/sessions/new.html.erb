@@ -1,0 +1,55 @@
+<div class="min-h-screen flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8" style="background: black;">
+  <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8 sm:p-10">
+    <div class="text-center mb-8">
+      <h1 class="font-display text-4xl font-bold text-gray-900 mb-2">Director Dashboard</h1>
+      <p class="text-gray-600">Sign in to your account</p>
+    </div>
+
+    <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), local: true) do |f| %>
+      <div class="space-y-6">
+        <!-- Email Input -->
+        <div>
+          <%= f.label :email, class: "block text-sm font-semibold text-gray-700 mb-2" %>
+          <%= f.email_field :email,
+                            required: false,
+                            autofocus: true,
+                            class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent transition",
+                            autocomplete: "email" %>
+        </div>
+
+        <!-- Password Input -->
+        <div>
+          <%= f.label :password, class: "block text-sm font-semibold text-gray-700 mb-2" %>
+          <%= f.password_field :password,
+                               required: false,
+                               class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent transition",
+                               autocomplete: "current-password" %>
+        </div>
+
+        <!-- Remember Me -->
+        <% if devise_mapping.rememberable? %>
+          <div class="flex items-center">
+            <%= f.input :remember_me, 
+                        as: :boolean,
+                        label: "Remember me",
+                        input_html: { class: "rounded" },
+                        wrapper: false,
+                        label_html: { class: "ml-2 text-sm text-gray-600" } %>
+          </div>
+        <% end %>
+
+        <!-- Submit Button -->
+        <div class="pt-4">
+          <%= f.button :submit, "Sign In", class: "w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 py-3 px-4 font-bold text-white rounded-lg transition duration-200 hover:shadow-lg" %>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Links -->
+    <div class="mt-8 pt-6 border-t border-gray-200">
+      <div class="space-y-4 text-center text-sm">
+        <%= render "devise/shared/links" %>
+      </div>
+    </div>
+  </div>
+</div>

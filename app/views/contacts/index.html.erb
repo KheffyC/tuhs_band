@@ -1,62 +1,38 @@
 <div class="min-h-[88vh] px-4 py-8 md:px-8 md:py-12">
-  <section class="mx-auto w-full max-w-6xl space-y-8">
+  <section class="mx-auto w-full max-w-5xl space-y-8">
     <div class="space-y-3 text-center">
       <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-white">Contact</h1>
       <p class="mx-auto max-w-3xl text-sm md:text-base text-slate-200/90">
-        Messages are sent directly to Mario Capote. Phone numbers are also listed for direct calls.
+        Phone numbers are also listed for direct calls in need of emergency only. 
       </p>
     </div>
 
-    <div class="grid grid-cols-1 gap-6 lg:grid-cols-12">
-      <div class="lg:col-span-5">
-        <div class="rounded-2xl border border-amber-300/35 bg-gradient-to-br from-amber-500/15 via-slate-900/80 to-slate-950/90 p-5 md:p-7 text-white shadow-2xl shadow-amber-500/20 ring-1 ring-amber-200/20 backdrop-blur-sm">
-          <h2 class="mb-5 text-xl md:text-2xl font-bold">Send a Message</h2>
-
-          <%= simple_form_for :contact, url: contacts_url, method: :post do |form| %>
-            <%= invisible_captcha %>
-
-            <div class="space-y-4">
-              <%= form.input :name, label_html: { class: 'text-sm font-semibold text-slate-100' }, input_html: { class: 'w-full rounded-lg border border-white/25 bg-slate-900/70 px-3 py-2.5 text-white placeholder-slate-400 outline-none transition focus:border-amber-300 focus:ring-2 focus:ring-amber-300/25' } %>
-
-              <%= form.input :email_address, label_html: { class: 'text-sm font-semibold text-slate-100' }, input_html: { class: 'w-full rounded-lg border border-white/25 bg-slate-900/70 px-3 py-2.5 text-white placeholder-slate-400 outline-none transition focus:border-amber-300 focus:ring-2 focus:ring-amber-300/25' } %>
-
-              <%= form.input :subject, label_html: { class: 'text-sm font-semibold text-slate-100' }, input_html: { class: 'w-full rounded-lg border border-white/25 bg-slate-900/70 px-3 py-2.5 text-white placeholder-slate-400 outline-none transition focus:border-amber-300 focus:ring-2 focus:ring-amber-300/25' } %>
-
-              <%= form.input :message, as: :text, label_html: { class: 'text-sm font-semibold text-slate-100' }, input_html: { rows: 5, class: 'w-full rounded-lg border border-white/25 bg-slate-900/70 px-3 py-2.5 text-white placeholder-slate-400 outline-none transition focus:border-amber-300 focus:ring-2 focus:ring-amber-300/25' } %>
-
-              <%= form.button :submit, 'Send Message', class: 'inline-flex w-full items-center justify-center rounded-lg bg-amber-400 px-5 py-2.5 text-sm font-bold text-slate-900 transition hover:bg-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-200/80' %>
-            </div>
-          <% end %>
-        </div>
-      </div>
-
-      <div class="lg:col-span-7">
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <article class="rounded-2xl border border-sky-300/30 bg-gradient-to-br from-sky-500/15 via-slate-900/80 to-slate-950/90 p-5 text-white shadow-xl shadow-sky-500/20 ring-1 ring-sky-200/20 backdrop-blur-sm">
+    <div>
+      <div class="mx-auto grid max-w-4xl grid-cols-1 items-stretch gap-5 md:grid-cols-2">
+        <article class="flex h-full flex-col justify-between rounded-2xl border border-sky-300/30 bg-gradient-to-br from-sky-500/15 via-slate-900/80 to-slate-950/90 p-6 text-white shadow-xl shadow-sky-500/20 ring-1 ring-sky-200/20 backdrop-blur-sm">
+          <div class="space-y-1.5">
             <h3 class="mb-2 text-lg font-bold">Director of Instrumental Music</h3>
             <p class="text-slate-100"><%= @school&.director_name.presence || 'Mario Capote' %></p>
             <p class="text-slate-200"><%= @school&.director_phone.presence || '(559) 686-4761' %></p>
             <p class="mt-1 text-slate-200 break-all"><%= @school&.director_email.presence || 'mario.capote@tulare.k12.ca.us' %></p>
-          </article>
+          </div>
+        </article>
 
-          <article class="rounded-2xl border border-violet-300/30 bg-gradient-to-br from-violet-500/15 via-slate-900/80 to-slate-950/90 p-5 text-white shadow-xl shadow-violet-500/20 ring-1 ring-violet-200/20 backdrop-blur-sm">
+        <article class="flex h-full flex-col justify-between rounded-2xl border border-violet-300/30 bg-gradient-to-br from-violet-500/15 via-slate-900/80 to-slate-950/90 p-6 text-white shadow-xl shadow-violet-500/20 ring-1 ring-violet-200/20 backdrop-blur-sm">
+          <div class="space-y-1.5">
             <h3 class="mb-2 text-lg font-bold">Booster Questions</h3>
             <p class="text-slate-100 break-all">tuhsbandboosters@gmail.com</p>
-          </article>
+          </div>
+        </article>
 
-          <article class="rounded-2xl border border-emerald-300/30 bg-gradient-to-br from-emerald-500/15 via-slate-900/80 to-slate-950/90 p-5 text-white shadow-xl shadow-emerald-500/20 ring-1 ring-emerald-200/20 backdrop-blur-sm">
+        <article class="flex h-full flex-col justify-between rounded-2xl border border-emerald-300/30 bg-gradient-to-br from-emerald-500/15 via-slate-900/80 to-slate-950/90 p-6 text-white shadow-xl shadow-emerald-500/20 ring-1 ring-emerald-200/20 backdrop-blur-sm">
+          <div class="space-y-1.5">
             <h3 class="mb-2 text-lg font-bold">Percussion Caption Head</h3>
-            <p class="text-slate-100"><%= @school&.percussion_director_name.presence || 'Ray Rivera' %></p>
-            <p class="text-slate-200"><%= @school&.percussion_director_phone.presence || '(559) 799-5023' %></p>
-            <p class="mt-1 text-slate-200 break-all"><%= @school&.percussion_director_email.presence || 'rayrayrivera19@gmail.com' %></p>
-          </article>
-
-          <article class="rounded-2xl border border-rose-300/30 bg-gradient-to-br from-rose-500/15 via-slate-900/80 to-slate-950/90 p-5 text-white shadow-xl shadow-rose-500/20 ring-1 ring-rose-200/20 backdrop-blur-sm">
-            <h3 class="mb-2 text-lg font-bold">Problems with the website?</h3>
-            <p class="text-slate-100 break-all">kheffy.cervantez@gmail.com</p>
-            <p class="text-slate-200">(559) 331-0692</p>
-          </article>
-        </div>
+            <p class="text-slate-100"><%= @school&.percussion_director_name.presence || 'Test User' %></p>
+            <p class="text-slate-200"><%= @school&.percussion_director_phone.presence || '(559) 799-XXXX' %></p>
+            <p class="mt-1 text-slate-200 break-all"><%= @school&.percussion_director_email.presence || 'testuser@gmail.com' %></p>
+          </div>
+        </article>
       </div>
     </div>
   </section>

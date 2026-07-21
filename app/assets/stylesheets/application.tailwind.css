@@ -1,16 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Syne:wght@400..800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   html {
-    font-family: "Inter var", Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-family: "DM Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
   }
 }
 
 @layer components {
   .section-title {
-    @apply text-5xl font-bold tracking-tight sm:text-6xl;
+    /* Added font-display so all section titles automatically use Syne */
+    @apply font-display text-5xl font-bold tracking-tight sm:text-6xl;
   }
 
   .section-subtitle {

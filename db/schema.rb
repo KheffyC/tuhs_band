@@ -117,6 +117,16 @@ ActiveRecord::Schema[7.0].define(version: 2026_05_29_120001) do
     t.index ["program_id"], name: "index_fundraisers_on_program_id"
   end
 
+  create_table "galleries", force: :cascade do |t|
+    t.bigint "school_id", null: false
+    t.jsonb "images", default: [], null: false
+    t.string "title", default: "Gallery", null: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["school_id"], name: "index_galleries_on_school_id"
+  end
+
   create_table "programs", force: :cascade do |t|
     t.string "name", limit: 100, null: false
     t.string "description"
@@ -175,6 +185,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_05_29_120001) do
   add_foreign_key "amazon_pdfs", "programs"
   add_foreign_key "boosters", "schools"
   add_foreign_key "fundraisers", "programs"
+  add_foreign_key "galleries", "schools"
   add_foreign_key "programs", "schools"
   add_foreign_key "schools", "districts"
 end

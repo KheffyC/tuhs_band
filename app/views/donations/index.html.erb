@@ -12,32 +12,36 @@
 
     <section class="rounded-2xl bg-slate-900/55 p-5 md:p-8 shadow-xl backdrop-blur-sm">
       <p class="text-base md:text-lg leading-relaxed text-slate-100 text-center">
-        In order to keep our commitment to excellence, the Tulare Union Band works to raise funds to cover essential expenses including transportation to events and competitions, uniforms, instrument purchases, repairs, and instructional programs for students.
+        In order to keep our commitment to excellence, the <%= @school&.name || 'School' %> Band works to raise funds to cover essential expenses including transportation to events and competitions, uniforms, instrument purchases, repairs, and instructional programs for students.
         We are looking for partners to support our band program. Please consider making a donation to support this vital endeavor.
       </p>
     </section>
 
-    <section class="space-y-4 rounded-2xl border border-amber-300/25 bg-gradient-to-br from-amber-500/15 via-slate-900/80 to-slate-950/90 p-5 md:p-8 shadow-xl shadow-amber-500/20 ring-1 ring-amber-200/20">
-      <div class="text-center">
-        <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-amber-200">Choose a Giving Level</h2>
-        <p class="mt-1 text-sm md:text-base text-white">Select one of our preset sponsorship options below.</p>
-      </div>
-      <div class="rounded-xl bg-black/20 p-2 md:p-4">
-        <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
-        <stripe-pricing-table pricing-table-id="<%= ENV['STRIPE_PID'] %>" publishable-key="<%= ENV['STRIPE_PK'] %>"></stripe-pricing-table>
-      </div>
-    </section>
+    <% if @pricing_table_id.present? %>
+      <section class="space-y-4 rounded-2xl border border-amber-300/25 bg-gradient-to-br from-amber-500/15 via-slate-900/80 to-slate-950/90 p-5 md:p-8 shadow-xl shadow-amber-500/20 ring-1 ring-amber-200/20">
+        <div class="text-center">
+          <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-amber-200">Choose a Giving Level</h2>
+          <p class="mt-1 text-sm md:text-base text-white">Select one of our preset sponsorship options below.</p>
+        </div>
+        <div class="rounded-xl bg-black/20 p-2 md:p-4">
+          <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
+          <stripe-pricing-table pricing-table-id="<%= @pricing_table_id %>" publishable-key="<%= @publishable_key %>"></stripe-pricing-table>
+        </div>
+      </section>
+    <% end %>
 
-    <section class="space-y-4 rounded-2xl border border-sky-300/25 bg-gradient-to-br from-sky-500/15 via-slate-900/80 to-slate-950/90 p-5 md:p-8 shadow-xl shadow-sky-500/20 ring-1 ring-sky-200/20">
-      <div class="text-center">
-        <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-white">Give a Custom Amount</h2>
-        <p class="mt-1 text-sm md:text-base text-white">Want to contribute a different amount? Use the secure button below.</p>
-      </div>
-      <div class="flex justify-center rounded-xl bg-black/20 p-4">
-        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-        <stripe-buy-button buy-button-id="<%= ENV['STRIPE_BID'] %>" publishable-key="<%= ENV['STRIPE_PK'] %>"></stripe-buy-button>
-      </div>
-    </section>
+    <% if @buy_button_id.present? %>
+      <section class="space-y-4 rounded-2xl border border-sky-300/25 bg-gradient-to-br from-sky-500/15 via-slate-900/80 to-slate-950/90 p-5 md:p-8 shadow-xl shadow-sky-500/20 ring-1 ring-sky-200/20">
+        <div class="text-center">
+          <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-white">Give a Custom Amount</h2>
+          <p class="mt-1 text-sm md:text-base text-white">Want to contribute a different amount? Use the secure button below.</p>
+        </div>
+        <div class="flex justify-center rounded-xl bg-black/20 p-4">
+          <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+          <stripe-buy-button buy-button-id="<%= @buy_button_id %>" publishable-key="<%= @publishable_key %>"></stripe-buy-button>
+        </div>
+      </section>
+    <% end %>
 
   </div>
 </div>

@@ -3,12 +3,19 @@ class AmazonPdfsController < ApplicationController
   before_action :set_amazon_pdf , only: [:show, :edit, :update, :destroy]
 
   def index
-    @amazon_pdfs = AmazonPdf.programless.order(type_of_pdf_group: :desc)
+    @programs = @school.programs.order(:short_name, :name)
+    @selected_program_id = params[:program_id].presence
+    @selected_program = @programs.find_by(id: @selected_program_id)
+    @amazon_pdfs = AmazonPdf.library_documents.includes(:program).order(type_of_pdf_group: :desc)
     group_order = ['Itinerary','Schedules', 'Syllabus']
     @selected_group = params[:group].presence
 
     if @selected_group.present?
       @amazon_pdfs = @amazon_pdfs.where(type_of_pdf_group: @selected_group)
+    end
+
+    if @selected_program.present?
+      @amazon_pdfs = @amazon_pdfs.where(program_id: @selected_program.id)
     end
 
     @grouped_amazon_pdfs = @amazon_pdfs.order(:event_date).group_by { |pdf| pdf.type_of_pdf_group }

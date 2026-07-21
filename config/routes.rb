@@ -15,6 +15,9 @@ Rails.application.routes.draw do
     resources :districts
     resources :boosters
     resources :fundraisers
+    resources :galleries do
+      post :upload_image, on: :member
+    end
 
     root to: "schools#index"
   end
@@ -28,6 +31,8 @@ Rails.application.routes.draw do
   resources :amazon_pdfs, path: 'pdfs' do
     get :student_forms, on: :collection
   end
+
+  resources :galleries
 
   resources :fundraisers
   resources :donations do
