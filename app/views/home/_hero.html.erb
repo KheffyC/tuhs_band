@@ -4,6 +4,8 @@
   else
     @school.default_image.presence || @school.home_page_image_urls.to_s.split(',').first
   end
+
+  hero_image = image_path(hero_image) if hero_image.present? && hero_image !~ %r{\Ahttps?://}
 %>
 
 <section
