@@ -4,6 +4,7 @@
 #
 #  id                        :bigint           not null, primary key
 #  about                     :string
+#  about_hero_image          :string
 #  calendar_url              :string
 #  call_to_action            :string
 #  city                      :string

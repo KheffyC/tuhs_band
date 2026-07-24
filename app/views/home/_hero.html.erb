@@ -1,8 +1,12 @@
 <%
-  hero_image = if local_assigns[:program]
-    safe_image_source(@program.main_gallery_image_url.presence || @program.about_image_url.presence || @school.default_image)
+  hero_image_override = local_assigns[:hero_image_override]
+
+  hero_image = if local_assigns[:hero_image_override].present?
+    safe_image_source(hero_image_override)
+  elsif local_assigns[:program]
+    safe_image_source(@program.main_gallery_image_url.presence || @program.about_image_url.presence || @school&.default_image)
   else
-    safe_image_source(@school.default_image.presence || @school.home_page_image_urls.to_s.split(',').first)
+    safe_image_source(@school&.default_image.presence || @school&.home_page_image_urls.to_s.split(',').first)
   end
 %>
 

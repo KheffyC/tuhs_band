@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_07_24_120000) do
+ActiveRecord::Schema[7.0].define(version: 2026_07_24_123000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -176,6 +176,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_07_24_120000) do
     t.string "performance_absence_form"
     t.string "rehearsal_absence_form"
     t.string "handbook_contract_form"
+    t.string "about_hero_image"
     t.index ["district_id"], name: "index_schools_on_district_id"
     t.index ["name"], name: "index_schools_on_name"
   end

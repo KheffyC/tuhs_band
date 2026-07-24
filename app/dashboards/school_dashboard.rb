@@ -28,6 +28,7 @@ class SchoolDashboard < Administrate::BaseDashboard
     description: Field::String,
     programs: Field::HasMany,
     hero_title: Field::Text,
+    about_hero_image: Field::String,
     calendar_url: Field::String,
     home_page_image_urls: Field::String,
     call_to_action: Field::Text,
@@ -66,6 +67,7 @@ class SchoolDashboard < Administrate::BaseDashboard
     description
     about
     hero_title
+    about_hero_image
     home_page_image_urls
     default_image
     call_to_action
@@ -98,6 +100,7 @@ class SchoolDashboard < Administrate::BaseDashboard
     description
     about
     hero_title
+    about_hero_image
     default_image
     home_page_image_urls
     call_to_action
