@@ -8,7 +8,8 @@ module ApplicationHelper
 
       return normalized_source if normalized_source.match?(%r{\A(?:https?:)?//}i) || normalized_source.start_with?('data:')
 
-      return image_path(normalized_source)
+      resolved_local_asset = resolved_local_image_asset_path(normalized_source)
+      return resolved_local_asset if resolved_local_asset.present?
     rescue StandardError
       next
     end
@@ -34,5 +35,21 @@ module ApplicationHelper
 
   def admin_image_field_name?(attribute_name)
     attribute_name.to_s.match?(/image|gallery/i)
+  end
+
+  def admin_image_preview_source(source)
+    normalized_source = source.to_s.strip
+    return nil if normalized_source.blank?
+    return normalized_source if normalized_source.match?(%r{\A(?:https?:)?//}i) || normalized_source.start_with?('data:')
+
+    resolved_local_image_asset_path(normalized_source)
+  end
+
+  private
+
+  def resolved_local_image_asset_path(source)
+    image_path(source)
+  rescue StandardError
+    nil
   end
 end

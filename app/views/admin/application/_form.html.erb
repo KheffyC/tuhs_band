@@ -163,7 +163,7 @@
         <%= f.number_field attr,
             placeholder: "Enter a number",
             class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 transition" %>
-      <% elsif admin_image_field_name?(attr_name) %>
+      <% elsif admin_image_field_name?(attr_name) && !(resource.is_a?(Gallery) && attr.to_s == "images") %>
         <!-- Image/Text Input With Local Asset Suggestions -->
         <label for="<%= resource.class.model_name.param_key %>_<%= attr %>" class="block text-sm font-semibold text-gray-700 mb-2">
           <%= attribute&.label || attr.to_s.humanize %>
@@ -186,9 +186,14 @@
         </datalist>
 
         <% if preview_source.present? %>
+          <% preview_url = admin_image_preview_source(preview_source) %>
           <div class="mt-4 p-4 bg-gray-100 rounded-lg">
             <p class="text-xs text-gray-600 mb-2">Current image preview:</p>
-            <%= image_tag safe_image_source(preview_source), alt: attr.to_s.humanize, class: "h-40 w-auto rounded shadow-md object-cover", onerror: "this.parentElement.style.display='none'" %>
+            <% if preview_url.present? %>
+              <%= image_tag preview_url, alt: attr.to_s.humanize, class: "h-40 w-auto rounded shadow-md object-cover", onerror: "this.parentElement.style.display='none'" %>
+            <% else %>
+              <p class="text-xs text-amber-700">Preview unavailable for this image path. Check filename or use a full URL.</p>
+            <% end %>
           </div>
         <% end %>
       <% else %>
