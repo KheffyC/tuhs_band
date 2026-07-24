@@ -1,0 +1,118 @@
+<% source_mode = form.object.source_mode %>
+
+<% if form.object.errors.any? %>
+  <div class="rounded-2xl border border-rose-400/30 bg-rose-500/10 p-4 text-rose-100">
+    <p class="text-sm font-semibold uppercase tracking-[0.16em]">Please fix the following</p>
+    <ul class="mt-2 list-disc space-y-1 pl-5 text-sm">
+      <% form.object.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<div
+  x-data="{
+    sourceMode: '<%= j source_mode %>',
+    isDragging: false,
+    selectedFileName: '<%= j(form.object.pdf.attached? ? form.object.pdf.filename.to_s : '') %>',
+    show_date: <%= form.object.event_date.present? ? 'true' : 'false' %>
+  }"
+  x-init="$watch('sourceMode', value => { if (value !== 'upload') { this.isDragging = false; } })"
+  class="space-y-6"
+>
+  <div>
+    <p class="block text-sm font-semibold uppercase tracking-wide text-white mb-2">Document Source</p>
+    <div class="grid gap-3 sm:grid-cols-2">
+      <label class="flex cursor-pointer items-center gap-3 rounded-xl border border-white/15 bg-white/5 px-4 py-3 transition hover:bg-white/10">
+        <%= form.radio_button :source_mode, 'upload', class: 'sr-only', 'x-model': 'sourceMode' %>
+        <span class="flex h-4 w-4 items-center justify-center rounded-full border border-white/40" :class="sourceMode === 'upload' ? 'bg-amber-300 border-amber-300' : ''"></span>
+        <span>
+          <span class="block text-sm font-semibold text-white">Upload PDF</span>
+          <span class="block text-xs text-white/65">Attach a local PDF file</span>
+        </span>
+      </label>
+
+      <label class="flex cursor-pointer items-center gap-3 rounded-xl border border-white/15 bg-white/5 px-4 py-3 transition hover:bg-white/10">
+        <%= form.radio_button :source_mode, 'link', class: 'sr-only', 'x-model': 'sourceMode' %>
+        <span class="flex h-4 w-4 items-center justify-center rounded-full border border-white/40" :class="sourceMode === 'link' ? 'bg-amber-300 border-amber-300' : ''"></span>
+        <span>
+          <span class="block text-sm font-semibold text-white">Link Google Doc / Drive</span>
+          <span class="block text-xs text-white/65">Paste a shareable Google link</span>
+        </span>
+      </label>
+    </div>
+  </div>
+
+  <div x-show="sourceMode === 'upload'" x-cloak x-transition.opacity.duration.200ms>
+    <%= form.label :pdf, 'Select PDF File', class: "block text-sm font-semibold uppercase tracking-wide text-white mb-2" %>
+    <div
+      @dragover.prevent="isDragging = true"
+      @dragenter.prevent="isDragging = true"
+      @dragleave.prevent="isDragging = false"
+      @drop.prevent="isDragging = false"
+      :class="isDragging ? 'border-amber-500 bg-amber-100/95 ring-2 ring-amber-400/70' : 'border-amber-300/80 bg-amber-50/95'"
+      class="rounded-xl border-2 border-dashed p-4 md:p-5 transition text-center"
+    >
+      <div class="flex flex-col items-center justify-center gap-3 text-center">
+        <div>
+          <p class="text-sm font-semibold text-amber-900">Drag and drop your PDF here</p>
+          <p class="text-xs text-amber-800/90">or use the file picker button</p>
+        </div>
+        <%= form.file_field :pdf,
+          accept: 'application/pdf',
+          id: 'amazon_pdf_pdf',
+          class: 'hidden',
+          x_ref: 'pdfInput',
+          "@change": "selectedFileName = $event.target.files?.[0]?.name || ''"
+        %>
+        <label for="amazon_pdf_pdf" class="inline-flex cursor-pointer items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400/70">Choose File</label>
+        <p class="text-xs font-medium text-amber-700" x-text="selectedFileName || 'No file chosen'"></p>
+      </div>
+    </div>
+    <% if form.object.pdf.attached? %>
+      <p class="mt-2 text-xs text-white/70">Current file: <%= form.object.pdf.filename.to_s %></p>
+    <% end %>
+  </div>
+
+  <div x-show="sourceMode === 'link'" x-cloak x-transition.opacity.duration.200ms>
+    <%= form.label :linked_document_url, 'Google Docs / Drive URL', class: "block text-sm font-semibold uppercase tracking-wide text-white mb-2" %>
+    <%= form.input :linked_document_url, label: false, error: false, input_html: { class: "w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-slate-800 placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/30", placeholder: 'https://docs.google.com/...' } %>
+    <p class="mt-2 text-xs text-white/70">Paste a shareable Google Docs or Google Drive link.</p>
+    <%= form.error :linked_document_url, class: 'mt-2 block text-sm text-rose-300' %>
+  </div>
+
+  <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+    <div>
+      <%= form.label :name, 'Document Name', class: "block text-sm font-semibold uppercase tracking-wide text-slate-100 mb-2" %>
+      <%= form.input :name, label: false, error: false, input_html: { class: "w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-slate-800 placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/30" } %>
+      <%= form.error :name, class: 'mt-2 block text-sm text-rose-300' %>
+    </div>
+
+    <div>
+      <%= form.label :programs, 'Who is this document for?', class: "block text-sm font-semibold uppercase tracking-wide text-slate-100 mb-2" %>
+      <%= form.collection_select :program_id, @school.programs.all.order(:name), :id, :short_name, { include_blank: '--All Programs--' }, { class: 'w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-slate-800 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/30' } %>
+    </div>
+  </div>
+
+  <div>
+    <%= form.label :programs, 'What type of document?', class: "block text-sm font-semibold uppercase tracking-wide text-slate-100 mb-2" %>
+    <%= form.input :type_of_pdf_group, collection: ['Itinerary', 'Syllabus', 'Student Forms', 'Department Handbook', '3rd Party Transportation', 'Schedules', 'Other'], include_blank: '---- None Selected ---', label: false, input_html: { class: "w-full md:w-2/3 rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-slate-800 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/30" } %>
+    <%= form.error :type_of_pdf_group, class: 'mt-2 block text-sm text-rose-300' %>
+  </div>
+
+  <div>
+    <button
+      @click.prevent="show_date = !show_date"
+      type="button"
+      class="inline-flex items-center rounded-full border border-white/30 bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-sky-400/70"
+    >
+      <span x-text="show_date ? 'Hide Event Date' : 'Add Event Date'"></span>
+    </button>
+  </div>
+
+  <div x-show="show_date" x-cloak x-transition.opacity.duration.200ms>
+    <%= form.label :event_date, 'Event Date', class: "block text-sm font-semibold uppercase tracking-wide text-slate-100 mb-2" %>
+    <%= form.date_field :event_date, class: "w-full md:w-auto min-w-[13rem] rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-slate-800 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/30" %>
+  </div>
+</div>

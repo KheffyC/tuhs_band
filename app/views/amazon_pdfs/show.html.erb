@@ -1,0 +1,43 @@
+<div class="min-h-screen px-4 py-8 md:px-8 md:py-12">
+  <div class="mx-auto w-full max-w-4xl space-y-6">
+    <div class="flex items-center gap-3">
+      <%= link_to '← Back to Documents', amazon_pdfs_path, class: 'text-sm font-semibold text-amber-300 hover:text-amber-200 transition' %>
+    </div>
+
+    <article class="rounded-2xl border border-amber-300/35 bg-gradient-to-br from-amber-500/15 via-slate-900/80 to-slate-950/90 shadow-2xl shadow-amber-500/20 ring-1 ring-amber-200/20 backdrop-blur-sm overflow-hidden">
+      <div class="space-y-6 p-6 md:p-8">
+        <div class="flex flex-wrap items-start justify-between gap-4">
+          <div class="space-y-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-amber-100"><%= @amazon_pdf.source_label %></span>
+              <span class="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-white/70"><%= @amazon_pdf.type_of_pdf_group %></span>
+            </div>
+            <h1 class="text-2xl md:text-4xl font-extrabold tracking-tight text-white"><%= @amazon_pdf.name %></h1>
+            <% if @amazon_pdf.program.present? %>
+              <p class="text-sm font-semibold text-amber-200/80"><%= @amazon_pdf.program.short_name.presence || @amazon_pdf.program.name %></p>
+            <% end %>
+          </div>
+
+          <% if @amazon_pdf.event_date.present? %>
+            <span class="rounded-full bg-emerald-500/20 border border-emerald-400/30 px-3 py-1 text-sm font-semibold text-emerald-300"><%= @amazon_pdf.event_date.strftime('%B %-d, %Y') %></span>
+          <% end %>
+        </div>
+
+        <div class="rounded-xl border border-white/10 bg-white/5 p-4 text-sm text-white/75">
+          <p class="font-semibold text-white">Preview Action</p>
+          <p class="mt-1"><%= @amazon_pdf.preview_label %></p>
+        </div>
+
+        <div class="flex flex-wrap gap-3">
+          <%= link_to @amazon_pdf.url, target: '_blank', rel: 'noopener', class: 'inline-flex items-center justify-center rounded-lg bg-amber-300 px-5 py-2.5 text-sm font-semibold text-neutral-950 transition hover:bg-amber-200' do %>
+            <%= @amazon_pdf.preview_label %>
+          <% end %>
+          <% if current_director.present? %>
+            <%= link_to 'Edit Document', edit_amazon_pdf_path(@amazon_pdf), class: 'inline-flex items-center justify-center rounded-lg border border-cyan-400/30 bg-cyan-500/10 px-5 py-2.5 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-500/20' %>
+            <%= link_to 'Delete', amazon_pdf_path(@amazon_pdf), data: { turbo_method: :delete, turbo_confirm: 'Are you sure you want to remove this document?' }, class: 'inline-flex items-center justify-center rounded-lg border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-neutral-800 hover:text-amber-200' %>
+          <% end %>
+        </div>
+      </div>
+    </article>
+  </div>
+</div>

@@ -1,11 +1,9 @@
 <%
   hero_image = if local_assigns[:program]
-    @program.main_gallery_image_url.presence || @program.about_image_url.presence || @school.default_image
+    safe_image_source(@program.main_gallery_image_url.presence || @program.about_image_url.presence || @school.default_image)
   else
-    @school.default_image.presence || @school.home_page_image_urls.to_s.split(',').first
+    safe_image_source(@school.default_image.presence || @school.home_page_image_urls.to_s.split(',').first)
   end
-
-  hero_image = image_path(hero_image) if hero_image.present? && hero_image !~ %r{\Ahttps?://}
 %>
 
 <section

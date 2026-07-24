@@ -18,7 +18,7 @@
           <%# Image — alternate side on desktop for visual rhythm %>
           <div class="relative h-56 w-full shrink-0 overflow-hidden sm:h-auto sm:w-64 lg:w-80 <%= i.odd? ? 'sm:order-last' : '' %>">
             <%= image_tag(
-              program.main_gallery_image_url&.strip.presence || @school.default_image,
+                safe_image_source(program.main_gallery_image_url&.strip.presence || @school.default_image),
               alt: program.description,
               class: 'h-full w-full object-cover transition duration-500 group-hover:scale-105'
             ) %>

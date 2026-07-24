@@ -24,7 +24,7 @@
                   <% if fundraiser.flyer.attached? %>
                     <%= image_tag fundraiser.flyer, class: "h-full w-full object-cover transition group-hover:scale-105" %>
                   <% else %>
-                    <img src="<%= fundraiser.main_image %>" alt="<%= fundraiser.title %>" class="h-full w-full object-cover transition group-hover:scale-105">
+                    <%= image_tag safe_image_source(fundraiser.main_image), alt: fundraiser.title, class: "h-full w-full object-cover transition group-hover:scale-105" %>
                   <% end %>
                 </div>
               <% end %>
@@ -65,7 +65,7 @@
                   <% if fundraiser.flyer.attached? %>
                     <%= image_tag fundraiser.flyer, class: "h-full w-full object-cover" %>
                   <% else %>
-                    <img src="<%= fundraiser.main_image %>" alt="<%= fundraiser.title %>" class="h-full w-full object-cover">
+                    <%= image_tag safe_image_source(fundraiser.main_image), alt: fundraiser.title, class: "h-full w-full object-cover" %>
                   <% end %>
                 </div>
               <% end %>

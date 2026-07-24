@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_05_29_120001) do
+ActiveRecord::Schema[7.0].define(version: 2026_07_24_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -50,6 +50,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_05_29_120001) do
     t.datetime "updated_at", null: false
     t.string "type_of_pdf_group"
     t.date "event_date"
+    t.string "linked_document_url"
     t.index ["director_id"], name: "index_amazon_pdfs_on_director_id"
     t.index ["program_id"], name: "index_amazon_pdfs_on_program_id"
   end
