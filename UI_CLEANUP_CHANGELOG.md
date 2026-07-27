@@ -40,6 +40,29 @@ Transformed from **card-based** to **section-based** layout matching the staff/b
   <div class="flex flex-1 flex-col justify-center gap-3">
 ```
 
+### 3. Home Page Program Cards Refactor (_programs.html.erb)
+Fixed broken link and improved card interactivity:
+
+#### Changes:
+- **Removed:** `link_to program_path` wrapper causing ActionView::Template::Error
+- **Removed:** All hover effects (`group-hover:scale-105`, `-translate-y-1`, shadow transitions) to make cards informational only
+- **Added:** "View Class Schedule" button below section subtitle with gold border and rounded corners
+  - Links to `/home/about` where users can see full program details
+  - Styling: `rounded-lg border border-amber-300 bg-red-700 px-6 py-2`
+  - Hover state: `hover:bg-red-800`
+- **Result:** Program cards now serve as visual teasers with a clear CTA to the detailed class schedule
+
+### 4. Admin Dashboard Cleanup (program_dashboard.rb)
+Removed 5 unused form fields from Program admin edit/new pages:
+
+- `ig_handle` - Was used for Instagram handle in "Stay Connected" section
+- `circuit` - Was used for competition circuit display
+- `program_support_text` - Was used in "Support This Program" box
+- `about_image_url` - Was used for sidebar image
+- `calendar_url` - Was used for calendar iframe
+
+**Retained fields:** school, description, name, short_name, period, year_established, hero_title, detailed_description, main_gallery_image_url (all needed for about page display)
+
 ### 3. Navigation & Routing Impact
 - **No changes needed:** Link from about page no longer connects to a show page (programs are just sections now)
 - **Home page unaffected:** Still uses `/home/about` as the primary programs listing

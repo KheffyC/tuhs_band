@@ -3,6 +3,7 @@
     <div class="mx-auto mb-6 w-[94%] text-center sm:mb-8 sm:w-[90%] lg:w-[76%]">
       <h2 class="section-title text-white">Learn About Our Programs</h2>
       <p class="section-subtitle text-white/70">See Class Schedule to read more details</p>
+      <%= link_to 'View Class Schedule', home_about_path, class: 'mt-4 inline-block rounded-lg border border-amber-300 bg-red-700 px-6 py-2 text-sm font-semibold text-white transition hover:bg-red-800' %>
     </div>
 
     <% program_rows = programs.size == 7 ? [programs.first(4), programs.drop(4)] : [programs] %>
@@ -11,25 +12,23 @@
       <% program_rows.each_with_index do |program_row, row_index| %>
         <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:gap-4 <%= row_index.zero? && programs.size == 7 ? 'lg:grid-cols-4' : 'lg:grid-cols-3' %>">
           <% program_row.each do |program| %>
-            <%= link_to program_path(program.id), class: 'group block' do %>
-              <article class="relative overflow-hidden rounded-2xl bg-black shadow-[0_14px_30px_rgba(0,0,0,0.35)] transition duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_22px_45px_rgba(185,28,28,0.35)]">
-                <div class="aspect-[4/3] w-full overflow-hidden">
-                  <%= image_tag(
-                    safe_image_source(program.main_gallery_image_url&.strip.presence || @school.default_image),
-                    class: 'h-full w-full object-cover transition duration-500 group-hover:scale-105'
-                  ) %>
-                </div>
+            <article class="relative overflow-hidden rounded-2xl bg-black shadow-[0_14px_30px_rgba(0,0,0,0.35)]">
+              <div class="aspect-[4/3] w-full overflow-hidden">
+                <%= image_tag(
+                  safe_image_source(program.main_gallery_image_url&.strip.presence || @school.default_image),
+                  class: 'h-full w-full object-cover'
+                ) %>
+              </div>
 
-                <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent"></div>
+              <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent"></div>
 
-                <div class="absolute inset-x-0 bottom-0 z-10 p-3 sm:p-4">
-                  <span class="inline-flex rounded-full bg-white/90 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-900">
-                    <%= program.description %>
-                  </span>
-                  <h3 class="mt-1.5 text-lg font-semibold text-white sm:text-xl"><%= program.hero_title %></h3>
-                </div>
-              </article>
-            <% end %>
+              <div class="absolute inset-x-0 bottom-0 z-10 p-3 sm:p-4">
+                <span class="inline-flex rounded-full bg-white/90 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-900">
+                  <%= program.description %>
+                </span>
+                <h3 class="mt-1.5 text-lg font-semibold text-white sm:text-xl"><%= program.hero_title %></h3>
+              </div>
+            </article>
           <% end %>
         </div>
       <% end %>
