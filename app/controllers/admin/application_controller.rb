@@ -9,7 +9,7 @@ module Admin
     before_action :authenticate_director!
     before_action :set_school
     helper ApplicationHelper
-    helper_method :donations_enabled?
+    helper_method :donations_enabled?, :fundraisers_enabled?
     
     # Use custom admin layout with modern design
     layout "admin"
@@ -24,6 +24,10 @@ module Admin
 
     def donations_enabled?
       STRIPE_PUBLISHABLE_KEY.present? && [STRIPE_PRICING_TABLE_ID, STRIPE_BUY_BUTTON_ID].any?(&:present?)
+    end
+
+    def fundraisers_enabled?
+      @school&.fundraisers_enabled?
     end
 
     def set_school
