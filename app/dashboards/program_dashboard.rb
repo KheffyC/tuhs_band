@@ -22,7 +22,6 @@ class ProgramDashboard < Administrate::BaseDashboard
     ig_handle: Field::String,
     year_established: Field::Date,
     main_gallery_image_url: Field::String,
-    image_gallery_urls: Field::String,
     about_image_url: Field::String,
     hero_title: Field::Text,
     detailed_description: Field::Text,
@@ -61,7 +60,6 @@ class ProgramDashboard < Administrate::BaseDashboard
     year_established
     updated_at
     main_gallery_image_url
-    image_gallery_urls
     about_image_url
     calendar_url
   ].freeze
@@ -82,7 +80,6 @@ class ProgramDashboard < Administrate::BaseDashboard
     detailed_description
     program_support_text
     main_gallery_image_url
-    image_gallery_urls
     about_image_url
     calendar_url
   ].freeze

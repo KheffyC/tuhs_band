@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     resources :districts
     resources :boosters
     resources :fundraisers
+    resources :staff_members
     resources :galleries do
       post :upload_image, on: :member
     end
@@ -33,6 +34,10 @@ Rails.application.routes.draw do
   end
 
   resources :galleries
+
+  resources :staff_members, only: [:index]
+
+  resources :boosters, only: [:index]
 
   resources :fundraisers
   resources :donations do

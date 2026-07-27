@@ -1,0 +1,72 @@
+<% band_director = @staff_members.find(&:is_band_director) %>
+<% rest = @staff_members.reject(&:is_band_director) %>
+
+<%# Band Director featured section %>
+<% if band_director.present? %>
+  <article class="mb-12 flex flex-col gap-8 sm:mb-16 sm:flex-row sm:gap-12">
+    <div class="h-80 w-full shrink-0 overflow-hidden rounded-2xl sm:w-80 lg:w-96">
+      <% if band_director.photo.attached? %>
+        <%= image_tag band_director.photo, alt: band_director.name, class: "h-full w-full object-cover object-top" %>
+      <% else %>
+        <div class="flex h-full w-full items-center justify-center bg-white/10">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-white/30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="flex flex-col justify-center">
+      <span class="inline-flex w-fit rounded-full border border-amber-400/40 bg-amber-400/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-200">Band Director</span>
+      <h2 class="mt-4 text-2xl font-bold text-white sm:text-3xl"><%= band_director.name %></h2>
+      <% if band_director.title.present? %>
+        <p class="mt-2 text-base font-semibold uppercase tracking-[0.15em] text-white/60"><%= band_director.title %></p>
+      <% end %>
+      <% if band_director.bio.present? %>
+        <p class="mt-6 text-base leading-relaxed text-white/80"><%= band_director.bio %></p>
+      <% end %>
+    </div>
+  </article>
+  <hr class="mb-12 border-t-2 border-amber-400/40 sm:mb-16" />
+<% end %>
+
+<%# Rest of staff as sections %>
+<% if rest.any? %>
+  <% rest.each_with_index do |member, index| %>
+    <article class="mb-12 flex flex-col gap-8 sm:mb-16 sm:flex-row sm:gap-12">
+      <div class="h-80 w-full shrink-0 overflow-hidden rounded-2xl sm:w-80 lg:w-96">
+        <% if member.photo.attached? %>
+          <%= image_tag member.photo, alt: member.name, class: "h-full w-full object-cover object-top" %>
+        <% else %>
+          <div class="flex h-full w-full items-center justify-center bg-white/10">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-white/30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="flex flex-col justify-center">
+        <h3 class="text-2xl font-bold text-white sm:text-3xl"><%= member.name %></h3>
+        <% if member.title.present? %>
+          <p class="mt-1 text-sm font-semibold uppercase tracking-[0.15em] text-amber-300/80"><%= member.title %></p>
+        <% end %>
+        <% if member.bio.present? %>
+          <p class="mt-4 text-base leading-relaxed text-white/80"><%= member.bio %></p>
+        <% end %>
+        <% if member.program.present? %>
+          <p class="mt-3 text-xs text-white/60"><%= member.program.name %></p>
+        <% end %>
+      </div>
+    </article>
+    <% if index < rest.size - 1 %>
+      <hr class="mb-12 border-t-2 border-amber-400/40 sm:mb-16" />
+    <% end %>
+  <% end %>
+<% end %>
+
+<% if @staff_members.empty? %>
+  <div class="flex min-h-[40vh] flex-col items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-6 text-center">
+    <p class="text-lg font-semibold text-white">No staff listed yet.</p>
+  </div>
+<% end %>

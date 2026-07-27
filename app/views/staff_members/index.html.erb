@@ -1,0 +1,42 @@
+<section class="min-h-screen bg-neutral-950 px-4 py-10 sm:px-6 sm:py-12 lg:px-8 lg:py-16">
+  <div class="mx-auto w-full max-w-6xl">
+
+    <%# Page header %>
+    <div class="mb-16 text-center sm:mb-20">
+      <% active_tab = @active_tab || params[:tab] %>
+      <% if active_tab == "boosters" && @school&.boosters_enabled? %>
+        <span class="inline-flex rounded-full border border-amber-400/40 bg-amber-400/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-200">Our Supporters</span>
+        <h1 class="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">Boosters</h1>
+        <p class="mt-4 mx-auto max-w-2xl text-base leading-relaxed text-white/70 sm:text-lg">
+          Thank you to our dedicated boosters who support <%= @school.name %>.
+        </p>
+      <% else %>
+        <span class="inline-flex rounded-full border border-amber-400/40 bg-amber-400/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-200">Our Team</span>
+        <h1 class="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">Staff</h1>
+        <p class="mt-4 mx-auto max-w-2xl text-base leading-relaxed text-white/70 sm:text-lg">
+          Meet the directors and staff who make the <%= @school.name %> Band what it is.
+        </p>
+      <% end %>
+    </div>
+
+    <%# Tabs %>
+    <div class="mb-12 flex flex-wrap gap-4 border-b-2 border-amber-400/40">
+      <% if @school&.staff_enabled? %>
+        <% is_staff_active = !active_tab || active_tab != "boosters" %>
+        <%= link_to "Our Staff", staff_members_path, class: "px-4 py-3 font-semibold #{is_staff_active ? 'text-white border-b-2 border-amber-400' : 'text-white/60 hover:text-white border-b-2 border-transparent hover:border-amber-400/40'} transition" %>
+      <% end %>
+      <% if @school&.boosters_enabled? %>
+        <% is_boosters_active = active_tab == "boosters" %>
+        <%= link_to "Our Boosters", boosters_path, class: "px-4 py-3 font-semibold #{is_boosters_active ? 'text-white border-b-2 border-amber-400' : 'text-white/60 hover:text-white border-b-2 border-transparent hover:border-amber-400/40'} transition" %>
+      <% end %>
+    </div>
+
+    <%# Content based on tab %>
+    <% if active_tab == "boosters" && @school&.boosters_enabled? %>
+      <%= render "staff_members/boosters" %>
+    <% else %>
+      <%= render "staff_members/staff_members" %>
+    <% end %>
+
+  </div>
+</section>

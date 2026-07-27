@@ -1,5 +1,6 @@
 module Admin
   class FundraisersController < Admin::ApplicationController
+    before_action :require_feature_enabled!
     # Overwrite any of the RESTful controller actions to implement custom behavior
     # For example, you may want to send an email after a foo is updated.
     #
@@ -26,5 +27,11 @@ module Admin
     #   resources :posts, namespace: :admin do
     #     resources :comments, namespace: :admin
     #   end
+
+    private
+
+    def require_feature_enabled!
+      redirect_to admin_root_path, alert: "Fundraisers feature is not enabled." unless @school&.fundraisers_enabled?
+    end
   end
 end

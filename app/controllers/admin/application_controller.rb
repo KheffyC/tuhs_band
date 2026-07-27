@@ -7,6 +7,7 @@
 module Admin
   class ApplicationController < Administrate::ApplicationController
     before_action :authenticate_director!
+    before_action :set_school
     helper ApplicationHelper
     helper_method :donations_enabled?
     
@@ -23,6 +24,10 @@ module Admin
 
     def donations_enabled?
       STRIPE_PUBLISHABLE_KEY.present? && [STRIPE_PRICING_TABLE_ID, STRIPE_BUY_BUTTON_ID].any?(&:present?)
+    end
+
+    def set_school
+      @school = School.first
     end
   end
 end

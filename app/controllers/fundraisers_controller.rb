@@ -1,4 +1,5 @@
 class FundraisersController < ApplicationController
+  before_action :require_feature_enabled!
   before_action :authenticate_director!, only: %i[new create edit update destroy]
   before_action :set_fundraiser, only: %i[show edit update destroy]
 
@@ -50,6 +51,10 @@ class FundraisersController < ApplicationController
   end
 
   private
+
+  def require_feature_enabled!
+    render file: "#{Rails.root}/public/404.html", status: :not_found unless @school&.fundraisers_enabled?
+  end
 
   def set_fundraiser
     @fundraiser = Fundraiser.find(params[:id])

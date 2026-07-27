@@ -29,6 +29,9 @@
     <% belongs_to_field = attribute&.is_a?(Administrate::Field::BelongsTo) || belongs_to_association %>
     <% has_many_association = association_reflection&.macro == :has_many %>
     <% has_many_field = attribute&.is_a?(Administrate::Field::HasMany) || has_many_association %>
+    <% column_type = resource.class.columns_hash[attr_name]&.type rescue nil %>
+    <% is_boolean_column = column_type == :boolean %>
+    <% is_integer_column = column_type == :integer %>
     
     <fieldset class="border-b border-gray-200 pb-8 last:border-0">
       <!-- Label -->
@@ -44,12 +47,16 @@
             :name,
             { prompt: "Select a school", selected: selected_school_id },
             class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 transition" %>
-      <% elsif attribute&.is_a?(Administrate::Field::Boolean) %>
+      <% elsif attribute&.is_a?(Administrate::Field::Boolean) || is_boolean_column %>
         <!-- Checkbox -->
         <div class="flex items-center">
           <%= f.check_box attr, { class: "h-5 w-5 text-red-600 rounded focus:ring-2 focus:ring-red-600" } %>
           <label for="<%= resource.class.model_name.param_key %>_<%= attr %>" class="ml-3 text-sm font-semibold text-gray-700">
-            <%= attribute&.label || attr.to_s.humanize %>
+            <% if attr.to_s == "is_band_director" %>
+              Band Director
+            <% else %>
+              <%= attribute&.label || attr.to_s.humanize %>
+            <% end %>
           </label>
         </div>
       <% elsif belongs_to_field %>
@@ -84,9 +91,16 @@
               [label, obj.id]
             } %>
           <% select_field = (attr_name.end_with?("_id") ? attr_name : "#{association_name}_id").to_sym %>
+          <% blank_option = if attribute&.options&.dig(:required)
+                               false
+                             elsif association_name == "program"
+                               "All Programs"
+                             else
+                               true
+                             end %>
           <%= f.select select_field,
               options_for_select(option_pairs, selected_association),
-              { prompt: "Select a #{association_name.humanize.downcase}", include_blank: !attribute&.options&.dig(:required) },
+              { prompt: "Select a #{association_name.humanize.downcase}", include_blank: blank_option },
               class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 transition" %>
         <% end %>
       <% elsif has_many_field %>
@@ -152,17 +166,21 @@
         </label>
         <%= f.datetime_select attr,
             class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 transition" %>
-      <% elsif attribute&.is_a?(Administrate::Field::Number) %>
-        <!-- Number Input -->
-        <label for="<%= resource.class.model_name.param_key %>_<%= attr %>" class="block text-sm font-semibold text-gray-700 mb-2">
-          <%= attribute&.label || attr.to_s.humanize %>
-          <% if attribute&.options&.dig(:required) %>
-            <span class="text-red-600">*</span>
-          <% end %>
-        </label>
-        <%= f.number_field attr,
-            placeholder: "Enter a number",
-            class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 transition" %>
+      <% elsif attribute&.is_a?(Administrate::Field::Number) || is_integer_column %>
+        <% if attr.to_s == "display_order" && resource.is_a?(StaffMember) && resource.new_record? %>
+          <!-- Display Order: Hidden on new, shown on edit -->
+        <% else %>
+          <!-- Number Input -->
+          <label for="<%= resource.class.model_name.param_key %>_<%= attr %>" class="block text-sm font-semibold text-gray-700 mb-2">
+            <%= attribute&.label || attr.to_s.humanize %>
+            <% if attribute&.options&.dig(:required) %>
+              <span class="text-red-600">*</span>
+            <% end %>
+          </label>
+          <%= f.number_field attr,
+              placeholder: "Enter a number",
+              class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 transition" %>
+        <% end %>
       <% elsif admin_image_field_name?(attr_name) && !(resource.is_a?(Gallery) && attr.to_s == "images") %>
         <!-- Image/Text Input With Local Asset Suggestions -->
         <label for="<%= resource.class.model_name.param_key %>_<%= attr %>" class="block text-sm font-semibold text-gray-700 mb-2">
@@ -196,6 +214,36 @@
             <% end %>
           </div>
         <% end %>
+      <% elsif attr.to_s == "photo" && resource.is_a?(StaffMember) %>
+        <!-- Photo Upload for Staff Members -->
+        <label for="<%= resource.class.model_name.param_key %>_<%= attr %>" class="block text-sm font-semibold text-gray-700 mb-2">
+          <%= attribute&.label || attr.to_s.humanize %>
+        </label>
+        
+        <div class="space-y-4">
+          <!-- File Input -->
+          <div class="flex items-center gap-4">
+            <%= f.file_field attr, 
+                accept: "image/*",
+                class: "block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-red-600 file:text-white hover:file:bg-red-700 transition cursor-pointer" %>
+          </div>
+          
+          <!-- Photo Preview -->
+          <% if resource.photo.attached? %>
+            <div class="mt-4 p-4 bg-gray-100 rounded-lg">
+              <p class="text-xs text-gray-600 mb-2">Current photo:</p>
+              <%= image_tag resource.photo, alt: "Staff photo", class: "h-40 w-40 object-cover rounded shadow-md" %>
+              <div class="mt-3 flex items-center">
+                <%= f.check_box :photo_remove, { class: "h-5 w-5 text-red-600 rounded" } %>
+                <label for="<%= resource.class.model_name.param_key %>_photo_remove" class="ml-3 text-sm text-gray-700">
+                  Remove this photo
+                </label>
+              </div>
+            </div>
+          <% else %>
+            <p class="text-xs text-gray-500">No photo uploaded yet. Upload an image (JPG, PNG, etc.)</p>
+          <% end %>
+        </div>
       <% else %>
         <!-- Default: String/Text Input -->
         <label for="<%= resource.class.model_name.param_key %>_<%= attr %>" class="block text-sm font-semibold text-gray-700 mb-2">

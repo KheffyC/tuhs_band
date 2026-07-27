@@ -45,4 +45,5 @@ window.fallbackCopyTextToClipboard = function(text) {
 document.addEventListener("DOMContentLoaded", function() {
     console.log('AlpineJS loaded')
     window.Alpine.start();
-});
+});import "trix"
+import "@rails/actiontext"
