@@ -71,17 +71,12 @@ class ProgramDashboard < Administrate::BaseDashboard
     school
     description
     name
-    ig_handle
     short_name
     period
-    circuit
     year_established
     hero_title
     detailed_description
-    program_support_text
     main_gallery_image_url
-    about_image_url
-    calendar_url
   ].freeze
 
   # COLLECTION_FILTERS

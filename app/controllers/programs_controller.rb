@@ -1,9 +1,4 @@
 class ProgramsController < ApplicationController
-  before_action :program_params, only: [:create, :update]
-  def show
-    @program = Program.find(params[:id])
-  end
-
   private
 
   def program_params

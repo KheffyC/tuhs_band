@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   end
 
   # Program Routes for each program at each school
-  resources :programs
+  resources :programs, only: [:index]
 
   # School routes for each school
   resources :schools
