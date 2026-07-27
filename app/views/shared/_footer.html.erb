@@ -22,7 +22,9 @@
         <% if donations_enabled? %>
           <%= link_to 'Donate', donations_path, class: 'inline-flex items-center justify-center rounded-md bg-red-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-600' %>
         <% end %>
-        <%= link_to 'Fundraisers', fundraisers_path, class: 'inline-flex items-center justify-center rounded-md border border-white/20 px-4 py-2 text-sm font-semibold text-white/80 transition hover:bg-white/10' %>
+        <% if fundraisers_enabled? %>
+          <%= link_to 'Fundraisers', fundraisers_path, class: 'inline-flex items-center justify-center rounded-md border border-white/20 px-4 py-2 text-sm font-semibold text-white/80 transition hover:bg-white/10' %>
+        <% end %>
         <% if current_director.present? %>
           <%= link_to 'Admin', admin_root_path, class: 'inline-flex items-center justify-center rounded-md border border-white/20 px-4 py-2 text-sm font-semibold text-white/80 transition hover:bg-white/10' %>
         <% else %>
