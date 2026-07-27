@@ -1,5 +1,6 @@
 module Admin
   class BoostersController < Admin::ApplicationController
+    before_action :require_feature_enabled!
     # Overwrite any of the RESTful controller actions to implement custom behavior
     # For example, you may want to send an email after a foo is updated.
     #
@@ -42,5 +43,11 @@ module Admin
 
     # See https://administrate-demo.herokuapp.com/customizing_controller_actions
     # for more information
+
+    private
+
+    def require_feature_enabled!
+      redirect_to admin_root_path, alert: "Boosters feature is not enabled." unless @school&.boosters_enabled?
+    end
   end
 end

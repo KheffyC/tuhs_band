@@ -3,12 +3,21 @@
 ## About 
 This project was designed and created for Tulare Union Marching Band. Though this is an ongoing project for the next few years, the basis of it is a hub of information for all students enrolled in the music programs at Tulare Union. All Itineraries, Syllabus, Fundraisers, and Contact information can be readily found for all parents and students alike. 
 
-Features soon to come include: 
+## Features
+
+### Implemented
+- **Staff Management** - Admin panel for managing band directors and staff members with photo uploads to AWS S3. Feature-gated by school.staff_enabled boolean. Public-facing staff page with featured band director display.
+- **Programs** - Manage music programs with directors and descriptions
+- **Galleries** - Photo galleries for events and performances
+- **Fundraisers** - Track fundraising events and goals
+- **Donations** - Integrated with Stripe for secure donations
+- **Schools** - Multi-school support with district-level dashboards
+
+### In Development
 <ul>
   <li>Practice Hub - A place to follow along to onscreen music of the current selections for the season.</li>
-  <li>Fundraiser Links and Events</li>
   <li>Booster Page - A page dedicated to all the parents that endlessly give support to our students</li>
-  <li>Donation Page - Linked directly with Stripe (pending booster approval)</li>
+  <li>Enhanced staff profiles with social media links</li>
 </ul>
 
 ## Requirements

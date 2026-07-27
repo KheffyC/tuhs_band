@@ -1,4 +1,5 @@
 class GalleriesController < ApplicationController
+  before_action :require_feature_enabled!
   before_action :set_gallery, only: [:show]
 
   def index
@@ -12,6 +13,10 @@ class GalleriesController < ApplicationController
   end
 
   private
+
+  def require_feature_enabled!
+    render file: "#{Rails.root}/public/404.html", status: :not_found unless @school&.photo_gallery_enabled?
+  end
 
   def set_gallery
     @gallery = Gallery.find(params[:id])
